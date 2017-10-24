@@ -2,6 +2,7 @@ package com.isaac.modelos;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
@@ -36,6 +37,9 @@ public class Jugador extends Modelo{
         this.x =  this.xInicial;
         this.y =  this.yInicial;
 
+        aceleracionX = 0;
+        aceleracionY = 0;
+
         inicializar();
     }
 
@@ -59,32 +63,36 @@ public class Jugador extends Modelo{
     public void actualizar (long tiempo) {
         sprite.actualizar(tiempo);
     }
+
     public void procesarOrdenes (int orientacionPad) {
 
         if (orientacionPad == 0) {
             aceleracionY = 0;
-            aceleracionX=-5;
-            //orientacion = IZQUIERDA;
+            aceleracionX=5;
+            //orientacion = DERECHA;
         } else if (orientacionPad ==1){
             aceleracionX = 0;
             aceleracionY=5;
-            //orientacion = DERECHA;
+            //orientacion = ABAJO;
         } else if(orientacionPad==2){
             aceleracionY=0;
             aceleracionX=-5;
+            //orientacion = izquierda
         }
         else if(orientacionPad==3) {
             aceleracionX = 0;
             aceleracionY = -5;
         }
-        else
+        else if(orientacionPad==4)
             frenar();
 
+        Log.d("Orientacion", String.valueOf(orientacionPad));
     }
 
     public void dibujar(Canvas canvas){
         sprite.dibujarSprite(canvas, (int) x, (int) y);
     }
+
     private void frenar(){
         aceleracionX=0;
         aceleracionY=0;
