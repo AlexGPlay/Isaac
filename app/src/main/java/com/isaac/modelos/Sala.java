@@ -79,7 +79,7 @@ public class Sala{
 
         }
 
-        if(jugador.aceleracionX<0) {
+        else if(jugador.aceleracionX<0) {
             Tile izquierda_superior = mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior];
             Tile izquierda_enfrente = mapaTiles[tileXJugadorIzquierda][tileYJugadorCentro];
             Tile izquierda_inferior = mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior];
@@ -107,7 +107,56 @@ public class Sala{
             }
         }
 
-        if(jugador.aceleracionY>0){
+        if(jugador.aceleracionY<0){
+            Tile superior_izquierda = mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior];
+            Tile superior_centro = mapaTiles[tileXJugadorIzquierda+1][tileYJugadorSuperior];
+            Tile superior_derehca = mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior];
+
+            if (superior_izquierda.tipoDeColision == Tile.PASABLE && superior_centro.tipoDeColision == Tile.PASABLE && superior_derehca.tipoDeColision == Tile.PASABLE)
+                jugador.y += jugador.aceleracionY;
+
+            else if (tileXJugadorIzquierda >= 0 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
+                    superior_izquierda.tipoDeColision == Tile.PASABLE &&
+                    superior_centro.tipoDeColision == Tile.PASABLE &&
+                    superior_derehca.tipoDeColision == Tile.PASABLE) {
+
+                int TileJugadorBordeIzquierdo = tileXJugadorIzquierda * Tile.altura;
+                double distanciaY = (jugador.y - jugador.altura / 2) - TileJugadorBordeIzquierdo;
+
+                if (distanciaY > 0) {
+                    double velocidadNecesaria = Utilidades.proximoACero(-distanciaY, jugador.aceleracionX);
+                    jugador.y += velocidadNecesaria;
+                }
+                else {
+                    jugador.y = TileJugadorBordeIzquierdo + jugador.ancho / 2;
+                }
+            }
+        }
+
+        else if(jugador.aceleracionY>0){
+            Tile inferior_izquierda = mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior];
+            Tile inferior_centro = mapaTiles[tileXJugadorIzquierda+1][tileYJugadorInferior];
+            Tile inferior_derecha = mapaTiles[tileXJugadorDerecha][tileYJugadorInferior];
+
+            if (inferior_izquierda.tipoDeColision == Tile.PASABLE && inferior_centro.tipoDeColision == Tile.PASABLE && inferior_derecha.tipoDeColision == Tile.PASABLE)
+                jugador.y += jugador.aceleracionY;
+
+            else if (tileXJugadorIzquierda >= 0 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
+                    inferior_izquierda.tipoDeColision == Tile.PASABLE &&
+                    inferior_centro.tipoDeColision == Tile.PASABLE &&
+                    inferior_derecha.tipoDeColision == Tile.PASABLE) {
+
+                int TileJugadorBordeIzquierdo = tileXJugadorIzquierda * Tile.altura;
+                double distanciaY = (jugador.y - jugador.altura / 2) - TileJugadorBordeIzquierdo;
+
+                if (distanciaY > 0) {
+                    double velocidadNecesaria = Utilidades.proximoACero(-distanciaY, jugador.aceleracionX);
+                    jugador.y += velocidadNecesaria;
+                }
+                else {
+                    jugador.y = TileJugadorBordeIzquierdo + jugador.ancho / 2;
+                }
+            }
 
         }
 
