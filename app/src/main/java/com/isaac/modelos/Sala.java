@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
+import com.isaac.gestores.Utilidades;
 
 /**
  * Created by Alex on 24/10/2017.
@@ -29,13 +30,87 @@ public class Sala{
         this.jugador = jugador;
     }
 
-    public void actualizar(long time){
+    public void actualizar(long time) throws Exception {
         jugador.actualizar(time);
+        aplicarReglasMovimiento();
     }
 
     public void dibujar(Canvas canvas){
         dibujarTiles(canvas);
         jugador.dibujar(canvas);
+    }
+
+    private void aplicarReglasMovimiento() throws Exception {
+        reglasMovimientoJugador();
+    }
+
+    private void reglasMovimientoJugador(){
+        int tileXJugadorIzquierda = (int) (jugador.x - (jugador.ancho / 2 - 1)) / Tile.ancho;
+        int tileXJugadorDerecha = (int) (jugador.x + (jugador.ancho / 2 - 1)) / Tile.ancho;
+        int tileYJugadorInferior = (int) (jugador.y + (jugador.altura / 2 - 1)) / Tile.altura;
+        int tileYJugadorCentro = (int) jugador.y / Tile.altura;
+        int tileYJugadorSuperior = (int) (jugador.y - (jugador.altura / 2 - 1)) / Tile.altura;
+
+        if(jugador.aceleracionX>0) {
+            Tile derecha_superior = mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior];
+            Tile derecha_enfrente = mapaTiles[tileXJugadorDerecha][tileYJugadorCentro];
+            Tile derecha_inferior = mapaTiles[tileXJugadorDerecha][tileYJugadorInferior];
+
+            if (derecha_superior.tipoDeColision == Tile.PASABLE && derecha_enfrente.tipoDeColision == Tile.PASABLE && derecha_inferior.tipoDeColision == Tile.PASABLE)
+                jugador.x += jugador.aceleracionX;
+
+            else if (tileXJugadorDerecha <= anchoMapaTiles() - 1 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
+                    derecha_inferior.tipoDeColision == Tile.PASABLE &&
+                    derecha_enfrente.tipoDeColision == Tile.PASABLE &&
+                    derecha_superior.tipoDeColision == Tile.PASABLE) {
+
+                int TileJugadorBordeDerecho = tileXJugadorDerecha * Tile.ancho + Tile.ancho;
+                double distanciaX = TileJugadorBordeDerecho - (jugador.x + jugador.ancho / 2);
+
+                if (distanciaX > 0) {
+                    double velocidadNecesaria = Math.min(distanciaX, jugador.aceleracionX);
+                    jugador.x += velocidadNecesaria;
+                }
+                else {
+                    jugador.x = TileJugadorBordeDerecho - jugador.ancho / 2;
+                }
+
+            }
+
+        }
+
+        if(jugador.aceleracionX<0) {
+            Tile izquierda_superior = mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior];
+            Tile izquierda_enfrente = mapaTiles[tileXJugadorIzquierda][tileYJugadorCentro];
+            Tile izquierda_inferior = mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior];
+
+            if (izquierda_superior.tipoDeColision == Tile.PASABLE && izquierda_enfrente.tipoDeColision == Tile.PASABLE && izquierda_inferior.tipoDeColision == Tile.PASABLE)
+                jugador.x += jugador.aceleracionX;
+
+            else if (tileXJugadorIzquierda >= 0 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
+                    izquierda_inferior.tipoDeColision == Tile.PASABLE &&
+                    izquierda_enfrente.tipoDeColision == Tile.PASABLE &&
+                    izquierda_superior.tipoDeColision == Tile.PASABLE) {
+
+                int TileJugadorBordeIzquierdo = tileXJugadorIzquierda * Tile.ancho;
+                double distanciaX = (jugador.x - jugador.ancho / 2) - TileJugadorBordeIzquierdo;
+
+                if (distanciaX > 0) {
+                    double velocidadNecesaria = Utilidades.proximoACero(-distanciaX, jugador.aceleracionX);
+                    jugador.x += velocidadNecesaria;
+                }
+                else {
+                    jugador.x = TileJugadorBordeIzquierdo + jugador.ancho / 2;
+                }
+
+
+            }
+        }
+
+        if(jugador.aceleracionY>0){
+
+        }
+
     }
 
     private void dibujarTiles(Canvas canvas){

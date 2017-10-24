@@ -45,26 +45,10 @@ public class Nivel {
         salaActualY = (int)(Math.random()*salas[0].length);
 
         jugador = new Jugador(context,100,100);
-        orientacionPad = 4;
+        orientacionPad = Jugador.PARADO;
 
         salas[salaActualX][salaActualY].moveToRoom(jugador);
     }
-
-    private void aplicarReglasMovimiento() throws Exception {
-        if (jugador.aceleracionX > 0) {
-            jugador.x+=jugador.aceleracionX;
-        }
-        else if(jugador.aceleracionX<0){
-            jugador.x+=jugador.aceleracionX;
-        }
-        if(jugador.aceleracionY>0){
-            jugador.y+=jugador.aceleracionY;
-        }
-        else if(jugador.aceleracionY<0){
-            jugador.y+=jugador.aceleracionY;
-        }
-    }
-
 
     public void actualizar (long tiempo) throws Exception {
         if (inicializado) {
@@ -73,7 +57,6 @@ public class Nivel {
             jugador.procesarOrdenes(orientacionPad);
             jugador.actualizar(tiempo);
 
-            aplicarReglasMovimiento();
         }
     }
 

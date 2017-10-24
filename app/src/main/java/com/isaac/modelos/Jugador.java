@@ -27,11 +27,11 @@ public class Jugador extends Modelo{
     private Sprite sprite;
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
 
-    double xInicial;
-    double yInicial;
+    private double xInicial;
+    private double yInicial;
 
-    double aceleracionX;
-    double aceleracionY;
+    public double aceleracionX;
+    public double aceleracionY;
 
     public Jugador(Context context, double xInicial, double yInicial) {
         super(context, 0, 0, 40, 40);
@@ -50,6 +50,7 @@ public class Jugador extends Modelo{
     }
 
     public void inicializar (){
+
         Sprite paradoDerecha = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.playeridleright),
                 ancho, altura,
@@ -62,8 +63,8 @@ public class Jugador extends Modelo{
                 4, 8, true);
         sprites.put(PARADO_IZQUIERDA, paradoIzquierda);
 
-// animación actual
         sprite = paradoDerecha;
+
     }
 
     public void actualizar (long tiempo) {
@@ -74,16 +75,16 @@ public class Jugador extends Modelo{
 
         if (orientacionPad == MOVIMIENTO_DERECHA) {
             aceleracionY = 0;
-            aceleracionX=5;
+            aceleracionX = 5;
         }
         else if (orientacionPad == MOVIMIENTO_ABAJO){
             aceleracionX = 0;
-            aceleracionY=5;
+            aceleracionY = 5;
             //orientacion = ABAJO;
         }
         else if(orientacionPad == MOVIMIENTO_IZQUIERDA){
-            aceleracionY=0;
-            aceleracionX=-5;
+            aceleracionY  =0;
+            aceleracionX= -5;
             //orientacion = izquierda
         }
         else if(orientacionPad == MOVIMIENTO_ARRIBA) {
@@ -93,7 +94,6 @@ public class Jugador extends Modelo{
         else if(orientacionPad == PARADO)
             frenar();
 
-        Log.d("Orientacion", String.valueOf(orientacionPad));
     }
 
     public void dibujar(Canvas canvas){
