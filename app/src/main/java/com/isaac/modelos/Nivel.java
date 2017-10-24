@@ -11,7 +11,6 @@ import com.isaac.gestores.CargadorSalas;
 public class Nivel {
     private Context context = null;
     private int numeroNivel;
-    private Fondo fondo;
     private Sala[][] salas;
     private Jugador jugador;
 
@@ -31,7 +30,6 @@ public class Nivel {
     }
 
     public void inicializar()throws Exception {
-        fondo = new Fondo(context,CargadorGraficos.cargarDrawable(context, R.drawable.capa1));
 
         salas = new Sala[3][3];
 
@@ -57,7 +55,6 @@ public class Nivel {
 
     public void dibujar (Canvas canvas) {
         if(inicializado) {
-            fondo.dibujar(canvas);
             salas[salaActualX][salaActualY].dibujar(canvas);
         }
     }
