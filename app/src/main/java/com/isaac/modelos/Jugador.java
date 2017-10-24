@@ -97,7 +97,7 @@ public class Jugador extends Modelo{
     }
 
     public void dibujar(Canvas canvas){
-        sprite.dibujarSprite(canvas, (int) x, (int) y);
+        sprite.dibujarSprite(canvas, (int) x - Sala.scrollEjeX, (int) y - Sala.scrollEjeY);
     }
 
     private void frenar(){

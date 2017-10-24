@@ -72,7 +72,19 @@ public class CargadorSalas {
                     return new Tile(CargadorGraficos.cargarDrawable(context,
                             R.drawable.pared_0_0), Tile.SOLIDO);
 
-                else if(x==0 || x==anchoMapa)
+                else if(x==0 && y==altoMapa-1)
+                    return new Tile(CargadorGraficos.cargarDrawable(context,
+                            R.drawable.pared_l_0), Tile.SOLIDO);
+
+                else if(x==anchoMapa-1 && y==0)
+                    return new Tile(CargadorGraficos.cargarDrawable(context,
+                            R.drawable.pared_0_a), Tile.SOLIDO);
+
+                else if(x==anchoMapa-1 && y==altoMapa-1)
+                    return new Tile(CargadorGraficos.cargarDrawable(context,
+                            R.drawable.pared_l_a), Tile.SOLIDO);
+
+                else if(x==0 || x==anchoMapa-1)
                     return new Tile(CargadorGraficos.cargarDrawable(context,
                             R.drawable.pared_2), Tile.SOLIDO);
 

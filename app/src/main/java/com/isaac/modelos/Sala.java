@@ -120,7 +120,7 @@ public class Sala{
                     superior_centro.tipoDeColision == Tile.PASABLE &&
                     superior_derehca.tipoDeColision == Tile.PASABLE) {
 
-                int TileJugadorBordeIzquierdo = tileXJugadorIzquierda * Tile.altura;
+                int TileJugadorBordeIzquierdo = tileYJugadorSuperior * Tile.altura;
                 double distanciaY = (jugador.y - jugador.altura / 2) - TileJugadorBordeIzquierdo;
 
                 if (distanciaY > 0) {
@@ -133,29 +133,30 @@ public class Sala{
             }
         }
 
-        else if(jugador.aceleracionY>0){
-            Tile inferior_izquierda = mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior];
-            Tile inferior_centro = mapaTiles[tileXJugadorIzquierda+1][tileYJugadorInferior];
+        else if(jugador.aceleracionY>0) {
             Tile inferior_derecha = mapaTiles[tileXJugadorDerecha][tileYJugadorInferior];
+            Tile inferior_centro = mapaTiles[tileXJugadorDerecha-1][tileYJugadorInferior];
+            Tile inferior_izquierda = mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior];
 
-            if (inferior_izquierda.tipoDeColision == Tile.PASABLE && inferior_centro.tipoDeColision == Tile.PASABLE && inferior_derecha.tipoDeColision == Tile.PASABLE)
+            if (inferior_derecha.tipoDeColision == Tile.PASABLE && inferior_centro.tipoDeColision == Tile.PASABLE && inferior_izquierda.tipoDeColision == Tile.PASABLE)
                 jugador.y += jugador.aceleracionY;
 
-            else if (tileXJugadorIzquierda >= 0 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
-                    inferior_izquierda.tipoDeColision == Tile.PASABLE &&
+            else if (tileXJugadorDerecha <= anchoMapaTiles() - 1 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
+                    inferior_derecha.tipoDeColision == Tile.PASABLE &&
                     inferior_centro.tipoDeColision == Tile.PASABLE &&
-                    inferior_derecha.tipoDeColision == Tile.PASABLE) {
+                    inferior_izquierda.tipoDeColision == Tile.PASABLE) {
 
-                int TileJugadorBordeIzquierdo = tileXJugadorIzquierda * Tile.altura;
-                double distanciaY = (jugador.y - jugador.altura / 2) - TileJugadorBordeIzquierdo;
+                int TileJugadorBordeDerecho = tileYJugadorInferior * Tile.altura + Tile.altura;
+                double distanciaY = TileJugadorBordeDerecho - (jugador.x + jugador.altura / 2);
 
                 if (distanciaY > 0) {
-                    double velocidadNecesaria = Utilidades.proximoACero(-distanciaY, jugador.aceleracionX);
+                    double velocidadNecesaria = Math.min(distanciaY, jugador.aceleracionX);
                     jugador.y += velocidadNecesaria;
                 }
                 else {
-                    jugador.y = TileJugadorBordeIzquierdo + jugador.ancho / 2;
+                    jugador.y = TileJugadorBordeDerecho - jugador.altura / 2;
                 }
+
             }
 
         }
