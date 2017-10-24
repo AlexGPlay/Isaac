@@ -23,6 +23,9 @@ public class Jugador extends Modelo{
     double xInicial;
     double yInicial;
 
+    double aceleracionX;
+    double aceleracionY;
+
     public Jugador(Context context, double xInicial, double yInicial) {
         super(context, 0, 0, 40, 40);
 
@@ -56,9 +59,35 @@ public class Jugador extends Modelo{
     public void actualizar (long tiempo) {
         sprite.actualizar(tiempo);
     }
+    public void procesarOrdenes (int orientacionPad) {
+
+        if (orientacionPad == 0) {
+            aceleracionY = 0;
+            aceleracionX=-5;
+            //orientacion = IZQUIERDA;
+        } else if (orientacionPad ==1){
+            aceleracionX = 0;
+            aceleracionY=5;
+            //orientacion = DERECHA;
+        } else if(orientacionPad==2){
+            aceleracionY=0;
+            aceleracionX=-5;
+        }
+        else if(orientacionPad==3) {
+            aceleracionX = 0;
+            aceleracionY = -5;
+        }
+        else
+            frenar();
+
+    }
 
     public void dibujar(Canvas canvas){
         sprite.dibujarSprite(canvas, (int) x, (int) y);
+    }
+    private void frenar(){
+        aceleracionX=0;
+        aceleracionY=0;
     }
 
 

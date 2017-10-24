@@ -87,6 +87,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     float y[] = new float[6];
 
     public void procesarEventosTouch(){
+        boolean pulsacionPadMover = false;
+
+        for(int i=0; i < 6; i++) {
+
+            if (padDisparo.estaPulsado(x[i],y[i])){
+                int orientacion= padDisparo.getOrientacion(x[i],y[i]);
+                if (accion[i] != ACTION_UP) {
+                    pulsacionPadMover = true;
+                    nivel.orientacionPad = orientacion;
+                }
+
+            }
+            else
+                nivel.orientacionPad=4;
+        }
 
     }
 
