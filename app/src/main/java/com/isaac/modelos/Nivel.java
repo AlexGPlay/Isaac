@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.isaac.GameView;
 import com.isaac.R;
+import com.isaac.controles.Pad;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.gestores.CargadorSalas;
 
@@ -14,6 +15,7 @@ public class Nivel {
     private Fondo fondo;
     private Sala[][] salas;
     private Jugador jugador;
+
 
     private int salaActualX;
     private int salaActualY;
@@ -44,6 +46,7 @@ public class Nivel {
         salaActualY = (int)(Math.random()*salas[0].length);
 
         jugador = new Jugador(context,100,100);
+
         salas[salaActualX][salaActualY].moveToRoom(jugador);
     }
 

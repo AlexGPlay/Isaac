@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.isaac.controles.Pad;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Nivel;
 
@@ -22,6 +23,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     private Nivel nivel;
     public int numeroNivel = 0;
+    private Pad padMovimiento;
+    private Pad padDisparo;
 
     public GameView(Context context) {
         super(context);
@@ -90,6 +93,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     protected void inicializar() throws Exception {
         CargadorSalas.setContext(context);
         nivel = new Nivel(context,numeroNivel);
+        padMovimiento = new Pad(context,70,270);
+        padDisparo = new Pad(context,520,270);
     }
 
     public void actualizar(long tiempo) throws Exception {
@@ -98,6 +103,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     protected void dibujar(Canvas canvas) {
         nivel.dibujar(canvas);
+        padMovimiento.dibujar(canvas);
+        padDisparo.dibujar(canvas);
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
