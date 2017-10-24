@@ -9,6 +9,7 @@ import android.view.SurfaceView;
 
 import com.isaac.controles.Pad;
 import com.isaac.gestores.CargadorSalas;
+import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Nivel;
 
 
@@ -104,7 +105,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         }
 
         if(!pulsacionPadMover)
-            nivel.orientacionPad = 4;
+            nivel.orientacionPad = Jugador.PARADO;
 
 
     }

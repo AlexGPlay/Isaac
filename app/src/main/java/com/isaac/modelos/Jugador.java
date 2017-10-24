@@ -15,6 +15,12 @@ import java.util.HashMap;
  */
 
 public class Jugador extends Modelo{
+    public static final int MOVIMIENTO_DERECHA = 0;
+    public static final int MOVIMIENTO_IZQUIERDA = 1;
+    public static final int MOVIMIENTO_ABAJO = 2;
+    public static final int MOVIMIENTO_ARRIBA = 3;
+    public static final int PARADO = 4;
+
     public static final String PARADO_DERECHA = "Parado_derecha";
     public static final String PARADO_IZQUIERDA = "Parado_izquierda";
 
@@ -66,24 +72,25 @@ public class Jugador extends Modelo{
 
     public void procesarOrdenes (int orientacionPad) {
 
-        if (orientacionPad == 0) {
+        if (orientacionPad == MOVIMIENTO_DERECHA) {
             aceleracionY = 0;
             aceleracionX=5;
-            //orientacion = DERECHA;
-        } else if (orientacionPad ==1){
+        }
+        else if (orientacionPad == MOVIMIENTO_ABAJO){
             aceleracionX = 0;
             aceleracionY=5;
             //orientacion = ABAJO;
-        } else if(orientacionPad==2){
+        }
+        else if(orientacionPad == MOVIMIENTO_IZQUIERDA){
             aceleracionY=0;
             aceleracionX=-5;
             //orientacion = izquierda
         }
-        else if(orientacionPad==3) {
+        else if(orientacionPad == MOVIMIENTO_ARRIBA) {
             aceleracionX = 0;
             aceleracionY = -5;
         }
-        else if(orientacionPad==4)
+        else if(orientacionPad == PARADO)
             frenar();
 
         Log.d("Orientacion", String.valueOf(orientacionPad));

@@ -7,6 +7,7 @@ package com.isaac.controles;
 import android.content.Context;
 import android.util.Log;
 import com.isaac.R;
+import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
 
 /**
@@ -46,21 +47,17 @@ public class Pad extends Modelo {
 
         double angulo=(Math.toDegrees( Math.atan2(fromLeft - 50.0, 50.0 - fromTop) ) + 360.0) % 360.0;
         Log.d("angulo",String.valueOf(angulo));
-        if(angulo>=45 && angulo<135){
-            //derecha
-            return 0;
-        }
-        if(angulo>=135 && angulo<225) {
-            //abajo
-            return 1;
-        }
-        if(angulo>=225 && angulo<315) {
-            //izq
-            return 2;
-        }
+        if(angulo>=45 && angulo<135)
+            return Jugador.MOVIMIENTO_DERECHA;
+
+        if(angulo>=135 && angulo<225)
+            return Jugador.MOVIMIENTO_ABAJO;
+
+        if(angulo>=225 && angulo<315)
+            return Jugador.MOVIMIENTO_IZQUIERDA;
+
         else
-            //arriba
-            return 3;
+            return Jugador.MOVIMIENTO_ARRIBA;
     }
 
 
