@@ -67,39 +67,119 @@ public class CargadorSalas {
     private static Tile inicializarTile(char codigoTile,int x, int y) {
         switch (codigoTile) {
             case '#':
-                // en blanco, sin textura
-                if(x==0 && y==0)
-                    return new Tile(CargadorGraficos.cargarDrawable(context,
-                            R.drawable.pared_0_0), Tile.SOLIDO);
-
-                else if(x==0 && y==altoMapa-1)
-                    return new Tile(CargadorGraficos.cargarDrawable(context,
-                            R.drawable.pared_l_0), Tile.SOLIDO);
-
-                else if(x==anchoMapa-1 && y==0)
-                    return new Tile(CargadorGraficos.cargarDrawable(context,
-                            R.drawable.pared_0_a), Tile.SOLIDO);
-
-                else if(x==anchoMapa-1 && y==altoMapa-1)
-                    return new Tile(CargadorGraficos.cargarDrawable(context,
-                            R.drawable.pared_l_a), Tile.SOLIDO);
-
-                else if(x==0 || x==anchoMapa-1)
-                    return new Tile(CargadorGraficos.cargarDrawable(context,
-                            R.drawable.pared_2), Tile.SOLIDO);
-
-                else
-                    return new Tile(CargadorGraficos.cargarDrawable(context,
-                            R.drawable.pared_1), Tile.SOLIDO);
+                return getPared(x,y);
 
             case '.':
-                // bloque de musgo, no se puede pasar
-                return new Tile(CargadorGraficos.cargarDrawable(context,
-                        R.drawable.suelo_1), Tile.PASABLE);
+                return getSuelo();
+
             default:
-                //cualquier otro caso
                 return new Tile(null, Tile.PASABLE);
         }
+    }
+
+    private static Tile getPared(int x, int y){
+        if(x==0 && y==0)
+            return new Tile(CargadorGraficos.cargarDrawable(context,
+                    R.drawable.pared_0_0), Tile.SOLIDO);
+
+        else if(x==0 && y==altoMapa-1)
+            return new Tile(CargadorGraficos.cargarDrawable(context,
+                    R.drawable.pared_l_0), Tile.SOLIDO);
+
+        else if(x==anchoMapa-1 && y==0)
+            return new Tile(CargadorGraficos.cargarDrawable(context,
+                    R.drawable.pared_0_a), Tile.SOLIDO);
+
+        else if(x==anchoMapa-1 && y==altoMapa-1)
+            return new Tile(CargadorGraficos.cargarDrawable(context,
+                    R.drawable.pared_l_a), Tile.SOLIDO);
+
+        else if(x==0)
+            return new Tile(CargadorGraficos.cargarDrawable(context,
+                    R.drawable.pared_vertical), Tile.SOLIDO);
+
+        else if(x==anchoMapa-1)
+            return new Tile(CargadorGraficos.cargarDrawable(context,
+                    R.drawable.pared_vertical_1), Tile.SOLIDO);
+
+        else if(y==0)
+            return new Tile(CargadorGraficos.cargarDrawable(context,
+                    R.drawable.pared_horizontal), Tile.SOLIDO);
+
+        else if(y==altoMapa-1)
+            return new Tile(CargadorGraficos.cargarDrawable(context,
+                    R.drawable.pared_horizontal_1), Tile.SOLIDO);
+
+
+        return null;
+    }
+
+    private static Tile getSuelo(){
+        int suelo = (int)(Math.random()*14);
+
+        switch(suelo){
+            case 0:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_1), Tile.PASABLE);
+
+            case 1:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_2), Tile.PASABLE);
+
+            case 2:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_3), Tile.PASABLE);
+
+            case 3:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_4), Tile.PASABLE);
+
+            case 4:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_5), Tile.PASABLE);
+
+            case 5:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_6), Tile.PASABLE);
+
+            case 6:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_7), Tile.PASABLE);
+
+            case 7:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_8), Tile.PASABLE);
+
+            case 8:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_9), Tile.PASABLE);
+
+            case 9:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_10), Tile.PASABLE);
+
+            case 10:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_11), Tile.PASABLE);
+
+            case 11:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_12), Tile.PASABLE);
+
+            case 12:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_13), Tile.PASABLE);
+
+            case 13:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_14), Tile.PASABLE);
+
+            case 14:
+                return new Tile(CargadorGraficos.cargarDrawable(context,
+                        R.drawable.suelo_15), Tile.PASABLE);
+        }
+
+        return null;
     }
 
 
