@@ -22,11 +22,11 @@ public class Modelo {
     }
 
     public void dibujar(Canvas canvas){
-        int yArriva = (int)  y - altura / 2;
+        int yArriba = (int)  y - altura / 2;
         int xIzquierda = (int) x - ancho / 2;
 
-        imagen.setBounds(xIzquierda, yArriva, xIzquierda
-                + ancho, yArriva + altura);
+        imagen.setBounds(xIzquierda, yArriba, xIzquierda
+                + ancho, yArriba + altura);
         imagen.draw(canvas);
     }
 

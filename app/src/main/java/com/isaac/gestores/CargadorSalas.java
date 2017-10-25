@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.isaac.R;
+import com.isaac.modelos.Puerta;
+import com.isaac.modelos.Sala;
 import com.isaac.modelos.Tile;
 
 import java.io.BufferedReader;
@@ -22,15 +24,18 @@ public class CargadorSalas {
     private static int anchoMapa;
     private static int altoMapa;
 
+    private static Sala salaTemp;
+
     private CargadorSalas(){}
 
     public static void setContext(Context contexto){
         context = contexto;
     }
 
-    public static Tile[][] inicializarMapaTiles(String numeroNivel) throws Exception {
+    public static Tile[][] inicializarMapaTiles(String numeroNivel, Sala sala) throws Exception {
         InputStream is = context.getAssets().open(numeroNivel+".txt");
         int anchoLinea;
+        salaTemp = sala;
 
         List<String> lineas = new LinkedList<String>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -72,9 +77,31 @@ public class CargadorSalas {
             case '.':
                 return getSuelo();
 
+            case 'P':
+                return getPuerta(x,y);
+
             default:
                 return new Tile(null, Tile.PASABLE);
         }
+    }
+
+    private static Tile getPuerta(int x, int y){
+        if(x==0)
+            salaTemp.addPuerta(Sala.PUERTA_IZQUIERDA, new Puerta(context, Tile.ancho*x + Tile.ancho/2, Tile.altura*y + Tile.altura/2));
+
+        else if(y==0)
+            salaTemp.addPuerta(Sala.PUERTA_ARRIBA, new Puerta(context, Tile.ancho*x + Tile.ancho/2, Tile.altura*y + Tile.altura/2));
+
+        else if(x==anchoMapa-1)
+            salaTemp.addPuerta(Sala.PUERTA_DERECHA, new Puerta(context, Tile.ancho*x + Tile.ancho/2, Tile.altura*y + Tile.altura/2));
+
+        else if(y==altoMapa-1)
+            salaTemp.addPuerta(Sala.PUERTA_ABAJO, new Puerta(context, Tile.ancho*x + Tile.ancho/2, Tile.altura*y + Tile.altura/2));
+
+        Tile tile = getPared(x,y);
+        tile.tipoDeColision = Tile.PASABLE;
+
+        return tile;
     }
 
     private static Tile getPared(int x, int y){

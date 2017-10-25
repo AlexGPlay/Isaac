@@ -158,5 +158,4 @@ public class Jugador extends Modelo{
         aceleracionY=0;
     }
 
-
 }

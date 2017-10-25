@@ -6,6 +6,8 @@ import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.gestores.Utilidades;
 
+import java.util.HashMap;
+
 /**
  * Created by Alex on 24/10/2017.
  */
@@ -14,21 +16,64 @@ public class Sala{
 
     public static final String SALA_CUADRADA_1 = "Sala_cuadrada_1";
 
+    public static final String PUERTA_ARRIBA = "arriba";
+    public static final String PUERTA_ABAJO = "abajo";
+    public static final String PUERTA_DERECHA = "derecha";
+    public static final String PUERTA_IZQUIERDA = "izquierda";
+
     private Tile[][] mapaTiles;
     private Jugador jugador;
 
     public static int scrollEjeX = 0;
     public static int scrollEjeY = 0;
 
-    public Sala(String tipoSala) throws Exception {
-        mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala);
+    private Nivel nivel;
+
+    private HashMap<String,Puerta> puertas;
+
+    public Sala(String tipoSala, Nivel nivel) throws Exception {
+        puertas = new HashMap<>();
+
+        mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
         scrollEjeX = 0;
         scrollEjeY = 0;
+
+        this.nivel = nivel;
     }
 
-    public void moveToRoom(Jugador jugador){
+    public void moveToRoom(Jugador jugador, String puerta){
         this.jugador = jugador;
+
+        String contraria = getOppositeDoor(puerta);
+        Puerta entrada = puertas.get(contraria);
+
+        if(entrada!=null) {
+            jugador.x = entrada.x;
+            jugador.y = entrada.y;
+        }
+
     }
+
+    private String getOppositeDoor(String puerta){
+        if(puerta == PUERTA_ARRIBA)
+            return PUERTA_ABAJO;
+
+        else if(puerta == PUERTA_ABAJO)
+            return PUERTA_ARRIBA;
+
+        else if(puerta == PUERTA_DERECHA)
+            return PUERTA_IZQUIERDA;
+
+        else if(puerta == PUERTA_IZQUIERDA)
+            return PUERTA_DERECHA;
+
+        return null;
+    }
+
+    public void addPuerta(String zona, Puerta puerta){
+        puertas.put(zona,puerta);
+    }
+
 
     public void actualizar(long time) throws Exception {
         jugador.actualizar(time);
@@ -37,7 +82,12 @@ public class Sala{
 
     public void dibujar(Canvas canvas){
         dibujarTiles(canvas);
+
+        for( Puerta puerta : puertas.values() )
+            puerta.dibujar(canvas);
+
         jugador.dibujar(canvas);
+
     }
 
     private void aplicarReglasMovimiento() throws Exception {

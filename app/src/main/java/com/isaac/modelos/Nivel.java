@@ -16,7 +16,6 @@ public class Nivel {
     private Jugador jugador;
     public int orientacionPad;
 
-
     private int salaActualX;
     private int salaActualY;
 
@@ -38,7 +37,7 @@ public class Nivel {
 
         for(int i=0;i<salas.length;i++)
             for(int j=0;j<salas[i].length;j++)
-                salas[i][j] = new Sala(Sala.SALA_CUADRADA_1);
+                salas[i][j] = new Sala(Sala.SALA_CUADRADA_1, this);
 
 
         salaActualX = (int)(Math.random()*salas.length);
@@ -47,7 +46,7 @@ public class Nivel {
         jugador = new Jugador(context,100,100);
         orientacionPad = Jugador.PARADO;
 
-        salas[salaActualX][salaActualY].moveToRoom(jugador);
+        salas[salaActualX][salaActualY].moveToRoom(jugador,null);
     }
 
     public void actualizar (long tiempo) throws Exception {
@@ -65,6 +64,22 @@ public class Nivel {
         if(inicializado) {
             salas[salaActualX][salaActualY].dibujar(canvas);
         }
+    }
+
+    public void moverSala(String puerta){
+        if(puerta==Sala.PUERTA_ARRIBA)
+            salaActualY--;
+
+        else if(puerta==Sala.PUERTA_ABAJO)
+            salaActualY++;
+
+        else if(puerta==Sala.PUERTA_DERECHA)
+            salaActualX++;
+
+        else if(puerta==Sala.PUERTA_IZQUIERDA)
+            salaActualX--;
+
+        salas[salaActualX][salaActualY].moveToRoom(jugador,puerta);
     }
 
 }
