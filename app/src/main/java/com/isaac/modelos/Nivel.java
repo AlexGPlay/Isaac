@@ -35,10 +35,15 @@ public class Nivel {
 
         salas = new Sala[3][3];
 
-        for(int i=0;i<salas.length;i++)
-            for(int j=0;j<salas[i].length;j++)
-                salas[i][j] = new Sala(Sala.SALA_CUADRADA_1, this);
-
+        salas[0][0] = new Sala(Sala.SALA_CUADRADA_6, this);
+        salas[0][1] = new Sala(Sala.SALA_CUADRADA_4, this);
+        salas[0][2] = new Sala(Sala.SALA_CUADRADA_7, this);
+        salas[1][0] = new Sala(Sala.SALA_CUADRADA_3, this);
+        salas[1][1] = new Sala(Sala.SALA_CUADRADA_1, this);
+        salas[1][2] = new Sala(Sala.SALA_CUADRADA_2, this);
+        salas[2][0] = new Sala(Sala.SALA_CUADRADA_8, this);
+        salas[2][1] = new Sala(Sala.SALA_CUADRADA_5, this);
+        salas[2][2] = new Sala(Sala.SALA_CUADRADA_9, this);
 
         salaActualX = (int)(Math.random()*salas.length);
         salaActualY = (int)(Math.random()*salas[0].length);

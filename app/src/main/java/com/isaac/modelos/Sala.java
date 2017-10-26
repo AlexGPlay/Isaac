@@ -15,6 +15,14 @@ import java.util.HashMap;
 public class Sala{
 
     public static final String SALA_CUADRADA_1 = "Sala_cuadrada_1";
+    public static final String SALA_CUADRADA_2 = "Sala_cuadrada_2";
+    public static final String SALA_CUADRADA_3 = "Sala_cuadrada_3";
+    public static final String SALA_CUADRADA_4 = "Sala_cuadrada_4";
+    public static final String SALA_CUADRADA_5 = "Sala_cuadrada_5";
+    public static final String SALA_CUADRADA_6 = "Sala_cuadrada_6";
+    public static final String SALA_CUADRADA_7 = "Sala_cuadrada_7";
+    public static final String SALA_CUADRADA_8 = "Sala_cuadrada_8";
+    public static final String SALA_CUADRADA_9 = "Sala_cuadrada_9";
 
     public static final String PUERTA_ARRIBA = "arriba";
     public static final String PUERTA_ABAJO = "abajo";
@@ -52,6 +60,11 @@ public class Sala{
             jugador.y = entrada.y;
         }
 
+        jugador.x = 100;
+        jugador.y = 100;
+
+        scrollEjeX = 0;
+        scrollEjeY = 0;
     }
 
     private String getOppositeDoor(String puerta){
@@ -92,123 +105,26 @@ public class Sala{
 
     private void aplicarReglasMovimiento() throws Exception {
         reglasMovimientoJugador();
+        reglasMovimientoColisionPuerta();
+    }
+
+    private void reglasMovimientoColisionPuerta(){
+        for(String key : puertas.keySet())
+            if(jugador.colisiona(puertas.get(key)))
+                nivel.moverSala(key);
     }
 
     private void reglasMovimientoJugador(){
-        int tileXJugadorIzquierda = (int) (jugador.x - (jugador.ancho / 2 - 1)) / Tile.ancho;
-        int tileXJugadorDerecha = (int) (jugador.x + (jugador.ancho / 2 - 1)) / Tile.ancho;
-        int tileYJugadorInferior = (int) (jugador.y + (jugador.altura / 2 - 1)) / Tile.altura;
-        int tileYJugadorCentro = (int) jugador.y / Tile.altura;
-        int tileYJugadorSuperior = (int) (jugador.y - (jugador.altura / 2 - 1)) / Tile.altura;
 
-        if(jugador.aceleracionX>0) {
-            Tile derecha_superior = mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior];
-            Tile derecha_enfrente = mapaTiles[tileXJugadorDerecha][tileYJugadorCentro];
-            Tile derecha_inferior = mapaTiles[tileXJugadorDerecha][tileYJugadorInferior];
+        int virtualX = (int) (jugador.x + jugador.aceleracionX);
+        int virtualY = (int) (jugador.y + jugador.aceleracionY);
 
-            if (derecha_superior.tipoDeColision == Tile.PASABLE && derecha_enfrente.tipoDeColision == Tile.PASABLE && derecha_inferior.tipoDeColision == Tile.PASABLE)
-                jugador.x += jugador.aceleracionX;
+        int tileXJugador = (int) (virtualX / Tile.ancho);
+        int tileYJugador = (int) (virtualY / Tile.altura);
 
-            else if (tileXJugadorDerecha <= anchoMapaTiles() - 1 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
-                    derecha_inferior.tipoDeColision == Tile.PASABLE &&
-                    derecha_enfrente.tipoDeColision == Tile.PASABLE &&
-                    derecha_superior.tipoDeColision == Tile.PASABLE) {
-
-                int TileJugadorBordeDerecho = tileXJugadorDerecha * Tile.ancho + Tile.ancho;
-                double distanciaX = TileJugadorBordeDerecho - (jugador.x + jugador.ancho / 2);
-
-                if (distanciaX > 0) {
-                    double velocidadNecesaria = Math.min(distanciaX, jugador.aceleracionX);
-                    jugador.x += velocidadNecesaria;
-                }
-                else {
-                    jugador.x = TileJugadorBordeDerecho - jugador.ancho / 2;
-                }
-
-            }
-
-        }
-
-        else if(jugador.aceleracionX<0) {
-            Tile izquierda_superior = mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior];
-            Tile izquierda_enfrente = mapaTiles[tileXJugadorIzquierda][tileYJugadorCentro];
-            Tile izquierda_inferior = mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior];
-
-            if (izquierda_superior.tipoDeColision == Tile.PASABLE && izquierda_enfrente.tipoDeColision == Tile.PASABLE && izquierda_inferior.tipoDeColision == Tile.PASABLE)
-                jugador.x += jugador.aceleracionX;
-
-            else if (tileXJugadorIzquierda >= 0 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
-                    izquierda_inferior.tipoDeColision == Tile.PASABLE &&
-                    izquierda_enfrente.tipoDeColision == Tile.PASABLE &&
-                    izquierda_superior.tipoDeColision == Tile.PASABLE) {
-
-                int TileJugadorBordeIzquierdo = tileXJugadorIzquierda * Tile.ancho;
-                double distanciaX = (jugador.x - jugador.ancho / 2) - TileJugadorBordeIzquierdo;
-
-                if (distanciaX > 0) {
-                    double velocidadNecesaria = Utilidades.proximoACero(-distanciaX, jugador.aceleracionX);
-                    jugador.x += velocidadNecesaria;
-                }
-                else {
-                    jugador.x = TileJugadorBordeIzquierdo + jugador.ancho / 2;
-                }
-
-
-            }
-        }
-
-        if(jugador.aceleracionY<0){
-            Tile superior_izquierda = mapaTiles[tileXJugadorIzquierda][tileYJugadorSuperior];
-            Tile superior_centro = mapaTiles[tileXJugadorIzquierda+1][tileYJugadorSuperior];
-            Tile superior_derehca = mapaTiles[tileXJugadorDerecha][tileYJugadorSuperior];
-
-            if (superior_izquierda.tipoDeColision == Tile.PASABLE && superior_centro.tipoDeColision == Tile.PASABLE && superior_derehca.tipoDeColision == Tile.PASABLE)
-                jugador.y += jugador.aceleracionY;
-
-            else if (tileXJugadorIzquierda >= 0 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
-                    superior_izquierda.tipoDeColision == Tile.PASABLE &&
-                    superior_centro.tipoDeColision == Tile.PASABLE &&
-                    superior_derehca.tipoDeColision == Tile.PASABLE) {
-
-                int TileJugadorBordeIzquierdo = tileYJugadorSuperior * Tile.altura;
-                double distanciaY = (jugador.y - jugador.altura / 2) - TileJugadorBordeIzquierdo;
-
-                if (distanciaY > 0) {
-                    double velocidadNecesaria = Utilidades.proximoACero(-distanciaY, jugador.aceleracionX);
-                    jugador.y += velocidadNecesaria;
-                }
-                else {
-                    jugador.y = TileJugadorBordeIzquierdo + jugador.ancho / 2;
-                }
-            }
-        }
-
-        else if(jugador.aceleracionY>0) {
-            Tile inferior_derecha = mapaTiles[tileXJugadorDerecha][tileYJugadorInferior];
-            Tile inferior_centro = mapaTiles[tileXJugadorDerecha-1][tileYJugadorInferior];
-            Tile inferior_izquierda = mapaTiles[tileXJugadorIzquierda][tileYJugadorInferior];
-
-            if (inferior_derecha.tipoDeColision == Tile.PASABLE && inferior_centro.tipoDeColision == Tile.PASABLE && inferior_izquierda.tipoDeColision == Tile.PASABLE)
-                jugador.y += jugador.aceleracionY;
-
-            else if (tileXJugadorDerecha <= anchoMapaTiles() - 1 && tileYJugadorInferior <= altoMapaTiles() - 1 &&
-                    inferior_derecha.tipoDeColision == Tile.PASABLE &&
-                    inferior_centro.tipoDeColision == Tile.PASABLE &&
-                    inferior_izquierda.tipoDeColision == Tile.PASABLE) {
-
-                int TileJugadorBordeDerecho = tileYJugadorInferior * Tile.altura + Tile.altura;
-                double distanciaY = TileJugadorBordeDerecho - (jugador.x + jugador.altura / 2);
-
-                if (distanciaY > 0) {
-                    double velocidadNecesaria = Math.min(distanciaY, jugador.aceleracionX);
-                    jugador.y += velocidadNecesaria;
-                }
-                else {
-                    jugador.y = TileJugadorBordeDerecho - jugador.altura / 2;
-                }
-
-            }
-
+        if( mapaTiles[tileXJugador][tileYJugador].tipoDeColision == Tile.PASABLE ){
+            jugador.x = virtualX;
+            jugador.y = virtualY;
         }
 
     }
