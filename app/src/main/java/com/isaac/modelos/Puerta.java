@@ -13,12 +13,26 @@ import com.isaac.gestores.CargadorGraficos;
 public class Puerta extends Modelo{
 
     private boolean abierta;
+    private int xSalida, ySalida;
 
     public Puerta(Context context, double x, double y, int alto, int ancho, int drawable) {
         super(context, x, y, alto, ancho);
 
         imagen = CargadorGraficos.cargarDrawable(context, drawable);
         abierta = true;
+    }
+
+    public void setTile(int x, int y){
+        this.xSalida = x;
+        this.ySalida = y;
+    }
+
+    public int getXSalida(){
+        return xSalida;
+    }
+
+    public int getYSalida(){
+        return ySalida;
     }
 
     @Override

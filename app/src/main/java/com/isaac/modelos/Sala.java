@@ -1,6 +1,7 @@
 package com.isaac.modelos;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
@@ -56,12 +57,14 @@ public class Sala{
         Puerta entrada = puertas.get(contraria);
 
         if(entrada!=null) {
-            jugador.x = entrada.x;
-            jugador.y = entrada.y;
+            jugador.x = entrada.getXSalida() * Tile.ancho;
+            jugador.y = entrada.getYSalida() * Tile.altura;
         }
 
-        jugador.x = 100;
-        jugador.y = 100;
+        else {
+            jugador.x = 100;
+            jugador.y = 100;
+        }
 
         scrollEjeX = 0;
         scrollEjeY = 0;
@@ -132,7 +135,6 @@ public class Sala{
     private void dibujarTiles(Canvas canvas){
         // Calcular que tiles serán visibles en la pantalla
         // La matriz de tiles es más grande que la pantalla
-
         int tileXJugador = (int) jugador.x / Tile.ancho;
         int izquierda = (int) (tileXJugador - tilesEnDistanciaX(jugador.x - scrollEjeX));
         izquierda = Math.max(0,izquierda); // Que nunca sea < 0, ej -1

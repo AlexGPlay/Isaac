@@ -2,6 +2,7 @@ package com.isaac.modelos;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.R;
@@ -84,7 +85,8 @@ public class Nivel {
         else if(puerta==Sala.PUERTA_IZQUIERDA)
             salaActualX--;
 
-        salas[salaActualX][salaActualY].moveToRoom(jugador,puerta);
+        Log.d("Movimiento sala", salaActualY + "||" + salaActualX);
+        salas[salaActualY][salaActualX].moveToRoom(jugador,puerta);
     }
 
 }
