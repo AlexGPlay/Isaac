@@ -18,6 +18,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     boolean iniciado = false;
     Context context;
     GameLoop gameloop;
+    Canvas canvas;
 
     public static int pantallaAncho;
     public static int pantallaAlto;
@@ -39,7 +40,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         gameloop.setRunning(true);
     }
 
-
+    public void updateCanvas(Canvas canvas){
+        this.canvas = canvas;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -113,9 +116,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     }
 
+    public void forceUpdate(){
+        dibujar(canvas);
+    }
+
     protected void inicializar() throws Exception {
         CargadorSalas.setContext(context);
-        nivel = new Nivel(context,numeroNivel);
+        nivel = new Nivel(context,numeroNivel,this);
         padMovimiento = new Pad(context,70,270);
         padDisparo = new Pad(context,520,270);
     }

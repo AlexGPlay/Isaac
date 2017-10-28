@@ -20,13 +20,16 @@ public class Nivel {
     private int salaActualX;
     private int salaActualY;
 
+    private GameView gameView;
+
     public boolean inicializado;
 
-    public Nivel(Context context, int numeroNivel) throws Exception {
+    public Nivel(Context context, int numeroNivel, GameView gameView) throws Exception {
         inicializado = false;
 
         this.context = context;
         this.numeroNivel = numeroNivel;
+        this.gameView = gameView;
         inicializar();
 
         inicializado = true;
@@ -35,24 +38,24 @@ public class Nivel {
     public void inicializar()throws Exception {
 
         salas = new Sala[3][3];
+        jugador = new Jugador(context,100,100);
 
-        salas[0][0] = new Sala(Sala.SALA_CUADRADA_6, this);
-        salas[0][1] = new Sala(Sala.SALA_CUADRADA_4, this);
-        salas[0][2] = new Sala(Sala.SALA_CUADRADA_7, this);
-        salas[1][0] = new Sala(Sala.SALA_CUADRADA_3, this);
-        salas[1][1] = new Sala(Sala.SALA_CUADRADA_1, this);
-        salas[1][2] = new Sala(Sala.SALA_CUADRADA_2, this);
-        salas[2][0] = new Sala(Sala.SALA_CUADRADA_8, this);
-        salas[2][1] = new Sala(Sala.SALA_CUADRADA_5, this);
-        salas[2][2] = new Sala(Sala.SALA_CUADRADA_9, this);
+        salas[0][0] = new Sala(Sala.SALA_CUADRADA_6, jugador, this);
+        salas[0][1] = new Sala(Sala.SALA_CUADRADA_4, jugador, this);
+        salas[0][2] = new Sala(Sala.SALA_CUADRADA_7, jugador,this);
+        salas[1][0] = new Sala(Sala.SALA_CUADRADA_3, jugador,this);
+        salas[1][1] = new Sala(Sala.SALA_CUADRADA_1, jugador,this);
+        salas[1][2] = new Sala(Sala.SALA_CUADRADA_2, jugador,this);
+        salas[2][0] = new Sala(Sala.SALA_CUADRADA_8, jugador,this);
+        salas[2][1] = new Sala(Sala.SALA_CUADRADA_5, jugador,this);
+        salas[2][2] = new Sala(Sala.SALA_CUADRADA_9, jugador,this);
 
         salaActualX = (int)(Math.random()*salas.length);
         salaActualY = (int)(Math.random()*salas[0].length);
 
-        jugador = new Jugador(context,100,100);
         orientacionPad = Jugador.PARADO;
 
-        salas[salaActualX][salaActualY].moveToRoom(jugador,null);
+        salas[salaActualY][salaActualX].moveToRoom(null);
     }
 
     public void actualizar (long tiempo) throws Exception {
@@ -86,7 +89,8 @@ public class Nivel {
             salaActualX--;
 
         Log.d("Movimiento sala", salaActualY + "||" + salaActualX);
-        salas[salaActualY][salaActualX].moveToRoom(jugador,puerta);
+        salas[salaActualY][salaActualX].moveToRoom(puerta);
+        gameView.forceUpdate();
     }
 
 }

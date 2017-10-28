@@ -44,6 +44,7 @@ public class GameLoop extends Thread {
                     synchronized (gameView.getHolder()) {
                         tiempoAlInicio = System.currentTimeMillis();
                         this.gameView.actualizar(FRAME_TIEMPO);
+                        this.gameView.updateCanvas(canvas);
                         framesSaltados = 0;
                         if (!corriendo)
                             break;

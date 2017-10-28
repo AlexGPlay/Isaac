@@ -40,19 +40,18 @@ public class Sala{
 
     private HashMap<String,Puerta> puertas;
 
-    public Sala(String tipoSala, Nivel nivel) throws Exception {
+    public Sala(String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         puertas = new HashMap<>();
 
         mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
         scrollEjeX = 0;
         scrollEjeY = 0;
 
+        this.jugador = jugador;
         this.nivel = nivel;
     }
 
-    public void moveToRoom(Jugador jugador, String puerta){
-        this.jugador = jugador;
-
+    public void moveToRoom(String puerta){
         String contraria = getOppositeDoor(puerta);
         Puerta entrada = puertas.get(contraria);
 
@@ -66,8 +65,6 @@ public class Sala{
             jugador.y = 100;
         }
 
-        scrollEjeX = 0;
-        scrollEjeY = 0;
     }
 
     private String getOppositeDoor(String puerta){
