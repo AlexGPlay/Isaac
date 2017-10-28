@@ -56,8 +56,25 @@ public class Sala{
         Puerta entrada = puertas.get(contraria);
 
         if(entrada!=null) {
-            jugador.x = entrada.getXSalida() * Tile.ancho;
-            jugador.y = entrada.getYSalida() * Tile.altura;
+            if(contraria == PUERTA_ABAJO){
+                jugador.x = entrada.getXSalida() * Tile.ancho;
+                jugador.y = entrada.getYSalida() * Tile.altura - Tile.altura;
+            }
+
+            else if(contraria == PUERTA_ARRIBA){
+                jugador.x = entrada.getXSalida() * Tile.ancho;
+                jugador.y = entrada.getYSalida() * Tile.altura + Tile.altura;
+            }
+
+            else if(contraria == PUERTA_DERECHA){
+                jugador.x = entrada.getXSalida() * Tile.ancho - Tile.ancho;
+                jugador.y = entrada.getYSalida() * Tile.altura;
+            }
+
+            else if(contraria == PUERTA_IZQUIERDA){
+                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho;
+                jugador.y = entrada.getYSalida() * Tile.altura;
+            }
         }
 
         else {
@@ -121,6 +138,18 @@ public class Sala{
 
         int tileXJugador = (int) (virtualX / Tile.ancho);
         int tileYJugador = (int) (virtualY / Tile.altura);
+
+        if(jugador.aceleracionX<0){
+            tileXJugador = (int) ( (virtualX-jugador.ancho/2) / Tile.ancho);
+        }
+
+        if(jugador.aceleracionX>0){
+            tileXJugador = (int) ( (virtualX+jugador.ancho/2) / Tile.ancho);
+        }
+
+        if(jugador.aceleracionY>0){
+            tileYJugador = (int) ( (virtualY+jugador.altura/2) / Tile.altura);
+        }
 
         if( mapaTiles[tileXJugador][tileYJugador].tipoDeColision == Tile.PASABLE ){
             jugador.x = virtualX;

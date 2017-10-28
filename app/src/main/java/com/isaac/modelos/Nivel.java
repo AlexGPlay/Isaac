@@ -21,6 +21,7 @@ public class Nivel {
     private int salaActualY;
 
     private GameView gameView;
+    private Sala salaActual;
 
     public boolean inicializado;
 
@@ -50,18 +51,19 @@ public class Nivel {
         salas[2][1] = new Sala(Sala.SALA_CUADRADA_5, jugador,this);
         salas[2][2] = new Sala(Sala.SALA_CUADRADA_9, jugador,this);
 
-        salaActualX = (int)(Math.random()*salas.length);
-        salaActualY = (int)(Math.random()*salas[0].length);
+        salaActualX = (int)(Math.random()*salas[0].length);
+        salaActualY = (int)(Math.random()*salas.length);
 
         orientacionPad = Jugador.PARADO;
 
-        salas[salaActualY][salaActualX].moveToRoom(null);
+        salaActual = salas[salaActualY][salaActualX];
+        salaActual.moveToRoom(null);
     }
 
     public void actualizar (long tiempo) throws Exception {
         if (inicializado) {
 
-            salas[salaActualX][salaActualY].actualizar(tiempo);
+            salaActual.actualizar(tiempo);
             jugador.procesarOrdenes(orientacionPad);
             jugador.actualizar(tiempo);
 
@@ -71,7 +73,7 @@ public class Nivel {
 
     public void dibujar (Canvas canvas) {
         if(inicializado) {
-            salas[salaActualX][salaActualY].dibujar(canvas);
+            salaActual.dibujar(canvas);
         }
     }
 
@@ -88,8 +90,9 @@ public class Nivel {
         else if(puerta==Sala.PUERTA_IZQUIERDA)
             salaActualX--;
 
-        Log.d("Movimiento sala", salaActualY + "||" + salaActualX);
-        salas[salaActualY][salaActualX].moveToRoom(puerta);
+        Log.v("Movimiento sala", salaActualY + "||" + salaActualX);
+        salaActual = salas[salaActualY][salaActualX];
+        salaActual.moveToRoom(puerta);
         gameView.forceUpdate();
     }
 
