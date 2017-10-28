@@ -14,10 +14,10 @@ public class Puerta extends Modelo{
 
     private boolean abierta;
 
-    public Puerta(Context context, double x, double y) {
-        super(context, x, y, 32, 40);
+    public Puerta(Context context, double x, double y, int alto, int ancho, int drawable) {
+        super(context, x, y, alto, ancho);
 
-        imagen = CargadorGraficos.cargarDrawable(context, R.drawable.door);
+        imagen = CargadorGraficos.cargarDrawable(context, drawable);
         abierta = true;
     }
 

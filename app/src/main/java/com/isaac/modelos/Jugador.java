@@ -26,7 +26,9 @@ public class Jugador extends Modelo{
     private static final String CABEZA_ATRAS = "cabeza_atras";
     private static final String CABEZA_ADELANTE = "cabeza_adelante";
     private static final String MOVER_ADELANTE_ATRAS = "mover_adelante";
-    private static final String MOVER_DERECHA_IZQUIERDA = "mover_derecha";
+    private static final String MOVER_DERECHA = "mover_derecha";
+    private static final String MOVER_IZQUIERDA = "mover_izquierda";
+    private static final String PARADO_SPRITE = "parado";
 
     private final static int alturaCabeza = 25;
     private final static int anchoCabeza = 29;
@@ -85,11 +87,17 @@ public class Jugador extends Modelo{
                 2, 2, true);
         sprites.put(CABEZA_ADELANTE, cabezaAdelante);
 
-        Sprite cuerpoDerechaIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_andar_derecha_izquierda),
+        Sprite cuerpoDerechaDerecha = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_andar_derecha),
                 anchoCuerpo, alturaCuerpo,
                 10, 10, true);
-        sprites.put(MOVER_DERECHA_IZQUIERDA, cuerpoDerechaIzquierda);
+        sprites.put(MOVER_DERECHA, cuerpoDerechaDerecha);
+
+        Sprite cuerpoDerechaIzquierda = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_andar_izquierda),
+                anchoCuerpo, alturaCuerpo,
+                10, 10, true);
+        sprites.put(MOVER_IZQUIERDA, cuerpoDerechaIzquierda);
 
         Sprite cuerpoAdelanteAtras = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.isaac_andar_adelante_atras),
@@ -97,9 +105,15 @@ public class Jugador extends Modelo{
                 10, 10, true);
         sprites.put(MOVER_ADELANTE_ATRAS, cuerpoAdelanteAtras);
 
+        Sprite cuerpoParado = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_cuerpo_parado),
+                anchoCuerpo, alturaCuerpo,
+                1, 1, true);
+        sprites.put(PARADO_SPRITE, cuerpoParado);
+
 
         spriteCabeza = sprites.get(CABEZA_ADELANTE);
-        spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        spriteCuerpo = sprites.get(PARADO_SPRITE);
 
     }
 
@@ -115,7 +129,7 @@ public class Jugador extends Modelo{
             aceleracionX = 5;
 
             spriteCabeza = sprites.get(CABEZA_DERECHA);
-            spriteCuerpo = sprites.get(MOVER_DERECHA_IZQUIERDA);
+            spriteCuerpo = sprites.get(MOVER_DERECHA);
         }
         else if (orientacionPad == MOVIMIENTO_ABAJO){
             aceleracionX = 0;
@@ -129,7 +143,7 @@ public class Jugador extends Modelo{
             aceleracionX= -5;
 
             spriteCabeza = sprites.get(CABEZA_IZQUIERDA);
-            spriteCuerpo = sprites.get(MOVER_DERECHA_IZQUIERDA);
+            spriteCuerpo = sprites.get(MOVER_IZQUIERDA);
         }
         else if(orientacionPad == MOVIMIENTO_ARRIBA) {
             aceleracionX = 0;
@@ -138,8 +152,12 @@ public class Jugador extends Modelo{
             spriteCabeza = sprites.get(CABEZA_ATRAS);
             spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
         }
-        else if(orientacionPad == PARADO)
+        else if(orientacionPad == PARADO) {
             frenar();
+
+            spriteCabeza = sprites.get(CABEZA_ADELANTE);
+            spriteCuerpo = sprites.get(PARADO_SPRITE);
+        }
 
     }
 
