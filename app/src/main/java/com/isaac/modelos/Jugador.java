@@ -7,8 +7,11 @@ import android.util.Log;
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.graficos.Sprite;
+import com.isaac.modelos.disparos.DisparoJugador;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Alex on 24/10/2017.
@@ -19,7 +22,17 @@ public class Jugador extends Modelo{
     public static final int MOVIMIENTO_IZQUIERDA = 1;
     public static final int MOVIMIENTO_ABAJO = 2;
     public static final int MOVIMIENTO_ARRIBA = 3;
-    public static final int PARADO = 4;
+    public static final int MOVIMIENTO_ARRIBA_DERECHA = 4;
+    public static final int MOVIMIENTO_ARRIBA_IZQUIERDA = 5;
+    public static final int MOVIMIENTO_ABAJO_DERECHA = 6;
+    public static final int MOVIMIENTO_ABAJO_IZQUIERDA = 7;
+    public static final int PARADO = 8;
+
+    public static final int DISPARO_DERECHA = 0;
+    public static final int DISPARO_IZQUIERDA = 1;
+    public static final int DISPARO_ABAJO = 2;
+    public static final int DISPARO_ARRIBA = 3;
+    public static final int NO_DISPARO = 4;
 
     private static final String CABEZA_DERECHA = "cabeza_derecha";
     private static final String CABEZA_IZQUIERDA = "cabeza_izquierda";
@@ -122,6 +135,15 @@ public class Jugador extends Modelo{
         spriteCabeza.actualizar(tiempo);
     }
 
+    public List<DisparoJugador> procesarDisparos (int orientacionPad){
+        ArrayList<DisparoJugador> disparos = new ArrayList<>();
+
+        if(orientacionPad!=Jugador.NO_DISPARO)
+            disparos.add(new DisparoJugador(context, this.x, this.y, orientacionPad));
+
+        return disparos;
+    }
+
     public void procesarOrdenes (int orientacionPad) {
 
         if (orientacionPad == MOVIMIENTO_DERECHA) {
@@ -150,6 +172,34 @@ public class Jugador extends Modelo{
             aceleracionY = -5;
 
             spriteCabeza = sprites.get(CABEZA_ATRAS);
+            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        }
+        else if(orientacionPad == MOVIMIENTO_ARRIBA_DERECHA){
+            aceleracionX = 5;
+            aceleracionY = -5;
+
+            spriteCabeza = sprites.get(CABEZA_ATRAS);
+            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        }
+        else if(orientacionPad == MOVIMIENTO_ARRIBA_IZQUIERDA){
+            aceleracionX = -5;
+            aceleracionY = -5;
+
+            spriteCabeza = sprites.get(CABEZA_ATRAS);
+            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        }
+        else if(orientacionPad == MOVIMIENTO_ABAJO_DERECHA){
+            aceleracionX = 5;
+            aceleracionY = 5;
+
+            spriteCabeza = sprites.get(CABEZA_ADELANTE);
+            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        }
+        else if(orientacionPad == MOVIMIENTO_ABAJO_IZQUIERDA){
+            aceleracionX = -5;
+            aceleracionY = 5;
+
+            spriteCabeza = sprites.get(CABEZA_ADELANTE);
             spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
         }
         else if(orientacionPad == PARADO) {

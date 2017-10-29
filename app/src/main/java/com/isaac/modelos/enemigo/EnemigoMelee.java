@@ -1,4 +1,4 @@
-package com.isaac.modelos.Enemigo;
+package com.isaac.modelos.enemigo;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.graficos.Sprite;
-import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.Sala;
 

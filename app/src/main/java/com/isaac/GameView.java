@@ -11,6 +11,7 @@ import com.isaac.controles.Pad;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Nivel;
+import com.isaac.modelos.Sala;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
@@ -92,6 +93,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     public void procesarEventosTouch(){
         boolean pulsacionPadMover = false;
+        boolean pulsacionPadDisparo = false;
 
         for(int i=0; i < 6; i++) {
 
@@ -103,7 +105,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
                     if (accion[i] != ACTION_UP) {
                         pulsacionPadMover = true;
-                        nivel.orientacionPad = orientacion;
+                        Sala.orientacionPad = orientacion;
+                    }
+
+                }
+
+                else if(padDisparo.estaPulsado(x[i], y[i])){
+                    int orientacion = padDisparo.getOrientacion(x[i],y[i]);
+
+                    if(accion[i] != ACTION_UP){
+                        pulsacionPadDisparo = true;
+                        Sala.orientacionDisparo = orientacion;
                     }
 
                 }
@@ -111,9 +123,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         }
 
         if(!pulsacionPadMover)
-            nivel.orientacionPad = Jugador.PARADO;
+            Sala.orientacionPad = Jugador.PARADO;
 
-
+        if(!pulsacionPadDisparo)
+            Sala.orientacionDisparo = Jugador.NO_DISPARO;
     }
 
     public void forceUpdate(){

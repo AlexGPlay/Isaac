@@ -1,14 +1,16 @@
 package com.isaac.modelos;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
-import com.isaac.gestores.Utilidades;
-import com.isaac.modelos.Enemigo.EnemigoMelee;
+import com.isaac.modelos.disparos.DisparoJugador;
+import com.isaac.modelos.enemigo.EnemigoMelee;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,23 +35,37 @@ public class Sala{
     public static final String PUERTA_IZQUIERDA = "izquierda";
 
     private Tile[][] mapaTiles;
+
+    public static int orientacionPad;
+    public static int orientacionDisparo;
+
     private Jugador jugador;
     private List <EnemigoMelee> enemigos;
+    private List<DisparoJugador> disparosJugador;
 
     public static int scrollEjeX = 0;
     public static int scrollEjeY = 0;
 
     private Nivel nivel;
+    private Context context;
 
     private HashMap<String,Puerta> puertas;
 
-    public Sala(String tipoSala, Jugador jugador, List<EnemigoMelee> enemigos, Nivel nivel) throws Exception {
+    public Sala(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         puertas = new HashMap<>();
         mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
 
+        this.disparosJugador = new ArrayList<>();
         this.jugador = jugador;
-        this.enemigos=enemigos;
+        this.context = context;
+
+        enemigos= new ArrayList<EnemigoMelee>();
+        enemigos.add(new EnemigoMelee(context,200,200));
+        enemigos.add(new EnemigoMelee(context,150,150));
+
         this.nivel = nivel;
+        this.orientacionPad = Jugador.PARADO;
+        this.orientacionDisparo = Jugador.NO_DISPARO;
     }
 
     public void moveToRoom(String puerta){
@@ -110,7 +126,16 @@ public class Sala{
 
 
     public void actualizar(long time) throws Exception {
+        disparosJugador.addAll( jugador.procesarDisparos(orientacionDisparo) );
+        jugador.procesarOrdenes(orientacionPad);
         jugador.actualizar(time);
+
+        for(EnemigoMelee enemigo : enemigos)
+            enemigo.actualizar(time);
+
+        for(DisparoJugador disparo : disparosJugador)
+            disparo.actualizar(time);
+
         aplicarReglasMovimiento();
     }
 
@@ -121,9 +146,12 @@ public class Sala{
             puerta.dibujar(canvas);
 
         jugador.dibujar(canvas);
-        for(EnemigoMelee enemigo : enemigos){
+
+        for(EnemigoMelee enemigo : enemigos)
             enemigo.dibujar(canvas);
-        }
+
+        for(DisparoJugador disparo : disparosJugador)
+            disparo.dibujar(canvas);
 
     }
 
@@ -131,6 +159,7 @@ public class Sala{
         reglasMovimientoJugador();
         reglasMovimientoColisionPuerta();
         reglasDeMoVimientoEnemigos();
+        reglasDeMovimientoDisparosJugador();
     }
 
     private void reglasMovimientoColisionPuerta(){
@@ -165,6 +194,7 @@ public class Sala{
         }
 
     }
+
     private void reglasDeMoVimientoEnemigos(){
         for(EnemigoMelee enemigo: enemigos){
             if((jugador.x - jugador.ancho / 2 <= (enemigo.x + enemigo.ancho / 2)
@@ -180,12 +210,28 @@ public class Sala{
                 enemigo.x+=enemigo.aceleracionX;
             }
 
-
-
-
-
         }
 
+    }
+
+    private void reglasDeMovimientoDisparosJugador(){
+        for(Iterator<DisparoJugador> iterator = disparosJugador.iterator(); iterator.hasNext();){
+            DisparoJugador disparo = iterator.next();
+
+            int virtualX = (int) (disparo.x + disparo.aceleracionX);
+            int virtualY = (int) (disparo.y + disparo.aceleracionY);
+
+            int tileXDisparo = (int) (virtualX / Tile.ancho);
+            int tileYDisparo = (int) (virtualY / Tile.altura);
+
+            if(mapaTiles[tileXDisparo][tileYDisparo].tipoDeColision==Tile.SOLIDO) {
+                iterator.remove();
+                continue;
+            }
+
+            disparo.x = virtualX;
+            disparo.y = virtualY;
+        }
     }
 
     private void dibujarTiles(Canvas canvas){
