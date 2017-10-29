@@ -2,12 +2,12 @@ package com.isaac.modelos;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.graficos.Sprite;
 import com.isaac.modelos.disparos.DisparoJugador;
+import com.isaac.modelos.nivel.Sala;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,10 +1,11 @@
-package com.isaac.modelos;
+package com.isaac.modelos.nivel;
 
 import android.content.Context;
 import android.graphics.Canvas;
 
 import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
+import com.isaac.modelos.Jugador;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoMelee;
 
@@ -29,27 +30,35 @@ public class Sala{
     public static final String SALA_CUADRADA_8 = "Sala_cuadrada_8";
     public static final String SALA_CUADRADA_9 = "Sala_cuadrada_9";
 
+    public static final String SALA_DORADA_1 = "Sala_dorada_test";
+
     public static final String PUERTA_ARRIBA = "arriba";
     public static final String PUERTA_ABAJO = "abajo";
     public static final String PUERTA_DERECHA = "derecha";
     public static final String PUERTA_IZQUIERDA = "izquierda";
 
-    private Tile[][] mapaTiles;
+    public static final int SALA_NORMAL = 1;
+    public static final int SALA_BOSS = 2;
+    public static final int SALA_TESORO = 3;
+
+    public int tipoSala;
+
+    protected Tile[][] mapaTiles;
 
     public static int orientacionPad;
     public static int orientacionDisparo;
 
-    private Jugador jugador;
-    private List <EnemigoMelee> enemigos;
-    private List<DisparoJugador> disparosJugador;
+    protected Jugador jugador;
+    protected List <EnemigoMelee> enemigos;
+    protected List<DisparoJugador> disparosJugador;
 
     public static int scrollEjeX = 0;
     public static int scrollEjeY = 0;
 
-    private Nivel nivel;
-    private Context context;
+    protected Nivel nivel;
+    protected Context context;
 
-    private HashMap<String,Puerta> puertas;
+    protected HashMap<String,Puerta> puertas;
 
     public Sala(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         puertas = new HashMap<>();
@@ -155,7 +164,7 @@ public class Sala{
 
     }
 
-    private void aplicarReglasMovimiento() throws Exception {
+    protected void aplicarReglasMovimiento() throws Exception {
         reglasMovimientoJugador();
         reglasMovimientoColisionPuerta();
         reglasDeMoVimientoEnemigos();

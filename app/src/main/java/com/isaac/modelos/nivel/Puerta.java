@@ -1,16 +1,16 @@
-package com.isaac.modelos;
+package com.isaac.modelos.nivel;
 
 import android.content.Context;
 import android.graphics.Canvas;
 
-import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
+import com.isaac.modelos.Modelo;
 
 /**
  * Created by Alex on 25/10/2017.
  */
 
-public class Puerta extends Modelo{
+public class Puerta extends Modelo {
 
     private boolean abierta;
     private int xSalida, ySalida;

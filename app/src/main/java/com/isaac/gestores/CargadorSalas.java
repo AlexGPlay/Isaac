@@ -4,9 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.isaac.R;
-import com.isaac.modelos.Puerta;
-import com.isaac.modelos.Sala;
-import com.isaac.modelos.Tile;
+import com.isaac.modelos.item.Altar;
+import com.isaac.modelos.nivel.Puerta;
+import com.isaac.modelos.nivel.Sala;
+import com.isaac.modelos.nivel.Sala_tesoro;
+import com.isaac.modelos.nivel.Tile;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -80,9 +82,19 @@ public class CargadorSalas {
             case 'P':
                 return getPuerta(x,y);
 
+            case 'I':
+                return getAltar(x,y);
+
             default:
                 return new Tile(null, Tile.PASABLE);
         }
+    }
+
+    private static Tile getAltar(int x, int y){
+        Sala_tesoro temp = (Sala_tesoro)salaTemp;
+        temp.addAltar(new Altar(context,x*Tile.ancho,y*Tile.altura));
+
+        return getSuelo();
     }
 
     private static Tile getPuerta(int x, int y){

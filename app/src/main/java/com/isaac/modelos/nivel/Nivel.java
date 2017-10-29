@@ -1,15 +1,12 @@
-package com.isaac.modelos;
+package com.isaac.modelos.nivel;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
 
 import com.isaac.GameView;
-import com.isaac.modelos.enemigo.EnemigoMelee;
+import com.isaac.modelos.Jugador;
 import com.isaac.modelos.hud.IconoVida;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class Nivel {
     private Context context = null;
@@ -45,7 +42,7 @@ public class Nivel {
         salas[0][1] = new Sala(context, Sala.SALA_CUADRADA_4, jugador, this);
         salas[0][2] = new Sala(context, Sala.SALA_CUADRADA_7, jugador,this);
         salas[1][0] = new Sala(context, Sala.SALA_CUADRADA_3, jugador,this);
-        salas[1][1] = new Sala(context, Sala.SALA_CUADRADA_1, jugador,this);
+        salas[1][1] = new Sala_tesoro(context, Sala.SALA_DORADA_1, jugador,this);
         salas[1][2] = new Sala(context, Sala.SALA_CUADRADA_2, jugador,this);
         salas[2][0] = new Sala(context, Sala.SALA_CUADRADA_8, jugador,this);
         salas[2][1] = new Sala(context, Sala.SALA_CUADRADA_5, jugador,this);

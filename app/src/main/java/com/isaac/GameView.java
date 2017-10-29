@@ -2,7 +2,6 @@ package com.isaac;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -10,8 +9,8 @@ import android.view.SurfaceView;
 import com.isaac.controles.Pad;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
-import com.isaac.modelos.Nivel;
-import com.isaac.modelos.Sala;
+import com.isaac.modelos.nivel.Nivel;
+import com.isaac.modelos.nivel.Sala;
 import com.isaac.modelos.hud.IconoVida;
 
 

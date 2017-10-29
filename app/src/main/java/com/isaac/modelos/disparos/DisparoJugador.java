@@ -8,7 +8,7 @@ import com.isaac.gestores.CargadorGraficos;
 import com.isaac.graficos.Sprite;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
-import com.isaac.modelos.Sala;
+import com.isaac.modelos.nivel.Sala;
 
 /**
  * Created by alexgp1234 on 29/10/17.

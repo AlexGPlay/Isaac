@@ -7,7 +7,7 @@ import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.graficos.Sprite;
 import com.isaac.modelos.Modelo;
-import com.isaac.modelos.Sala;
+import com.isaac.modelos.nivel.Sala;
 
 import java.util.HashMap;
 
