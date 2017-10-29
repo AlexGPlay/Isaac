@@ -24,7 +24,9 @@ public class DisparoJugador extends Modelo {
     public long tearRange;
     public long actualRange;
 
-    public DisparoJugador(Context context, double xInicial, double yInicial, long tearRange, int orientacion) {
+    public double damage;
+
+    public DisparoJugador(Context context, double xInicial, double yInicial, long tearRange, double damage, int orientacion) {
         super(context, xInicial, yInicial, 12, 12);
 
         cDerecha = 6;
@@ -33,6 +35,7 @@ public class DisparoJugador extends Modelo {
         cAbajo = 6;
 
         this.tearRange = tearRange;
+        this.damage = damage;
         actualRange = 0;
 
         if(orientacion == Jugador.DISPARO_DERECHA){

@@ -57,6 +57,10 @@ public class Jugador extends Modelo{
 
     public long tearDelay;
     public long tearRange;
+    public double tearDamage;
+    public int HP;
+    public int maxHP;
+    public int actualMaxHP;
 
     public int actualDelay;
 
@@ -72,6 +76,10 @@ public class Jugador extends Modelo{
         tearDelay = 400;
         tearRange = 1000;
         actualDelay = 0;
+        tearDamage = 3.5;
+        HP = 6;
+        actualMaxHP = 6;
+        maxHP = 20;
 
         inicializar();
     }
@@ -143,7 +151,7 @@ public class Jugador extends Modelo{
         ArrayList<DisparoJugador> disparos = new ArrayList<>();
 
         if(orientacionPad!=Jugador.NO_DISPARO && actualDelay>=tearDelay) {
-            disparos.add(new DisparoJugador(context, this.x, this.y, tearRange, orientacionPad));
+            disparos.add(new DisparoJugador(context, this.x, this.y, tearRange, tearDamage, orientacionPad));
             actualDelay = 0;
         }
 

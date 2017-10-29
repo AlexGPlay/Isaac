@@ -12,6 +12,7 @@ import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Nivel;
 import com.isaac.modelos.Sala;
+import com.isaac.modelos.hud.IconoVida;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
@@ -148,6 +149,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         nivel.dibujar(canvas);
         padMovimiento.dibujar(canvas);
         padDisparo.dibujar(canvas);
+
+        IconoVida[] vidas = nivel.getActualHP();
+
+        for(IconoVida vida : vidas)
+            vida.dibujar(canvas);
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,

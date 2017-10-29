@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.modelos.enemigo.EnemigoMelee;
+import com.isaac.modelos.hud.IconoVida;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -55,6 +56,49 @@ public class Nivel {
 
         salaActual = salas[salaActualY][salaActualX];
         salaActual.moveToRoom(null);
+    }
+
+    public IconoVida[] getActualHP(){
+        IconoVida[] vida = new IconoVida[jugador.actualMaxHP/2];
+
+        if(jugador.HP % 2 == 0){
+
+            int i = 0;
+            int j = 0;
+
+            for(;i<jugador.HP;i=i+2) {
+                vida[j] = new IconoVida(context, GameView.pantallaAncho * (0.04 * (j + 1)), GameView.pantallaAlto * 0.05, IconoVida.FULL_HP);
+                j++;
+            }
+
+            for(;i<jugador.actualMaxHP;i=i+2) {
+                vida[j] = new IconoVida(context, GameView.pantallaAncho * (0.04 * (j + 1)), GameView.pantallaAlto * 0.05, IconoVida.EMPTY_HP);
+                j++;
+            }
+        }
+
+        else{
+
+            int objHP = jugador.HP-1;
+            int i = 0;
+            int j = 0;
+
+            for(;i<objHP;i=i+2) {
+                vida[j] = new IconoVida(context, GameView.pantallaAncho * (0.04 * (j + 1)), GameView.pantallaAlto * 0.05, IconoVida.FULL_HP);
+                j++;
+            }
+
+            vida[j] = new IconoVida(context,GameView.pantallaAncho* (0.04*(j+1)),GameView.pantallaAlto*0.05, IconoVida.HALF_HP);
+            i+=2;
+            j++;
+
+            for(;i<jugador.actualMaxHP;i=i+2) {
+                vida[j] = new IconoVida(context, GameView.pantallaAncho * (0.04 * (j + 1)), GameView.pantallaAlto * 0.05, IconoVida.EMPTY_HP);
+                j++;
+            }
+        }
+
+        return vida;
     }
 
     public void actualizar (long tiempo) throws Exception {
