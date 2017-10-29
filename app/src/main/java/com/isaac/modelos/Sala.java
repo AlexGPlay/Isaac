@@ -6,8 +6,10 @@ import android.util.Log;
 import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.gestores.Utilidades;
+import com.isaac.modelos.Enemigo.EnemigoMelee;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Alex on 24/10/2017.
@@ -32,6 +34,7 @@ public class Sala{
 
     private Tile[][] mapaTiles;
     private Jugador jugador;
+    private List <EnemigoMelee> enemigos;
 
     public static int scrollEjeX = 0;
     public static int scrollEjeY = 0;
@@ -40,12 +43,12 @@ public class Sala{
 
     private HashMap<String,Puerta> puertas;
 
-    public Sala(String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
+    public Sala(String tipoSala, Jugador jugador, List<EnemigoMelee> enemigos, Nivel nivel) throws Exception {
         puertas = new HashMap<>();
-
         mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
 
         this.jugador = jugador;
+        this.enemigos=enemigos;
         this.nivel = nivel;
     }
 
@@ -118,6 +121,9 @@ public class Sala{
             puerta.dibujar(canvas);
 
         jugador.dibujar(canvas);
+        for(EnemigoMelee enemigo : enemigos){
+            enemigo.dibujar(canvas);
+        }
 
     }
 
@@ -156,6 +162,9 @@ public class Sala{
             jugador.x = virtualX;
             jugador.y = virtualY;
         }
+
+    }
+    private void reglasDeMoVimientoEnemigos(){
 
     }
 
