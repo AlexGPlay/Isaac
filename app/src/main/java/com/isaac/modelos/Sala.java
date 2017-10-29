@@ -176,7 +176,7 @@ public class Sala{
                 enemigo.x+=enemigo.aceleracionX;
             }
             else if(enemigo.x<jugador.x){
-                enemigo.aceleracionX=-2;
+                enemigo.aceleracionX=-e2;
                 enemigo.x+=enemigo.aceleracionX;
             }
 

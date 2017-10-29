@@ -18,12 +18,6 @@ import java.util.HashMap;
 
 public class EnemigoMelee extends Modelo {
 
-    public static final int MOVIMIENTO_DERECHA = 0;
-    public static final int MOVIMIENTO_IZQUIERDA = 1;
-    public static final int MOVIMIENTO_ABAJO = 2;
-    public static final int MOVIMIENTO_ARRIBA = 3;
-    public static final int PARADO = 4;
-
     private static final String CABEZA_DERECHA = "cabeza_derecha";
     private static final String CABEZA_IZQUIERDA = "cabeza_izquierda";
     private static final String CABEZA_ATRAS = "cabeza_atras";
@@ -58,8 +52,8 @@ public class EnemigoMelee extends Modelo {
         this.x =  this.xInicial;
         this.y =  this.yInicial;
 
-        aceleracionX = 0;
-        aceleracionY = 0;
+        aceleracionX = 2;
+        aceleracionY = 2;
 
         inicializar();
     }
@@ -134,11 +128,4 @@ public class EnemigoMelee extends Modelo {
         spriteCuerpo.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
         spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
     }
-
-    public void aplicarReglasDeMovimientoMelee(){
-
-    }
-
-
-
 }
