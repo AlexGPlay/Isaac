@@ -46,10 +46,10 @@ public class Altar extends Modelo {
     public Item pickItem(){
         if(!picked) {
             picked = true;
-            item = null;
+            return item;
         }
 
-        return item;
+        return null;
     }
 
 }

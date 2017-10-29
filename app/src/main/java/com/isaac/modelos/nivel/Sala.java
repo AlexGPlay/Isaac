@@ -68,7 +68,7 @@ public class Sala{
         this.jugador = jugador;
         this.context = context;
 
-        enemigos= new ArrayList<EnemigoMelee>();
+        enemigos = new ArrayList<>();
         enemigos.add(new EnemigoMelee(context,200,200));
         enemigos.add(new EnemigoMelee(context,150,150));
 
@@ -171,7 +171,7 @@ public class Sala{
         reglasDeMovimientoDisparosJugador();
     }
 
-    private void reglasMovimientoColisionPuerta(){
+    protected void reglasMovimientoColisionPuerta(){
         for(String key : puertas.keySet()) {
             if (jugador.colisiona(puertas.get(key))) {
                 disparosJugador.clear();
@@ -180,7 +180,7 @@ public class Sala{
         }
     }
 
-    private void reglasMovimientoJugador(){
+    protected void reglasMovimientoJugador(){
 
         int virtualX = (int) (jugador.x + jugador.aceleracionX);
         int virtualY = (int) (jugador.y + jugador.aceleracionY);
@@ -207,7 +207,7 @@ public class Sala{
 
     }
 
-    private void reglasDeMoVimientoEnemigos(){
+    protected void reglasDeMoVimientoEnemigos(){
         for(EnemigoMelee enemigo: enemigos){
             if((jugador.x - jugador.ancho / 2 <= (enemigo.x + enemigo.ancho / 2)
                     && (jugador.x + jugador.ancho / 2) >= (enemigo.x - enemigo.ancho / 2))){
@@ -218,7 +218,7 @@ public class Sala{
                 enemigo.x+=enemigo.aceleracionX;
             }
             else if(enemigo.x<jugador.x){
-                enemigo.aceleracionX=-e2;
+                enemigo.aceleracionX=-2;
                 enemigo.x+=enemigo.aceleracionX;
             }
 
@@ -226,7 +226,7 @@ public class Sala{
 
     }
 
-    private void reglasDeMovimientoDisparosJugador(){
+    protected void reglasDeMovimientoDisparosJugador(){
         for(Iterator<DisparoJugador> iterator = disparosJugador.iterator(); iterator.hasNext();){
             DisparoJugador disparo = iterator.next();
 
@@ -258,7 +258,7 @@ public class Sala{
         }
     }
 
-    private void dibujarTiles(Canvas canvas){
+    protected void dibujarTiles(Canvas canvas){
         // Calcular que tiles serán visibles en la pantalla
         // La matriz de tiles es más grande que la pantalla
         int tileXJugador = (int) jugador.x / Tile.ancho;
@@ -319,11 +319,11 @@ public class Sala{
         }
     }
 
-    private float tilesEnDistanciaX(double distanciaX){
+    protected float tilesEnDistanciaX(double distanciaX){
         return (float) distanciaX/Tile.ancho;
     }
 
-    private float tilesEnDistanciaY(double distanciaY) { return (float) distanciaY/Tile.altura; }
+    protected float tilesEnDistanciaY(double distanciaY) { return (float) distanciaY/Tile.altura; }
 
     public int anchoMapaTiles(){
         return mapaTiles.length;

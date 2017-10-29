@@ -124,7 +124,6 @@ public class Nivel {
         else if(puerta==Sala.PUERTA_IZQUIERDA)
             salaActualX--;
 
-        Log.v("Movimiento sala", salaActualY + "||" + salaActualX);
         salaActual = salas[salaActualY][salaActualX];
         salaActual.moveToRoom(puerta);
         gameView.forceUpdate();

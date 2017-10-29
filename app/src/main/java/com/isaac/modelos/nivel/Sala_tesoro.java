@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
+import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoMelee;
 import com.isaac.modelos.item.Altar;
 import com.isaac.modelos.item.Item;
@@ -23,6 +24,8 @@ public class Sala_tesoro extends Sala{
 
     public Sala_tesoro(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         super(context,tipoSala,jugador,nivel);
+
+        enemigos = null;
     }
 
     public void addAltar(Altar altar){
@@ -34,10 +37,22 @@ public class Sala_tesoro extends Sala{
 
     @Override
     public void dibujar(Canvas canvas){
-        super.dibujar(canvas);
+        dibujarTiles(canvas);
+
+        for( Puerta puerta : puertas.values() )
+            puerta.dibujar(canvas);
 
         for(Altar altar : altares)
             altar.dibujar(canvas);
+
+        jugador.dibujar(canvas);
+
+        for(EnemigoMelee enemigo : enemigos)
+            enemigo.dibujar(canvas);
+
+        for(DisparoJugador disparo : disparosJugador)
+            disparo.dibujar(canvas);
+
     }
 
     @Override
