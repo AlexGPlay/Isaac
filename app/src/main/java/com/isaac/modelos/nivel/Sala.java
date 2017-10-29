@@ -1,14 +1,17 @@
-package com.isaac.modelos;
+package com.isaac.modelos.nivel;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
-import com.isaac.gestores.Utilidades;
-import com.isaac.modelos.Enemigo.EnemigoMelee;
+import com.isaac.modelos.Jugador;
+import com.isaac.modelos.disparos.DisparoJugador;
+import com.isaac.modelos.enemigo.EnemigoMelee;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,29 +30,51 @@ public class Sala{
     public static final String SALA_CUADRADA_8 = "Sala_cuadrada_8";
     public static final String SALA_CUADRADA_9 = "Sala_cuadrada_9";
 
+    public static final String SALA_DORADA_1 = "Sala_dorada_test";
+
     public static final String PUERTA_ARRIBA = "arriba";
     public static final String PUERTA_ABAJO = "abajo";
     public static final String PUERTA_DERECHA = "derecha";
     public static final String PUERTA_IZQUIERDA = "izquierda";
 
-    private Tile[][] mapaTiles;
-    private Jugador jugador;
-    private List <EnemigoMelee> enemigos;
+    public static final int SALA_NORMAL = 1;
+    public static final int SALA_BOSS = 2;
+    public static final int SALA_TESORO = 3;
+
+    public int tipoSala;
+
+    protected Tile[][] mapaTiles;
+
+    public static int orientacionPad;
+    public static int orientacionDisparo;
+
+    protected Jugador jugador;
+    protected List <EnemigoMelee> enemigos;
+    protected List<DisparoJugador> disparosJugador;
 
     public static int scrollEjeX = 0;
     public static int scrollEjeY = 0;
 
-    private Nivel nivel;
+    protected Nivel nivel;
+    protected Context context;
 
-    private HashMap<String,Puerta> puertas;
+    protected HashMap<String,Puerta> puertas;
 
-    public Sala(String tipoSala, Jugador jugador, List<EnemigoMelee> enemigos, Nivel nivel) throws Exception {
+    public Sala(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         puertas = new HashMap<>();
         mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
 
+        this.disparosJugador = new ArrayList<>();
         this.jugador = jugador;
-        this.enemigos=enemigos;
+        this.context = context;
+
+        enemigos= new ArrayList<EnemigoMelee>();
+        enemigos.add(new EnemigoMelee(context,200,200));
+        enemigos.add(new EnemigoMelee(context,150,150));
+
         this.nivel = nivel;
+        this.orientacionPad = Jugador.PARADO;
+        this.orientacionDisparo = Jugador.NO_DISPARO;
     }
 
     public void moveToRoom(String puerta){
@@ -110,7 +135,16 @@ public class Sala{
 
 
     public void actualizar(long time) throws Exception {
+        jugador.procesarOrdenes(orientacionPad);
+        disparosJugador.addAll( jugador.procesarDisparos(orientacionDisparo) );
         jugador.actualizar(time);
+
+        for(EnemigoMelee enemigo : enemigos)
+            enemigo.actualizar(time);
+
+        for(DisparoJugador disparo : disparosJugador)
+            disparo.actualizar(time);
+
         aplicarReglasMovimiento();
     }
 
@@ -121,22 +155,29 @@ public class Sala{
             puerta.dibujar(canvas);
 
         jugador.dibujar(canvas);
-        for(EnemigoMelee enemigo : enemigos){
+
+        for(EnemigoMelee enemigo : enemigos)
             enemigo.dibujar(canvas);
-        }
+
+        for(DisparoJugador disparo : disparosJugador)
+            disparo.dibujar(canvas);
 
     }
 
-    private void aplicarReglasMovimiento() throws Exception {
+    protected void aplicarReglasMovimiento() throws Exception {
         reglasMovimientoJugador();
         reglasMovimientoColisionPuerta();
         reglasDeMoVimientoEnemigos();
+        reglasDeMovimientoDisparosJugador();
     }
 
     private void reglasMovimientoColisionPuerta(){
-        for(String key : puertas.keySet())
-            if(jugador.colisiona(puertas.get(key)))
+        for(String key : puertas.keySet()) {
+            if (jugador.colisiona(puertas.get(key))) {
+                disparosJugador.clear();
                 nivel.moverSala(key);
+            }
+        }
     }
 
     private void reglasMovimientoJugador(){
@@ -165,6 +206,7 @@ public class Sala{
         }
 
     }
+
     private void reglasDeMoVimientoEnemigos(){
         for(EnemigoMelee enemigo: enemigos){
             if((jugador.x - jugador.ancho / 2 <= (enemigo.x + enemigo.ancho / 2)
@@ -180,12 +222,40 @@ public class Sala{
                 enemigo.x+=enemigo.aceleracionX;
             }
 
-
-
-
-
         }
 
+    }
+
+    private void reglasDeMovimientoDisparosJugador(){
+        for(Iterator<DisparoJugador> iterator = disparosJugador.iterator(); iterator.hasNext();){
+            DisparoJugador disparo = iterator.next();
+
+            int virtualX = (int) (disparo.x + disparo.aceleracionX);
+            int virtualY = (int) (disparo.y + disparo.aceleracionY);
+
+            int tileXDisparo = (int) (virtualX / Tile.ancho);
+            int tileYDisparo = (int) (virtualY / Tile.altura);
+
+            if(disparo.isOutOfRange()){
+                iterator.remove();
+                continue;
+            }
+
+            if(mapaTiles[tileXDisparo][tileYDisparo].tipoDeColision==Tile.SOLIDO) {
+                iterator.remove();
+                continue;
+            }
+
+            for(Puerta puerta : puertas.values()) {
+                if (puerta.colisiona(disparo)) {
+                    iterator.remove();
+                    continue;
+                }
+            }
+
+            disparo.x = virtualX;
+            disparo.y = virtualY;
+        }
     }
 
     private void dibujarTiles(Canvas canvas){

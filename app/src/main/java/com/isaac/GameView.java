@@ -2,7 +2,6 @@ package com.isaac;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -10,7 +9,9 @@ import android.view.SurfaceView;
 import com.isaac.controles.Pad;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
-import com.isaac.modelos.Nivel;
+import com.isaac.modelos.nivel.Nivel;
+import com.isaac.modelos.nivel.Sala;
+import com.isaac.modelos.hud.IconoVida;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
@@ -92,6 +93,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     public void procesarEventosTouch(){
         boolean pulsacionPadMover = false;
+        boolean pulsacionPadDisparo = false;
 
         for(int i=0; i < 6; i++) {
 
@@ -103,7 +105,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
                     if (accion[i] != ACTION_UP) {
                         pulsacionPadMover = true;
-                        nivel.orientacionPad = orientacion;
+                        Sala.orientacionPad = orientacion;
+                    }
+
+                }
+
+                else if(padDisparo.estaPulsado(x[i], y[i])){
+                    int orientacion = padDisparo.getOrientacion(x[i],y[i]);
+
+                    if(accion[i] != ACTION_UP){
+                        pulsacionPadDisparo = true;
+                        Sala.orientacionDisparo = orientacion;
                     }
 
                 }
@@ -111,9 +123,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         }
 
         if(!pulsacionPadMover)
-            nivel.orientacionPad = Jugador.PARADO;
+            Sala.orientacionPad = Jugador.PARADO;
 
-
+        if(!pulsacionPadDisparo)
+            Sala.orientacionDisparo = Jugador.NO_DISPARO;
     }
 
     public void forceUpdate(){
@@ -135,6 +148,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         nivel.dibujar(canvas);
         padMovimiento.dibujar(canvas);
         padDisparo.dibujar(canvas);
+
+        IconoVida[] vidas = nivel.getActualHP();
+
+        for(IconoVida vida : vidas)
+            vida.dibujar(canvas);
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,

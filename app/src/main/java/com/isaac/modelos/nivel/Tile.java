@@ -1,4 +1,4 @@
-package com.isaac.modelos;
+package com.isaac.modelos.nivel;
 
 import android.graphics.drawable.Drawable;
 
