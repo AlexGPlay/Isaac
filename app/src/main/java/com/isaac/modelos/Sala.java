@@ -130,6 +130,7 @@ public class Sala{
     private void aplicarReglasMovimiento() throws Exception {
         reglasMovimientoJugador();
         reglasMovimientoColisionPuerta();
+        reglasDeMoVimientoEnemigos();
     }
 
     private void reglasMovimientoColisionPuerta(){
@@ -165,6 +166,25 @@ public class Sala{
 
     }
     private void reglasDeMoVimientoEnemigos(){
+        for(EnemigoMelee enemigo: enemigos){
+            if((jugador.x - jugador.ancho / 2 <= (enemigo.x + enemigo.ancho / 2)
+                    && (jugador.x + jugador.ancho / 2) >= (enemigo.x - enemigo.ancho / 2))){
+                enemigo.aceleracionX=0;
+            }
+            else if(jugador.x>enemigo.x) {
+                enemigo.aceleracionX=2;
+                enemigo.x+=enemigo.aceleracionX;
+            }
+            else if(enemigo.x<jugador.x){
+                enemigo.aceleracionX=-2;
+                enemigo.x+=enemigo.aceleracionX;
+            }
+
+
+
+
+
+        }
 
     }
 
