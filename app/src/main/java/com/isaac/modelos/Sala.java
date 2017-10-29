@@ -126,8 +126,8 @@ public class Sala{
 
 
     public void actualizar(long time) throws Exception {
-        disparosJugador.addAll( jugador.procesarDisparos(orientacionDisparo) );
         jugador.procesarOrdenes(orientacionPad);
+        disparosJugador.addAll( jugador.procesarDisparos(orientacionDisparo) );
         jugador.actualizar(time);
 
         for(EnemigoMelee enemigo : enemigos)
@@ -163,9 +163,12 @@ public class Sala{
     }
 
     private void reglasMovimientoColisionPuerta(){
-        for(String key : puertas.keySet())
-            if(jugador.colisiona(puertas.get(key)))
+        for(String key : puertas.keySet()) {
+            if (jugador.colisiona(puertas.get(key))) {
+                disparosJugador.clear();
                 nivel.moverSala(key);
+            }
+        }
     }
 
     private void reglasMovimientoJugador(){
