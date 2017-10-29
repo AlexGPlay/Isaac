@@ -44,8 +44,6 @@ public class Sala{
         puertas = new HashMap<>();
 
         mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
-        scrollEjeX = 0;
-        scrollEjeY = 0;
 
         this.jugador = jugador;
         this.nivel = nivel;
@@ -75,6 +73,9 @@ public class Sala{
                 jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho;
                 jugador.y = entrada.getYSalida() * Tile.altura;
             }
+
+            scrollEjeX = 0;
+            scrollEjeY = 0;
         }
 
         else {
