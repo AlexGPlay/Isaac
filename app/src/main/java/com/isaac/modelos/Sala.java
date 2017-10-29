@@ -224,9 +224,21 @@ public class Sala{
             int tileXDisparo = (int) (virtualX / Tile.ancho);
             int tileYDisparo = (int) (virtualY / Tile.altura);
 
+            if(disparo.isOutOfRange()){
+                iterator.remove();
+                continue;
+            }
+
             if(mapaTiles[tileXDisparo][tileYDisparo].tipoDeColision==Tile.SOLIDO) {
                 iterator.remove();
                 continue;
+            }
+
+            for(Puerta puerta : puertas.values()) {
+                if (puerta.colisiona(disparo)) {
+                    iterator.remove();
+                    continue;
+                }
             }
 
             disparo.x = virtualX;

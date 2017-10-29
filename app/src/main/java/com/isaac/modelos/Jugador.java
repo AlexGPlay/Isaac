@@ -52,24 +52,26 @@ public class Jugador extends Modelo{
     private Sprite spriteCuerpo;
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
 
-    private double xInicial;
-    private double yInicial;
-
     public double aceleracionX;
     public double aceleracionY;
+
+    public long tearDelay;
+    public long tearRange;
+
+    public int actualDelay;
 
     public Jugador(Context context, double xInicial, double yInicial) {
         super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo) );
 
-        // guardamos la posición inicial porque más tarde vamos a reiniciarlo
-        this.xInicial = xInicial;
-        this.yInicial = yInicial - altura/2;
-
-        this.x =  this.xInicial;
-        this.y =  this.yInicial;
+        this.x =  xInicial;
+        this.y =  yInicial - altura/2;
 
         aceleracionX = 0;
         aceleracionY = 0;
+
+        tearDelay = 400;
+        tearRange = 1000;
+        actualDelay = 0;
 
         inicializar();
     }
@@ -133,13 +135,17 @@ public class Jugador extends Modelo{
     public void actualizar (long tiempo) {
         spriteCuerpo.actualizar(tiempo);
         spriteCabeza.actualizar(tiempo);
+
+        this.actualDelay += tiempo;
     }
 
     public List<DisparoJugador> procesarDisparos (int orientacionPad){
         ArrayList<DisparoJugador> disparos = new ArrayList<>();
 
-        if(orientacionPad!=Jugador.NO_DISPARO)
-            disparos.add(new DisparoJugador(context, this.x, this.y, orientacionPad));
+        if(orientacionPad!=Jugador.NO_DISPARO && actualDelay>=tearDelay) {
+            disparos.add(new DisparoJugador(context, this.x, this.y, tearRange, orientacionPad));
+            actualDelay = 0;
+        }
 
         return disparos;
     }

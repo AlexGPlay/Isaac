@@ -21,13 +21,19 @@ public class DisparoJugador extends Modelo {
     public int aceleracionX;
     public int aceleracionY;
 
-    public DisparoJugador(Context context, double xInicial, double yInicial, int orientacion) {
+    public long tearRange;
+    public long actualRange;
+
+    public DisparoJugador(Context context, double xInicial, double yInicial, long tearRange, int orientacion) {
         super(context, xInicial, yInicial, 12, 12);
 
         cDerecha = 6;
         cIzquierda = 6;
         cArriba = 6;
         cAbajo = 6;
+
+        this.tearRange = tearRange;
+        actualRange = 0;
 
         if(orientacion == Jugador.DISPARO_DERECHA){
             aceleracionY = 0;
@@ -62,6 +68,14 @@ public class DisparoJugador extends Modelo {
 
     public void actualizar (long tiempo) {
         sprite.actualizar(tiempo);
+        actualRange += tiempo;
+    }
+
+    public boolean isOutOfRange(){
+        if(actualRange >= tearRange)
+            return true;
+
+        return false;
     }
 
     public void dibujar(Canvas canvas){
