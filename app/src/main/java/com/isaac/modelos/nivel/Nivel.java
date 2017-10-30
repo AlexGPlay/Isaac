@@ -52,6 +52,7 @@ public class Nivel {
         salaActualY = (int)(Math.random()*salas.length);
 
         salaActual = salas[salaActualY][salaActualX];
+        salaActual.enemigos.clear();
         salaActual.moveToRoom(null);
     }
 

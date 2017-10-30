@@ -77,6 +77,28 @@ public class Sala{
         this.orientacionDisparo = Jugador.NO_DISPARO;
     }
 
+    public void checkEstadoSala(){
+        if(enemigos.size()>0){
+            for(Puerta puerta : puertas.values()) {
+                puerta.abierta = false;
+                int x = puerta.getXEntrada();
+                int y = puerta.getYEntrada();
+
+                mapaTiles[x][y].tipoDeColision = Tile.SOLIDO;
+            }
+        }
+
+        else if(enemigos.size()<=0){
+            for(Puerta puerta : puertas.values()) {
+                puerta.abierta = true;
+                int x = puerta.getXEntrada();
+                int y = puerta.getYEntrada();
+
+                mapaTiles[x][y].tipoDeColision = Tile.PASABLE;
+            }
+        }
+    }
+
     public void moveToRoom(String puerta){
         String contraria = getOppositeDoor(puerta);
         Puerta entrada = puertas.get(contraria);
@@ -133,8 +155,9 @@ public class Sala{
         puertas.put(zona,puerta);
     }
 
-
     public void actualizar(long time) throws Exception {
+        checkEstadoSala();
+
         jugador.procesarOrdenes(orientacionPad);
         disparosJugador.addAll( jugador.procesarDisparos(orientacionDisparo) );
         jugador.actualizar(time);
@@ -173,7 +196,7 @@ public class Sala{
 
     protected void reglasMovimientoColisionPuerta(){
         for(String key : puertas.keySet()) {
-            if (jugador.colisiona(puertas.get(key))) {
+            if (jugador.colisiona(puertas.get(key)) && puertas.get(key).abierta) {
                 disparosJugador.clear();
                 nivel.moverSala(key);
             }
@@ -208,7 +231,14 @@ public class Sala{
     }
 
     protected void reglasDeMoVimientoEnemigos(){
-        for(EnemigoMelee enemigo: enemigos){
+        for(Iterator<EnemigoMelee> iterator = enemigos.iterator(); iterator.hasNext();){
+            EnemigoMelee enemigo = iterator.next();
+
+            if(enemigo.estado == EnemigoMelee.ESTADO_MUERTO) {
+                iterator.remove();
+                continue;
+            }
+
             if((jugador.x - jugador.ancho / 2 <= (enemigo.x + enemigo.ancho / 2)
                     && (jugador.x + jugador.ancho / 2) >= (enemigo.x - enemigo.ancho / 2))){
                 enemigo.aceleracionX=0;
@@ -244,6 +274,18 @@ public class Sala{
             if(mapaTiles[tileXDisparo][tileYDisparo].tipoDeColision==Tile.SOLIDO) {
                 iterator.remove();
                 continue;
+            }
+
+            for(EnemigoMelee enemigo : enemigos) {
+                if (disparo.colisiona(enemigo)) {
+                    enemigo.HP -= disparo.damage;
+
+                    if(enemigo.HP <= 0 )
+                        enemigo.estado = EnemigoMelee.ESTADO_MUERTO;
+
+                    iterator.remove();
+                    continue;
+                }
             }
 
             for(Puerta puerta : puertas.values()) {

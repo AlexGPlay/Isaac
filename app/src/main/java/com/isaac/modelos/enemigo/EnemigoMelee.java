@@ -17,6 +17,11 @@ import java.util.HashMap;
 
 public class EnemigoMelee extends Modelo {
 
+    public final static int ESTADO_VIVO = 0;
+    public final static int ESTADO_MUERTO = 1;
+
+    public int estado;
+
     private static final String CABEZA_DERECHA = "cabeza_derecha";
     private static final String CABEZA_IZQUIERDA = "cabeza_izquierda";
     private static final String CABEZA_ATRAS = "cabeza_atras";
@@ -41,6 +46,8 @@ public class EnemigoMelee extends Modelo {
     public double aceleracionX;
     public double aceleracionY;
 
+    public double HP;
+
     public EnemigoMelee(Context context, double xInicial, double yInicial) {
         super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo) );
 
@@ -53,6 +60,9 @@ public class EnemigoMelee extends Modelo {
 
         aceleracionX = 2;
         aceleracionY = 2;
+
+        HP = 10;
+        estado = ESTADO_VIVO;
 
         inicializar();
     }

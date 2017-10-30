@@ -101,29 +101,33 @@ public class CargadorSalas {
         if(x==0) {
             Puerta temp = new Puerta(context, Tile.ancho * x + Tile.ancho / 2, Tile.altura * y + Tile.altura / 2, 40, 40, R.drawable.puerta_sala_izquierda);
             temp.setTile(x+1,y);
+            temp.setTile(x,y);
             salaTemp.addPuerta(Sala.PUERTA_IZQUIERDA, temp);
         }
 
         else if(y==0) {
             Puerta temp = new Puerta(context, Tile.ancho * x + Tile.ancho / 2, Tile.altura * y + Tile.altura / 2, 32, 40, R.drawable.puerta_sala_arriba);
             temp.setTile(x,y+1);
+            temp.setTile(x,y);
             salaTemp.addPuerta(Sala.PUERTA_ARRIBA, temp);
         }
 
         else if(x==anchoMapa-1) {
             Puerta temp = new Puerta(context, Tile.ancho * x + Tile.ancho / 2, Tile.altura * y + Tile.altura / 2, 40, 40, R.drawable.puerta_sala_derecha);
             temp.setTile(x-1,y);
+            temp.setTile(x,y);
             salaTemp.addPuerta(Sala.PUERTA_DERECHA, temp);
         }
 
         else if(y==altoMapa-1) {
             Puerta temp = new Puerta(context, Tile.ancho * x + Tile.ancho / 2, Tile.altura * y + Tile.altura / 2, 32, 40, R.drawable.puerta_sala_abajo);
             temp.setTile(x,y-1);
+            temp.setTile(x,y);
             salaTemp.addPuerta(Sala.PUERTA_ABAJO, temp);
         }
 
         Tile tile = getPared(x,y);
-        tile.tipoDeColision = Tile.PASABLE;
+        tile.tipoDeColision = Tile.SOLIDO;
 
         return tile;
     }

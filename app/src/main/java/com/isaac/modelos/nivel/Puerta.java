@@ -12,8 +12,9 @@ import com.isaac.modelos.Modelo;
 
 public class Puerta extends Modelo {
 
-    private boolean abierta;
+    public boolean abierta;
     private int xSalida, ySalida;
+    private int xEntrada, yEntrada;
 
     public Puerta(Context context, double x, double y, int alto, int ancho, int drawable) {
         super(context, x, y, alto, ancho);
@@ -27,6 +28,11 @@ public class Puerta extends Modelo {
         this.ySalida = y;
     }
 
+    public void setTileDoor(int x, int y){
+        this.xEntrada = x;
+        this.yEntrada = y;
+    }
+
     public int getXSalida(){
         return xSalida;
     }
@@ -34,6 +40,10 @@ public class Puerta extends Modelo {
     public int getYSalida(){
         return ySalida;
     }
+
+    public int getYEntrada() { return yEntrada; }
+
+    public int getXEntrada() { return xEntrada; }
 
     @Override
     public void dibujar(Canvas canvas){
