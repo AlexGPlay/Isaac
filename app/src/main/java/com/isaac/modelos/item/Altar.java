@@ -6,11 +6,8 @@ import android.graphics.Canvas;
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.modelos.Modelo;
-import com.isaac.modelos.item.Collectables.Desayuno;
+import com.isaac.modelos.item.collectables.Desayuno;
 import com.isaac.modelos.nivel.Sala;
-
-import static com.isaac.modelos.nivel.Tile.altura;
-import static com.isaac.modelos.nivel.Tile.ancho;
 
 /**
  * Created by alexgp1234 on 29/10/17.

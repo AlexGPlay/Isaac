@@ -51,8 +51,11 @@ public class Nivel {
         salaActualX = (int)(Math.random()*salas[0].length);
         salaActualY = (int)(Math.random()*salas.length);
 
+        salas[1][1].itemsDropped = true;
+
         salaActual = salas[salaActualY][salaActualX];
         salaActual.enemigos.clear();
+        salaActual.itemsDropped = true;
         salaActual.moveToRoom(null);
     }
 
@@ -128,6 +131,18 @@ public class Nivel {
         salaActual = salas[salaActualY][salaActualX];
         salaActual.moveToRoom(puerta);
         gameView.forceUpdate();
+    }
+
+    public int getLlaves(){
+        return jugador.getNumLlaves();
+    }
+
+    public int getBombas(){
+        return jugador.getNumBombas();
+    }
+
+    public int getMonedas(){
+        return jugador.getNumMonedas();
     }
 
 }

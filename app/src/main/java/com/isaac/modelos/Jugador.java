@@ -64,6 +64,10 @@ public class Jugador extends Modelo{
 
     public int actualDelay;
 
+    private int numBombas;
+    private int numLlaves;
+    private int numMonedas;
+
     public Jugador(Context context, double xInicial, double yInicial) {
         super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo) );
 
@@ -238,6 +242,33 @@ public class Jugador extends Modelo{
     private void frenar(){
         aceleracionX=0;
         aceleracionY=0;
+    }
+
+    public int getNumBombas() {
+        return numBombas;
+    }
+
+    public void setNumBombas(int numBombas) {
+        if(numBombas>=0 && numBombas<=99)
+            this.numBombas = numBombas;
+    }
+
+    public int getNumLlaves() {
+        return numLlaves;
+    }
+
+    public void setNumLlaves(int numLlaves) {
+        if(numLlaves>=0 && numLlaves<=99)
+            this.numLlaves = numLlaves;
+    }
+
+    public int getNumMonedas() {
+        return numMonedas;
+    }
+
+    public void setNumMonedas(int numMonedas) {
+        if(numMonedas>=0 && numMonedas<=99)
+            this.numMonedas = numMonedas;
     }
 
 }

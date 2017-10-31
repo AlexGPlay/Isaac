@@ -1,4 +1,4 @@
-package com.isaac.modelos.item.Collectables;
+package com.isaac.modelos.item.collectables;
 
 import android.content.Context;
 

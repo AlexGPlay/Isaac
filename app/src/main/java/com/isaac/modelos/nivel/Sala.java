@@ -8,6 +8,11 @@ import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoMelee;
+import com.isaac.modelos.item.Item;
+import com.isaac.modelos.item.pickups.Bomba;
+import com.isaac.modelos.item.pickups.Llave;
+import com.isaac.modelos.item.pickups.Moneda;
+import com.isaac.modelos.item.pickups.PickupID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +46,7 @@ public class Sala{
     public static final int SALA_BOSS = 2;
     public static final int SALA_TESORO = 3;
 
-    public int tipoSala;
+    protected boolean itemsDropped;
 
     protected Tile[][] mapaTiles;
 
@@ -51,6 +56,7 @@ public class Sala{
     protected Jugador jugador;
     protected List <EnemigoMelee> enemigos;
     protected List<DisparoJugador> disparosJugador;
+    protected List<Item> items;
 
     public static int scrollEjeX = 0;
     public static int scrollEjeY = 0;
@@ -65,6 +71,8 @@ public class Sala{
         mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
 
         this.disparosJugador = new ArrayList<>();
+        this.items = new ArrayList<>();
+        this.itemsDropped = false;
         this.jugador = jugador;
         this.context = context;
 
@@ -96,7 +104,31 @@ public class Sala{
 
                 mapaTiles[x][y].tipoDeColision = Tile.PASABLE;
             }
+
+            if(!itemsDropped)
+                generatePickUps();
         }
+    }
+
+    public void generatePickUps(){
+        int selectedPickUp = (int)(Math.random()* PickupID.MAX_NUM);
+
+        switch (selectedPickUp){
+            case PickupID.BOMBA:
+                items.add(new Bomba(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                break;
+
+            case PickupID.LLAVE:
+                items.add(new Llave(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                break;
+
+            case PickupID.MONEDA:
+                items.add(new Moneda(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                break;
+
+        }
+
+        itemsDropped = true;
     }
 
     public void moveToRoom(String puerta){
@@ -185,6 +217,9 @@ public class Sala{
         for(DisparoJugador disparo : disparosJugador)
             disparo.dibujar(canvas);
 
+        for(Item item : items)
+            item.dibujar(canvas);
+
     }
 
     protected void aplicarReglasMovimiento() throws Exception {
@@ -192,6 +227,7 @@ public class Sala{
         reglasMovimientoColisionPuerta();
         reglasDeMoVimientoEnemigos();
         reglasDeMovimientoDisparosJugador();
+        reglasDeMovimientoColisionPickUps();
     }
 
     protected void reglasMovimientoColisionPuerta(){
@@ -297,6 +333,18 @@ public class Sala{
 
             disparo.x = virtualX;
             disparo.y = virtualY;
+        }
+    }
+
+    protected void reglasDeMovimientoColisionPickUps(){
+        for(Iterator<Item> iterator = items.iterator(); iterator.hasNext();){
+            Item item = iterator.next();
+
+            if(jugador.colisiona(item)) {
+                item.doStuff(jugador);
+                iterator.remove();
+                continue;
+            }
         }
     }
 

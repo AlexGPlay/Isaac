@@ -9,6 +9,9 @@ import android.view.SurfaceView;
 import com.isaac.controles.Pad;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
+import com.isaac.modelos.hud.IconoBomba;
+import com.isaac.modelos.hud.IconoLlave;
+import com.isaac.modelos.hud.IconoMoneda;
 import com.isaac.modelos.nivel.Nivel;
 import com.isaac.modelos.nivel.Sala;
 import com.isaac.modelos.hud.IconoVida;
@@ -28,6 +31,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     public int numeroNivel = 0;
     private Pad padMovimiento;
     private Pad padDisparo;
+
+    //Hud
+    private IconoLlave llaves;
+    private IconoBomba bombas;
+    private IconoMoneda monedas;
 
     public GameView(Context context) {
         super(context);
@@ -138,6 +146,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         nivel = new Nivel(context,numeroNivel,this);
         padMovimiento = new Pad(context,70,270);
         padDisparo = new Pad(context,520,270);
+
+        monedas = new IconoMoneda(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.15);
+        bombas = new IconoBomba(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.22);
+        llaves = new IconoLlave(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.29);
     }
 
     public void actualizar(long tiempo) throws Exception {
@@ -150,6 +162,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         padDisparo.dibujar(canvas);
 
         IconoVida[] vidas = nivel.getActualHP();
+
+        monedas.actualizar( nivel.getMonedas() );
+        monedas.dibujar(canvas);
+
+        bombas.actualizar( nivel.getBombas() );
+        bombas.dibujar(canvas);
+
+        llaves.actualizar( nivel.getLlaves() );
+        llaves.dibujar(canvas);
 
         for(IconoVida vida : vidas)
             vida.dibujar(canvas);
