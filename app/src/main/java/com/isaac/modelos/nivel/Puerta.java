@@ -16,10 +16,16 @@ public class Puerta extends Modelo {
     private int xSalida, ySalida;
     private int xEntrada, yEntrada;
 
-    public Puerta(Context context, double x, double y, int alto, int ancho, int drawable) {
+    private int puertaAbierta;
+    private int puertaCerrada;
+
+    public Puerta(Context context, double x, double y, int alto, int ancho, int puertaAbierta, int puertaCerrada) {
         super(context, x, y, alto, ancho);
 
-        imagen = CargadorGraficos.cargarDrawable(context, drawable);
+        this.puertaAbierta = puertaAbierta;
+        this.puertaCerrada = puertaCerrada;
+
+        imagen = CargadorGraficos.cargarDrawable(context, puertaAbierta);
         abierta = true;
     }
 
@@ -47,6 +53,12 @@ public class Puerta extends Modelo {
 
     @Override
     public void dibujar(Canvas canvas){
+        if(abierta)
+            imagen = CargadorGraficos.cargarDrawable(context, puertaAbierta);
+
+        else
+            imagen = CargadorGraficos.cargarDrawable(context, puertaCerrada);
+
         int yArriba = (int)  y - altura / 2 - Sala.scrollEjeY;
         int xIzquierda = (int) x - ancho / 2 - Sala.scrollEjeX;
 
