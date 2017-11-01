@@ -351,7 +351,7 @@ public class Sala{
                 item.doStuff(jugador);
 
                 if(item instanceof Cofre)
-                    newItems.addAll(((Cofre)item).openChest());
+                    newItems.addAll(((Cofre)item).openChest(orientacionPad));
 
                 iterator.remove();
                 continue;

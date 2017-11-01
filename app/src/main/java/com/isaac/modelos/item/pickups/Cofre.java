@@ -25,39 +25,57 @@ public class Cofre extends Item {
     @Override
     public void doStuff(Jugador jugador){}
 
-    public List<Item> openChest(){
-        int numObjetos = (int)(Math.random()*4)+1;
+    public List<Item> openChest(int orientacion){
+        int numObjetos = (int)(Math.random()*maxItems)+1;
         List<Item> items = new ArrayList<>();
 
         for(int i=0;i<numObjetos;i++)
-            items.add(generatePickUps(i));
+            items.add(generatePickUps(i, orientacion));
 
         return items;
     }
 
-    private Item generatePickUps(int i){
-        int selectedPickUp = (int)(Math.random()* (PickupID.MAX_NUM+1));
-        Item item = null;
+    private Item generatePickUps(int i, int orientacion){
+        int selectedPickUp = (int)(Math.random()* (PickupID.MAX_NUM));
+
+        int modX = (int)x;
+        int modY = (int)y;
+
+        if (orientacion == Jugador.MOVIMIENTO_DERECHA) {
+            modX += 10 + ancho;
+            modY = modY + (20*i);
+        }
+
+        else if (orientacion == Jugador.MOVIMIENTO_ABAJO) {
+            modY += 10 + altura;
+            modX = modX + (20*i);
+        }
+
+        else if(orientacion == Jugador.MOVIMIENTO_IZQUIERDA) {
+            modX += -10;
+            modY = modY + (20*i);
+        }
+
+        else if(orientacion == Jugador.MOVIMIENTO_ARRIBA) {
+            modY += -10;
+            modX = modX + (20*i);
+        }
 
         switch (selectedPickUp){
             case PickupID.BOMBA:
-                item = new Bomba(context, (x+10)*(i+1), (y+10)*(i+1));
-                break;
+                return new Bomba(context, modX, modY);
 
             case PickupID.LLAVE:
-                item = new Llave(context, (x+10)*(i+1), (y+10)*(i+1));
-                break;
+                return new Llave(context, modX, modY);
 
             case PickupID.MONEDA:
-                item = new Moneda(context, (x+10)*(i+1), (y+10)*(i+1));
-                break;
+                return new Moneda(context, modX, modY);
 
             case PickupID.VIDA:
-                item = new Vida(context, (x+10)*(i+1), (y+10)*(i+1));
-                break;
+                return new Vida(context, modX, modY);
 
         }
 
-        return item;
+        return null;
     }
 }
