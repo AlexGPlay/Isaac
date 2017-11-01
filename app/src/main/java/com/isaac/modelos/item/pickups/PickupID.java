@@ -10,7 +10,8 @@ public abstract class PickupID {
     public static final int MONEDA = 1;
     public static final int BOMBA = 2;
     public static final int VIDA = 3;
+    public static final int COFRE = 4;
 
-    public static final int MAX_NUM = 3;
+    public static final int MAX_NUM = 4;
 
 }

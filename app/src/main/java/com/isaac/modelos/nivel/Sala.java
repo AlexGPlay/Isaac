@@ -10,9 +10,11 @@ import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoMelee;
 import com.isaac.modelos.item.Item;
 import com.isaac.modelos.item.pickups.Bomba;
+import com.isaac.modelos.item.pickups.Cofre;
 import com.isaac.modelos.item.pickups.Llave;
 import com.isaac.modelos.item.pickups.Moneda;
 import com.isaac.modelos.item.pickups.PickupID;
+import com.isaac.modelos.item.pickups.Vida;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,10 +43,6 @@ public class Sala{
     public static final String PUERTA_ABAJO = "abajo";
     public static final String PUERTA_DERECHA = "derecha";
     public static final String PUERTA_IZQUIERDA = "izquierda";
-
-    public static final int SALA_NORMAL = 1;
-    public static final int SALA_BOSS = 2;
-    public static final int SALA_TESORO = 3;
 
     protected boolean itemsDropped;
 
@@ -111,7 +109,7 @@ public class Sala{
     }
 
     public void generatePickUps(){
-        int selectedPickUp = (int)(Math.random()* PickupID.MAX_NUM);
+        int selectedPickUp = (int)(Math.random()* (PickupID.MAX_NUM+1));
 
         switch (selectedPickUp){
             case PickupID.BOMBA:
@@ -126,6 +124,13 @@ public class Sala{
                 items.add(new Moneda(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
                 break;
 
+            case PickupID.VIDA:
+                items.add(new Vida(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                break;
+
+            case PickupID.COFRE:
+                items.add(new Cofre(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                break;
         }
 
         itemsDropped = true;
@@ -337,15 +342,23 @@ public class Sala{
     }
 
     protected void reglasDeMovimientoColisionPickUps(){
+        List<Item> newItems = new ArrayList<>();
+
         for(Iterator<Item> iterator = items.iterator(); iterator.hasNext();){
             Item item = iterator.next();
 
             if(jugador.colisiona(item)) {
                 item.doStuff(jugador);
+
+                if(item instanceof Cofre)
+                    newItems.addAll(((Cofre)item).openChest());
+
                 iterator.remove();
                 continue;
             }
         }
+
+        items.addAll(newItems);
     }
 
     protected void dibujarTiles(Canvas canvas){
