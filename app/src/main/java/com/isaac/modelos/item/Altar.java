@@ -11,6 +11,7 @@ import com.isaac.modelos.item.collectables.Breakfast;
 import com.isaac.modelos.item.collectables.ItemID;
 import com.isaac.modelos.item.collectables.MomsHeels;
 import com.isaac.modelos.item.collectables.NumberOne;
+import com.isaac.modelos.item.collectables.SoyMilk;
 import com.isaac.modelos.item.collectables.TheHalo;
 import com.isaac.modelos.item.collectables.TheSadOnion;
 import com.isaac.modelos.nivel.Nivel;
@@ -58,6 +59,9 @@ public class Altar extends Modelo {
 
             case ItemID.THE_SAD_ONION:
                 return new TheSadOnion(context, this.x, this.y-20);
+
+            case ItemID.SOY_MILK:
+                return new SoyMilk(context, this.x, this.y-20);
 
         }
 
