@@ -59,12 +59,14 @@ public class Sala{
     public static int scrollEjeX = 0;
     public static int scrollEjeY = 0;
 
-    protected Nivel nivel;
+    public Nivel nivel;
     protected Context context;
 
     protected HashMap<String,Puerta> puertas;
 
     public Sala(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
+        this.nivel = nivel;
+
         puertas = new HashMap<>();
         mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
 
@@ -78,7 +80,6 @@ public class Sala{
         enemigos.add(new EnemigoMelee(context,200,200));
         enemigos.add(new EnemigoMelee(context,150,150));
 
-        this.nivel = nivel;
         this.orientacionPad = Jugador.PARADO;
         this.orientacionDisparo = Jugador.NO_DISPARO;
     }

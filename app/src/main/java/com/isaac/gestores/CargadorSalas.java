@@ -92,7 +92,7 @@ public class CargadorSalas {
 
     private static Tile getAltar(int x, int y){
         Sala_tesoro temp = (Sala_tesoro)salaTemp;
-        temp.addAltar(new Altar(context,x*Tile.ancho,y*Tile.altura));
+        temp.addAltar(new Altar(context,x*Tile.ancho,y*Tile.altura,salaTemp.nivel));
 
         return getSuelo();
     }

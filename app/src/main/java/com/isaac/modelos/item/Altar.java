@@ -13,6 +13,7 @@ import com.isaac.modelos.item.collectables.MomsHeels;
 import com.isaac.modelos.item.collectables.NumberOne;
 import com.isaac.modelos.item.collectables.TheHalo;
 import com.isaac.modelos.item.collectables.TheSadOnion;
+import com.isaac.modelos.nivel.Nivel;
 import com.isaac.modelos.nivel.Sala;
 
 /**
@@ -24,14 +25,15 @@ public class Altar extends Modelo {
     private Item item;
     private boolean picked;
 
-    public Altar(Context context, double x, double y) {
+    public Altar(Context context, double x, double y, Nivel nivel) {
         super(context, x, y, 23, 27);
 
         imagen = CargadorGraficos.cargarDrawable(context, R.drawable.altar_objeto);
 
         picked = false;
 
-        int itemID = (int)(Math.random()*ItemID.MAX_ID)+1;
+        int itemID = (int)(Math.random()*nivel.itemPool.size());
+        itemID = nivel.itemPool.get(itemID);
 
         item = generateItem(context, itemID);
     }

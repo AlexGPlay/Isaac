@@ -24,7 +24,7 @@ public class TheHalo extends Item {
         }
 
         if(jugador.tearDelay>=50){
-            jugador.tearDelay *= jugador.tearDelay*0.90;
+            jugador.tearDelay *= 0.90;
 
             if(jugador.tearDelay<50)
                 jugador.tearDelay = 50;
