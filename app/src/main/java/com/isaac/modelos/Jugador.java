@@ -7,6 +7,8 @@ import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.graficos.Sprite;
 import com.isaac.modelos.disparos.DisparoJugador;
+import com.isaac.modelos.item.BasicShot;
+import com.isaac.modelos.item.ShotModifier;
 import com.isaac.modelos.nivel.Sala;
 
 import java.util.ArrayList;
@@ -69,6 +71,8 @@ public class Jugador extends Modelo{
     private int numLlaves;
     private int numMonedas;
 
+    private List<ShotModifier> modifiers;
+
     public Jugador(Context context, double xInicial, double yInicial) {
         super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo) );
 
@@ -86,6 +90,9 @@ public class Jugador extends Modelo{
         actualMaxHP = 6;
         maxHP = 20;
         speed = 5;
+
+        modifiers = new ArrayList<>();
+        modifiers.add(new BasicShot());
 
         inicializar();
     }
@@ -157,7 +164,10 @@ public class Jugador extends Modelo{
         ArrayList<DisparoJugador> disparos = new ArrayList<>();
 
         if(orientacionPad!=Jugador.NO_DISPARO && actualDelay>=tearDelay) {
-            disparos.add(new DisparoJugador(context, this.x, this.y, tearRange, tearDamage, orientacionPad));
+            for(ShotModifier modifier : modifiers){
+                disparos = modifier.shot(context, disparos, this.x, this.y, tearRange, tearDamage, orientacionPad);
+            }
+
             actualDelay = 0;
         }
 
