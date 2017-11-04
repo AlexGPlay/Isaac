@@ -6,7 +6,13 @@ import android.graphics.Canvas;
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.modelos.Modelo;
-import com.isaac.modelos.item.collectables.Desayuno;
+import com.isaac.modelos.item.collectables.BloodOfTheMartyr;
+import com.isaac.modelos.item.collectables.Breakfast;
+import com.isaac.modelos.item.collectables.ItemID;
+import com.isaac.modelos.item.collectables.MomsHeels;
+import com.isaac.modelos.item.collectables.NumberOne;
+import com.isaac.modelos.item.collectables.TheHalo;
+import com.isaac.modelos.item.collectables.TheSadOnion;
 import com.isaac.modelos.nivel.Sala;
 
 /**
@@ -24,7 +30,36 @@ public class Altar extends Modelo {
         imagen = CargadorGraficos.cargarDrawable(context, R.drawable.altar_objeto);
 
         picked = false;
-        item = new Desayuno(context,this.x,this.y-20);
+
+        int itemID = (int)(Math.random()*ItemID.MAX_ID)+1;
+
+        item = generateItem(context, itemID);
+    }
+
+    private Item generateItem(Context context, int id){
+
+        switch(id){
+            case ItemID.BLOOD_OF_THE_MARTYR:
+                return new BloodOfTheMartyr(context, this.x, this.y-20);
+
+            case ItemID.BREAKFAST:
+                return new Breakfast(context, this.x, this.y-20);
+
+            case ItemID.MOMS_HEELS:
+                return new MomsHeels(context, this.x, this.y-20);
+
+            case ItemID.NUMBER_ONE:
+                return new NumberOne(context, this.x, this.y-20);
+
+            case ItemID.THE_HALO:
+                return new TheHalo(context, this.x, this.y-20);
+
+            case ItemID.THE_SAD_ONION:
+                return new TheSadOnion(context, this.x, this.y-20);
+
+        }
+
+        return null;
     }
 
     @Override

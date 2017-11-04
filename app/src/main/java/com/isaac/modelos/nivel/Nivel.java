@@ -5,8 +5,12 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import com.isaac.GameView;
+import com.isaac.gestores.GestorXML;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.hud.IconoVida;
+import com.isaac.modelos.item.Item;
+
+import java.util.List;
 
 public class Nivel {
     private Context context = null;
@@ -19,6 +23,8 @@ public class Nivel {
 
     private GameView gameView;
     private Sala salaActual;
+
+    public List<Integer> itemPool;
 
     public boolean inicializado;
 
@@ -34,6 +40,8 @@ public class Nivel {
     }
 
     public void inicializar()throws Exception {
+
+        itemPool = GestorXML.getInstance().getItemPool(context);
 
         salas = new Sala[3][3];
         jugador = new Jugador(context,100,100);

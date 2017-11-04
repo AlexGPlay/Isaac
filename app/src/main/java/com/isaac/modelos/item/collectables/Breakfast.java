@@ -10,10 +10,10 @@ import com.isaac.modelos.item.Item;
  * Created by alexgp1234 on 29/10/17.
  */
 
-public class Desayuno extends Item{
+public class Breakfast extends Item{
 
-    public Desayuno(Context context, double x, double y) {
-        super(context, x, y, 25, 25, R.drawable.breakfast_icon);
+    public Breakfast(Context context, double x, double y) {
+        super(context, x, y, 32, 32, R.drawable.breakfast_icon);
     }
 
     @Override

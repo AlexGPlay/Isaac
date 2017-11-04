@@ -61,6 +61,7 @@ public class Jugador extends Modelo{
     public int HP;
     public int maxHP;
     public int actualMaxHP;
+    public double speed;
 
     public int actualDelay;
 
@@ -84,6 +85,7 @@ public class Jugador extends Modelo{
         HP = 6;
         actualMaxHP = 6;
         maxHP = 20;
+        speed = 5;
 
         inicializar();
     }
@@ -166,56 +168,56 @@ public class Jugador extends Modelo{
 
         if (orientacionPad == MOVIMIENTO_DERECHA) {
             aceleracionY = 0;
-            aceleracionX = 5;
+            aceleracionX = speed;
 
             spriteCabeza = sprites.get(CABEZA_DERECHA);
             spriteCuerpo = sprites.get(MOVER_DERECHA);
         }
         else if (orientacionPad == MOVIMIENTO_ABAJO){
             aceleracionX = 0;
-            aceleracionY = 5;
+            aceleracionY = speed;
 
             spriteCabeza = sprites.get(CABEZA_ADELANTE);
             spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
         }
         else if(orientacionPad == MOVIMIENTO_IZQUIERDA){
             aceleracionY  =0;
-            aceleracionX= -5;
+            aceleracionX= -speed;
 
             spriteCabeza = sprites.get(CABEZA_IZQUIERDA);
             spriteCuerpo = sprites.get(MOVER_IZQUIERDA);
         }
         else if(orientacionPad == MOVIMIENTO_ARRIBA) {
             aceleracionX = 0;
-            aceleracionY = -5;
+            aceleracionY = -speed;
 
             spriteCabeza = sprites.get(CABEZA_ATRAS);
             spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
         }
         else if(orientacionPad == MOVIMIENTO_ARRIBA_DERECHA){
             aceleracionX = 5;
-            aceleracionY = -5;
+            aceleracionY = -speed;
 
             spriteCabeza = sprites.get(CABEZA_ATRAS);
             spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
         }
         else if(orientacionPad == MOVIMIENTO_ARRIBA_IZQUIERDA){
-            aceleracionX = -5;
-            aceleracionY = -5;
+            aceleracionX = -speed;
+            aceleracionY = -speed;
 
             spriteCabeza = sprites.get(CABEZA_ATRAS);
             spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
         }
         else if(orientacionPad == MOVIMIENTO_ABAJO_DERECHA){
-            aceleracionX = 5;
-            aceleracionY = 5;
+            aceleracionX = speed;
+            aceleracionY = speed;
 
             spriteCabeza = sprites.get(CABEZA_ADELANTE);
             spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
         }
         else if(orientacionPad == MOVIMIENTO_ABAJO_IZQUIERDA){
-            aceleracionX = -5;
-            aceleracionY = 5;
+            aceleracionX = -speed;
+            aceleracionY = speed;
 
             spriteCabeza = sprites.get(CABEZA_ADELANTE);
             spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
