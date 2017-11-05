@@ -38,6 +38,7 @@ public class Sala{
     public static final String SALA_CUADRADA_9 = "Sala_cuadrada_9";
 
     public static final String SALA_DORADA_1 = "Sala_dorada_test";
+    public static final String SALA_BOSS_1 = "Sala_boss_test";
 
     public static final String PUERTA_ARRIBA = "arriba";
     public static final String PUERTA_ABAJO = "abajo";

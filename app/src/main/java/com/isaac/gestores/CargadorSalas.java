@@ -7,8 +7,10 @@ import com.isaac.R;
 import com.isaac.modelos.item.Altar;
 import com.isaac.modelos.nivel.Puerta;
 import com.isaac.modelos.nivel.Sala;
+import com.isaac.modelos.nivel.Sala_boss;
 import com.isaac.modelos.nivel.Sala_tesoro;
 import com.isaac.modelos.nivel.Tile;
+import com.isaac.modelos.nivel.Trampilla;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -85,9 +87,19 @@ public class CargadorSalas {
             case 'I':
                 return getAltar(x,y);
 
+            case 'T':
+                return getTrampilla(x,y);
+
             default:
                 return new Tile(null, Tile.PASABLE);
         }
+    }
+
+    private static Tile getTrampilla(int x, int y){
+        Sala_boss temp = (Sala_boss)salaTemp;
+        temp.addTrampilla(new Trampilla(context,x*Tile.ancho,y*Tile.altura,salaTemp.nivel));
+
+        return getSuelo();
     }
 
     private static Tile getAltar(int x, int y){

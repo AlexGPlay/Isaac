@@ -34,6 +34,8 @@ public class Nivel {
         this.context = context;
         this.numeroNivel = numeroNivel;
         this.gameView = gameView;
+        itemPool = GestorXML.getInstance().getItemPool(context);
+
         inicializar();
 
         inicializado = true;
@@ -41,12 +43,10 @@ public class Nivel {
 
     public void inicializar()throws Exception {
 
-        itemPool = GestorXML.getInstance().getItemPool(context);
-
         salas = new Sala[3][3];
         jugador = new Jugador(context,100,100);
 
-        salas[0][0] = new Sala(context, Sala.SALA_CUADRADA_6, jugador, this);
+        salas[0][0] = new Sala_boss(context, Sala.SALA_BOSS_1, jugador, this);
         salas[0][1] = new Sala(context, Sala.SALA_CUADRADA_4, jugador, this);
         salas[0][2] = new Sala(context, Sala.SALA_CUADRADA_7, jugador,this);
         salas[1][0] = new Sala(context, Sala.SALA_CUADRADA_3, jugador,this);
@@ -116,7 +116,6 @@ public class Nivel {
         }
     }
 
-
     public void dibujar (Canvas canvas) {
         if(inicializado) {
             salaActual.dibujar(canvas);
@@ -151,6 +150,10 @@ public class Nivel {
 
     public int getMonedas(){
         return jugador.getNumMonedas();
+    }
+
+    public void changeLevel() throws Exception {
+        inicializar();
     }
 
 }

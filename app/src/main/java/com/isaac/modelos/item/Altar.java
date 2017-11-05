@@ -36,6 +36,7 @@ public class Altar extends Modelo {
 
         int itemID = (int)(Math.random()*nivel.itemPool.size());
         itemID = nivel.itemPool.get(itemID);
+        //nivel.itemPool.remove(itemID);
 
         item = generateItem(context, itemID);
     }
