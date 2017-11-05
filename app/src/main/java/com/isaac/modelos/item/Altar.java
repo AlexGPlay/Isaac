@@ -8,6 +8,7 @@ import com.isaac.gestores.CargadorGraficos;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.item.collectables.BloodOfTheMartyr;
 import com.isaac.modelos.item.collectables.Breakfast;
+import com.isaac.modelos.item.collectables.DoubleShot;
 import com.isaac.modelos.item.collectables.ItemID;
 import com.isaac.modelos.item.collectables.MomsHeels;
 import com.isaac.modelos.item.collectables.NumberOne;
@@ -62,6 +63,9 @@ public class Altar extends Modelo {
 
             case ItemID.SOY_MILK:
                 return new SoyMilk(context, this.x, this.y-20);
+
+            case ItemID.DOUBLE_SHOT:
+                return new DoubleShot(context, this.x, this.y-20);
 
         }
 

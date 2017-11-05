@@ -26,6 +26,8 @@ public class DisparoJugador extends Modelo {
 
     public double damage;
 
+    private int orientacion;
+
     public DisparoJugador(Context context, double xInicial, double yInicial, long tearRange, double damage, int orientacion) {
         super(context, xInicial, yInicial, 12, 12);
 
@@ -33,6 +35,8 @@ public class DisparoJugador extends Modelo {
         cIzquierda = 6;
         cArriba = 6;
         cAbajo = 6;
+
+        this.orientacion = orientacion;
 
         this.tearRange = tearRange;
         this.damage = damage;
@@ -84,4 +88,9 @@ public class DisparoJugador extends Modelo {
     public void dibujar(Canvas canvas){
         sprite.dibujarSprite(canvas, (int) x - Sala.scrollEjeX, (int) y - Sala.scrollEjeY);
     }
+
+    public DisparoJugador clone(){
+        return new DisparoJugador(context, x, y, tearRange, damage, orientacion);
+    }
+
 }

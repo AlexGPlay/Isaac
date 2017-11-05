@@ -283,4 +283,8 @@ public class Jugador extends Modelo{
             this.numMonedas = numMonedas;
     }
 
+    public void addModifier(ShotModifier modifier){
+        modifiers.add(modifier);
+    }
+
 }
