@@ -21,6 +21,7 @@ import java.util.List;
 public class Sala_tesoro extends Sala{
 
     private List<Altar> altares;
+    public static final int TIPO_SALA = SALA_DORADA;
 
     public Sala_tesoro(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         super(context,tipoSala,jugador,nivel);
@@ -32,6 +33,7 @@ public class Sala_tesoro extends Sala{
         if(altares==null)
             altares = new ArrayList<>();
 
+        itemsDropped = true;
         altares.add(altar);
     }
 
@@ -70,6 +72,11 @@ public class Sala_tesoro extends Sala{
                     item.doStuff(jugador);
             }
         }
+    }
+
+    @Override
+    public int getTipoSala(){
+        return Sala.SALA_DORADA;
     }
 
 }

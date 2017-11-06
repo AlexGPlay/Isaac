@@ -73,6 +73,11 @@ public class Sala_boss extends Sala{
         trampillas.add(trampilla);
     }
 
+    @Override
+    public int getTipoSala(){
+        return Sala.SALA_BOSS;
+    }
+
 
 
 }

@@ -28,14 +28,6 @@ import java.util.List;
 public class Sala{
 
     public static final String SALA_CUADRADA_1 = "Sala_cuadrada_1";
-    public static final String SALA_CUADRADA_2 = "Sala_cuadrada_2";
-    public static final String SALA_CUADRADA_3 = "Sala_cuadrada_3";
-    public static final String SALA_CUADRADA_4 = "Sala_cuadrada_4";
-    public static final String SALA_CUADRADA_5 = "Sala_cuadrada_5";
-    public static final String SALA_CUADRADA_6 = "Sala_cuadrada_6";
-    public static final String SALA_CUADRADA_7 = "Sala_cuadrada_7";
-    public static final String SALA_CUADRADA_8 = "Sala_cuadrada_8";
-    public static final String SALA_CUADRADA_9 = "Sala_cuadrada_9";
 
     public static final String SALA_DORADA_1 = "Sala_dorada_test";
     public static final String SALA_BOSS_1 = "Sala_boss_test";
@@ -44,6 +36,10 @@ public class Sala{
     public static final String PUERTA_ABAJO = "abajo";
     public static final String PUERTA_DERECHA = "derecha";
     public static final String PUERTA_IZQUIERDA = "izquierda";
+
+    public static final int SALA_NORMAL = 1;
+    public static final int SALA_DORADA = 2;
+    public static final int SALA_BOSS = 3;
 
     protected boolean itemsDropped;
 
@@ -436,6 +432,10 @@ public class Sala{
 
     public int altoMapaTiles(){
         return mapaTiles[0].length;
+    }
+
+    public int getTipoSala(){
+        return Sala.SALA_NORMAL;
     }
 
 }

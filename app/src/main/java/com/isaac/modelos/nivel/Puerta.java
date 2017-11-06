@@ -16,8 +16,8 @@ public class Puerta extends Modelo {
     private int xSalida, ySalida;
     private int xEntrada, yEntrada;
 
-    private int puertaAbierta;
-    private int puertaCerrada;
+    public int puertaAbierta;
+    public int puertaCerrada;
 
     public Puerta(Context context, double x, double y, int alto, int ancho, int puertaAbierta, int puertaCerrada) {
         super(context, x, y, alto, ancho);
