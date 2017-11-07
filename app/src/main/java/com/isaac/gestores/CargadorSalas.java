@@ -18,13 +18,8 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Alex on 24/10/2017.
- */
-
 public class CargadorSalas {
 
-    private static Context context;
     private static int anchoMapa;
     private static int altoMapa;
 
@@ -32,16 +27,12 @@ public class CargadorSalas {
 
     private CargadorSalas(){}
 
-    public static void setContext(Context contexto){
-        context = contexto;
-    }
-
-    public static Tile[][] inicializarMapaTiles(String numeroNivel, Sala sala) throws Exception {
+    public static Tile[][] inicializarMapaTiles(String numeroNivel, Sala sala, Context context) throws Exception {
         InputStream is = context.getAssets().open(numeroNivel+".txt");
         int anchoLinea;
         salaTemp = sala;
 
-        List<String> lineas = new LinkedList<String>();
+        List<String> lineas = new LinkedList<>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         {
             String linea = reader.readLine();
@@ -66,50 +57,50 @@ public class CargadorSalas {
         for (int y = 0; y < mapaTiles[0].length; ++y) {
             for (int x = 0; x < mapaTiles.length; ++x) {
                 char tipoDeTile = lineas.get(y).charAt(x);//lines[y][x];
-                mapaTiles[x][y] = inicializarTile(tipoDeTile,x,y);
+                mapaTiles[x][y] = inicializarTile(context,tipoDeTile,x,y);
             }
         }
 
         return mapaTiles;
     }
 
-    private static Tile inicializarTile(char codigoTile,int x, int y) {
+    private static Tile inicializarTile(Context context, char codigoTile,int x, int y) {
         switch (codigoTile) {
             case '#':
-                return getPared(x,y);
+                return getPared(context,x,y);
 
             case '.':
-                return getSuelo();
+                return getSuelo(context);
 
             case 'P':
-                return getPuerta(x,y);
+                return getPuerta(context,x,y);
 
             case 'I':
-                return getAltar(x,y);
+                return getAltar(context,x,y);
 
             case 'T':
-                return getTrampilla(x,y);
+                return getTrampilla(context,x,y);
 
             default:
                 return new Tile(null, Tile.PASABLE);
         }
     }
 
-    private static Tile getTrampilla(int x, int y){
+    private static Tile getTrampilla(Context context, int x, int y){
         Sala_boss temp = (Sala_boss)salaTemp;
         temp.addTrampilla(new Trampilla(context,x*Tile.ancho,y*Tile.altura,salaTemp.nivel));
 
-        return getSuelo();
+        return getSuelo(context);
     }
 
-    private static Tile getAltar(int x, int y){
+    private static Tile getAltar(Context context, int x, int y){
         Sala_tesoro temp = (Sala_tesoro)salaTemp;
         temp.addAltar(new Altar(context,x*Tile.ancho,y*Tile.altura,salaTemp.nivel));
 
-        return getSuelo();
+        return getSuelo(context);
     }
 
-    private static Tile getPuerta(int x, int y){
+    private static Tile getPuerta(Context context, int x, int y){
         if(x==0) {
             int puertaAbierta;
             int puertaCerrada;
@@ -258,13 +249,13 @@ public class CargadorSalas {
             salaTemp.addPuerta(Sala.PUERTA_ABAJO, temp);
         }
 
-        Tile tile = getPared(x,y);
+        Tile tile = getPared(context,x,y);
         tile.tipoDeColision = Tile.SOLIDO;
 
         return tile;
     }
 
-    private static Tile getPared(int x, int y){
+    private static Tile getPared(Context context, int x, int y){
         if(x==0 && y==0)
             return new Tile(CargadorGraficos.cargarDrawable(context,
                     R.drawable.pared_0_0), Tile.SOLIDO);
@@ -301,7 +292,7 @@ public class CargadorSalas {
         return null;
     }
 
-    private static Tile getSuelo(){
+    private static Tile getSuelo(Context context){
         int suelo = (int)(Math.random()*14);
 
         switch(suelo){

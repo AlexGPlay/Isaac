@@ -1,18 +1,10 @@
 package com.isaac.controles;
 
-/**
- * Created by Pelayo on 24/10/2017.
- */
-
 import android.content.Context;
 import android.util.Log;
 import com.isaac.R;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
-
-/**
- * Created by Pelayo on 25/09/2017.
- */
 
 public class Pad extends Modelo {
 

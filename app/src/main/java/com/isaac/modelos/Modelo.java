@@ -13,12 +13,12 @@ public class Modelo {
     public int ancho;
     protected Drawable imagen;
 
-    public int cDerecha;
-    public int cIzquierda;
-    public int cArriba;
-    public int cAbajo;
+    protected int cDerecha;
+    protected int cIzquierda;
+    protected int cArriba;
+    protected int cAbajo;
 
-    public Modelo(Context context, double x, double y, int altura, int ancho){;
+    public Modelo(Context context, double x, double y, int altura, int ancho){
         this.context = context;
         this.x = x;
         this.y = y;
@@ -41,9 +41,7 @@ public class Modelo {
     }
 
     // No Actualiza
-    public void actualizar (long tiempo){
-
-    }
+    public void actualizar (long tiempo){}
 
     public boolean colisiona (Modelo modelo){
         boolean colisiona = false;

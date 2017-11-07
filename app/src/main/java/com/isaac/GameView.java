@@ -142,7 +142,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     }
 
     protected void inicializar() throws Exception {
-        CargadorSalas.setContext(context);
         nivel = new Nivel(context,numeroNivel,this);
         padMovimiento = new Pad(context,70,270);
         padDisparo = new Pad(context,520,270);

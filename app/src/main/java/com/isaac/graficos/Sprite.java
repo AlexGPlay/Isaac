@@ -6,9 +6,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-/**
- * Created by Jordan on 14/08/2015.
- */
 public class Sprite {
     private Bitmap bitmap;
     // Fichero con los frames.
@@ -37,7 +34,7 @@ public class Sprite {
 
     public Sprite(Drawable drawable, int modeloAncho, int modeloAltura, int fps, int framesTotales
             , boolean bucle) {
-        this.bitmap = ((BitmapDrawable)drawable).getBitmap();;
+        this.bitmap = ((BitmapDrawable)drawable).getBitmap();
         this.modeloAncho = modeloAncho;
         this.modeloAltura = modeloAltura;
         this.framesTotales = framesTotales;

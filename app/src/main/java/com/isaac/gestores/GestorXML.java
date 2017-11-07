@@ -14,10 +14,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Alex on 04/11/2017.
- */
-
 public class GestorXML {
     private static GestorXML instancia = null;
 
@@ -46,7 +42,7 @@ public class GestorXML {
             }
             bufferedReader.close();
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
 
         Document doc = parser.getDom(textoFicheroNivel);

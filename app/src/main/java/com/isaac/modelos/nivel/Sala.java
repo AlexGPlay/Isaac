@@ -65,7 +65,7 @@ public class Sala{
         this.nivel = nivel;
 
         puertas = new HashMap<>();
-        mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this);
+        mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this, context);
 
         this.disparosJugador = new ArrayList<>();
         this.items = new ArrayList<>();

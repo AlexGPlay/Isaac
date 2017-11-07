@@ -12,10 +12,6 @@ import com.isaac.modelos.nivel.Sala;
 
 import java.util.HashMap;
 
-/**
- * Created by alexgp1234 on 29/10/17.
- */
-
 public class DisparoJugador extends Modelo {
     public static final int DISPARANDO = 0;
     public static final int FINALIZANDO = 1;
@@ -24,18 +20,18 @@ public class DisparoJugador extends Modelo {
     public int estado;
 
     private Sprite sprite;
-    public final static double velocidadX = 10;
-    public final static double velocidadY = 10;
+    private final static double velocidadX = 10;
+    private final static double velocidadY = 10;
     public int aceleracionX;
     public int aceleracionY;
 
-    public long tearRange;
-    public long actualRange;
+    private long tearRange;
+    private long actualRange;
 
     public double damage;
 
     private int orientacion;
-    private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
+    private HashMap<String,Sprite> sprites = new HashMap<>();
     private String disparando = "DISPARANDO";
     private String desapareciendo = "DESAPARECIENDO";
 
@@ -77,7 +73,7 @@ public class DisparoJugador extends Modelo {
         inicializar();
     }
 
-    public void inicializar (){
+    private void inicializar (){
         Sprite disparo = new Sprite(CargadorGraficos.cargarDrawable(context, R.drawable.isaac_tear), ancho, altura, 1, 1, true);
         sprites.put(disparando, disparo);
 
@@ -106,10 +102,7 @@ public class DisparoJugador extends Modelo {
     }
 
     public boolean isOutOfRange(){
-        if(actualRange >= tearRange)
-            return true;
-
-        return false;
+        return actualRange >= tearRange;
     }
 
     public void dibujar(Canvas canvas){
@@ -117,7 +110,7 @@ public class DisparoJugador extends Modelo {
     }
 
     public DisparoJugador clone(){
-        return new DisparoJugador(context, x, y, tearRange, damage, orientacion);
+        return new DisparoJugador(context,x,y,tearRange,damage,orientacion);
     }
 
 }

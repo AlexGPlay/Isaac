@@ -9,8 +9,8 @@ import java.util.HashMap;
 
 public class CargadorGraficos {
 
-    private static HashMap<Integer, Drawable> drawables = new HashMap<Integer, Drawable>();
-    private static HashMap<Integer, Bitmap> bitmaps = new HashMap<Integer, Bitmap>();
+    private static HashMap<Integer, Drawable> drawables = new HashMap<>();
+    private static HashMap<Integer, Bitmap> bitmaps = new HashMap<>();
 
     public static Drawable cargarDrawable(Context context, int id){
         if (drawables.containsKey(id)){
@@ -22,8 +22,7 @@ public class CargadorGraficos {
         return nuevoDrawable;
     }
 	
-    public static Bitmap cargarBitmap(Context context,int id)
-    {
+    public static Bitmap cargarBitmap(Context context,int id) {
         if (bitmaps.containsKey(id)){
             return bitmaps.get(id);
         }
