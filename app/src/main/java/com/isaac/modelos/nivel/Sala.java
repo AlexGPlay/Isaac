@@ -305,37 +305,44 @@ public class Sala{
             int tileXDisparo = (int) (virtualX / Tile.ancho);
             int tileYDisparo = (int) (virtualY / Tile.altura);
 
-            if(disparo.isOutOfRange()){
+            if(disparo.estado == DisparoJugador.FINALIZADO){
                 iterator.remove();
+                continue;
+            }
+
+            if(disparo.isOutOfRange()){
+                disparo.estado = DisparoJugador.FINALIZANDO;
                 continue;
             }
 
             if(mapaTiles[tileXDisparo][tileYDisparo].tipoDeColision==Tile.SOLIDO) {
-                iterator.remove();
+                disparo.estado = DisparoJugador.FINALIZANDO;
                 continue;
             }
 
             for(EnemigoMelee enemigo : enemigos) {
-                if (disparo.colisiona(enemigo)) {
+                if (disparo.colisiona(enemigo) && disparo.estado == DisparoJugador.DISPARANDO) {
                     enemigo.HP -= disparo.damage;
 
                     if(enemigo.HP <= 0 )
                         enemigo.estado = EnemigoMelee.ESTADO_MUERTO;
 
-                    iterator.remove();
+                    disparo.estado = DisparoJugador.FINALIZANDO;
                     continue;
                 }
             }
 
             for(Puerta puerta : puertas.values()) {
                 if (puerta.colisiona(disparo)) {
-                    iterator.remove();
+                    disparo.estado = DisparoJugador.FINALIZANDO;
                     continue;
                 }
             }
 
-            disparo.x = virtualX;
-            disparo.y = virtualY;
+            if(disparo.estado == DisparoJugador.DISPARANDO) {
+                disparo.x = virtualX;
+                disparo.y = virtualY;
+            }
         }
     }
 

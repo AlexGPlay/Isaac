@@ -10,11 +10,19 @@ import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.nivel.Sala;
 
+import java.util.HashMap;
+
 /**
  * Created by alexgp1234 on 29/10/17.
  */
 
 public class DisparoJugador extends Modelo {
+    public static final int DISPARANDO = 0;
+    public static final int FINALIZANDO = 1;
+    public static final int FINALIZADO = 2;
+
+    public int estado;
+
     private Sprite sprite;
     public final static double velocidadX = 10;
     public final static double velocidadY = 10;
@@ -27,6 +35,9 @@ public class DisparoJugador extends Modelo {
     public double damage;
 
     private int orientacion;
+    private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
+    private String disparando = "DISPARANDO";
+    private String desapareciendo = "DESAPARECIENDO";
 
     public DisparoJugador(Context context, double xInicial, double yInicial, long tearRange, double damage, int orientacion) {
         super(context, xInicial, yInicial, 12, 12);
@@ -62,19 +73,35 @@ public class DisparoJugador extends Modelo {
             aceleracionY = -(int)velocidadY;
         }
 
+        estado = DISPARANDO;
         inicializar();
     }
 
     public void inicializar (){
-        sprite= new Sprite(
-                CargadorGraficos.cargarDrawable(context,
-                        R.drawable.isaac_tear),
-                ancho, altura,
-                1, 1, true);
+        Sprite disparo = new Sprite(CargadorGraficos.cargarDrawable(context, R.drawable.isaac_tear), ancho, altura, 1, 1, true);
+        sprites.put(disparando, disparo);
+
+        Sprite desaparecer = new Sprite(CargadorGraficos.cargarDrawable(context, R.drawable.isaac_tear_effect), ancho, altura, 120, 16, false);
+        sprites.put(desapareciendo, desaparecer);
+
+        sprite = sprites.get(disparando);
     }
 
     public void actualizar (long tiempo) {
-        sprite.actualizar(tiempo);
+        boolean finSprite = sprite.actualizar(tiempo);
+
+        if(estado == FINALIZANDO && finSprite){
+            estado = FINALIZADO;
+        }
+
+        else if(estado == FINALIZANDO){
+            sprite = sprites.get(desapareciendo);
+        }
+
+        else if(estado == DISPARANDO){
+            sprite = sprites.get(disparando);
+        }
+
         actualRange += tiempo;
     }
 
