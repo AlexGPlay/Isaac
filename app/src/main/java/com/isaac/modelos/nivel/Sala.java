@@ -2,10 +2,12 @@ package com.isaac.modelos.nivel;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
+import com.isaac.modelos.Modelo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoMelee;
 import com.isaac.modelos.item.Item;
@@ -52,6 +54,7 @@ public class Sala{
     protected List <EnemigoMelee> enemigos;
     protected List<DisparoJugador> disparosJugador;
     protected List<Item> items;
+    protected List<Roca> rocas;
 
     public static int scrollEjeX = 0;
     public static int scrollEjeY = 0;
@@ -76,6 +79,9 @@ public class Sala{
         enemigos = new ArrayList<>();
         enemigos.add(new EnemigoMelee(context,200,200));
         enemigos.add(new EnemigoMelee(context,150,150));
+
+        if(rocas == null)
+            rocas = new ArrayList<>();
 
         this.orientacionPad = Jugador.PARADO;
         this.orientacionDisparo = Jugador.NO_DISPARO;
@@ -190,6 +196,14 @@ public class Sala{
         puertas.put(zona,puerta);
     }
 
+    public void addRock(Roca roca){
+        if(rocas == null){
+            rocas = new ArrayList<>();
+        }
+
+        rocas.add(roca);
+    }
+
     public void actualizar(long time) throws Exception {
         checkEstadoSala();
 
@@ -223,12 +237,66 @@ public class Sala{
         for(Item item : items)
             item.dibujar(canvas);
 
+        for(Roca roca : rocas)
+            roca.dibujar(canvas);
+
+    }
+
+    protected Modelo modelIn(Modelo modelo, int x, int y){
+        if(jugador.colisionanCoordenadas(modelo,x,y) && jugador!=modelo)
+            return jugador;
+
+        for(EnemigoMelee enemigo : enemigos)
+            if(enemigo.colisionanCoordenadas(modelo,x,y) && enemigo!=modelo)
+                return enemigo;
+
+        for(DisparoJugador disparo : disparosJugador)
+            if(disparo.colisionanCoordenadas(modelo,x,y) && disparo!=modelo && modelo!=jugador)
+                return disparo;
+
+        for(Item item : items)
+            if(item.colisionanCoordenadas(modelo,x,y) && item!=modelo)
+                return item;
+
+        for(Roca roca : rocas)
+            if(roca.colisionanCoordenadas(modelo,x,y) && roca!=modelo)
+                return roca;
+
+        for(Puerta puerta : puertas.values())
+            if(puerta.colisionanCoordenadas(modelo,x,y) && puerta!=modelo)
+                return puerta;
+
+        return null;
+    }
+
+    protected boolean colisiona(Modelo modelo, int x, int y){
+        int tileX = (int) (x / Tile.ancho);
+        int tileY = (int) (y / Tile.altura);
+
+        return colisiona(modelo,x,y,tileX,tileY);
+    }
+
+    protected boolean colisiona(Modelo modelo, int x, int y, int tileX, int tileY){
+        boolean colision = (mapaTiles[tileX][tileY].tipoDeColision != Tile.PASABLE);
+
+        if(colision)
+            return true;
+
+        Modelo model = modelIn(modelo,x,y);
+
+        if(model==null)
+            return false;
+
+        if(model.colision != Modelo.PASABLE)
+            return true;
+
+        return false;
     }
 
     protected void aplicarReglasMovimiento() throws Exception {
         reglasMovimientoJugador();
         reglasMovimientoColisionPuerta();
-        reglasDeMoVimientoEnemigos();
+        reglasDeMovimientoEnemigos();
         reglasDeMovimientoDisparosJugador();
         reglasDeMovimientoColisionPickUps();
     }
@@ -262,14 +330,14 @@ public class Sala{
             tileYJugador = (int) ( (virtualY+jugador.altura/2) / Tile.altura);
         }
 
-        if( mapaTiles[tileXJugador][tileYJugador].tipoDeColision == Tile.PASABLE ){
+        if(!colisiona(jugador,virtualX,virtualY,tileXJugador,tileYJugador)){
             jugador.x = virtualX;
             jugador.y = virtualY;
         }
 
     }
 
-    protected void reglasDeMoVimientoEnemigos(){
+    protected void reglasDeMovimientoEnemigos(){
         for(Iterator<EnemigoMelee> iterator = enemigos.iterator(); iterator.hasNext();){
             EnemigoMelee enemigo = iterator.next();
 
@@ -315,7 +383,7 @@ public class Sala{
                 continue;
             }
 
-            if(mapaTiles[tileXDisparo][tileYDisparo].tipoDeColision==Tile.SOLIDO) {
+            if(colisiona(disparo,virtualX,virtualY)) {
                 disparo.estado = DisparoJugador.FINALIZANDO;
                 continue;
             }

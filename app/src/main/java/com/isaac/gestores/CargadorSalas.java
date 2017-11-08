@@ -6,6 +6,7 @@ import android.util.Log;
 import com.isaac.R;
 import com.isaac.modelos.item.Altar;
 import com.isaac.modelos.nivel.Puerta;
+import com.isaac.modelos.nivel.Roca;
 import com.isaac.modelos.nivel.Sala;
 import com.isaac.modelos.nivel.Sala_boss;
 import com.isaac.modelos.nivel.Sala_tesoro;
@@ -81,9 +82,18 @@ public class CargadorSalas {
             case 'T':
                 return getTrampilla(context,x,y);
 
+            case 'R':
+                return getRoca(context,x,y);
+
             default:
                 return new Tile(null, Tile.PASABLE);
         }
+    }
+
+    private static Tile getRoca(Context context, int x, int y){
+        salaTemp.addRock( new Roca(context,x*Tile.ancho,y*Tile.altura) );
+
+        return getSuelo(context);
     }
 
     private static Tile getTrampilla(Context context, int x, int y){
