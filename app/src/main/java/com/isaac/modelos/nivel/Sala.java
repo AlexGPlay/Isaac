@@ -8,6 +8,7 @@ import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
+import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoMelee;
 import com.isaac.modelos.item.Item;
@@ -49,10 +50,12 @@ public class Sala{
 
     public static int orientacionPad;
     public static int orientacionDisparo;
+    public static boolean bombaActiva;
 
     protected Jugador jugador;
     protected List <EnemigoMelee> enemigos;
     protected List<DisparoJugador> disparosJugador;
+    protected List<BombaActiva> bombas;
     protected List<Item> items;
     protected List<Roca> rocas;
 
@@ -80,11 +83,14 @@ public class Sala{
         enemigos.add(new EnemigoMelee(context,200,200));
         enemigos.add(new EnemigoMelee(context,150,150));
 
+        bombas = new ArrayList<>();
+
         if(rocas == null)
             rocas = new ArrayList<>();
 
         this.orientacionPad = Jugador.PARADO;
         this.orientacionDisparo = Jugador.NO_DISPARO;
+        this.bombaActiva = false;
     }
 
     public void checkEstadoSala(){
@@ -209,6 +215,12 @@ public class Sala{
 
         jugador.procesarOrdenes(orientacionPad);
         disparosJugador.addAll( jugador.procesarDisparos(orientacionDisparo) );
+
+        if(bombaActiva) {
+            bombas.addAll(jugador.fireBomb());
+            bombaActiva = false;
+        }
+
         jugador.actualizar(time);
 
         for(EnemigoMelee enemigo : enemigos)
@@ -216,6 +228,9 @@ public class Sala{
 
         for(DisparoJugador disparo : disparosJugador)
             disparo.actualizar(time);
+
+        for(BombaActiva bomba : bombas)
+            bomba.actualizar(time);
 
         aplicarReglasMovimiento();
     }
@@ -239,6 +254,9 @@ public class Sala{
 
         for(Roca roca : rocas)
             roca.dibujar(canvas);
+
+        for(BombaActiva bomba : bombas)
+            bomba.dibujar(canvas);
 
     }
 
@@ -299,6 +317,7 @@ public class Sala{
         reglasDeMovimientoEnemigos();
         reglasDeMovimientoDisparosJugador();
         reglasDeMovimientoColisionPickUps();
+        reglasDeMovimientoBombas();
     }
 
     protected void reglasMovimientoColisionPuerta(){
@@ -432,6 +451,20 @@ public class Sala{
         }
 
         items.addAll(newItems);
+    }
+
+    protected void reglasDeMovimientoBombas(){
+
+        for(Iterator<BombaActiva> iterator = bombas.iterator(); iterator.hasNext();){
+            BombaActiva bomba = iterator.next();
+
+            if(bomba.estado == BombaActiva.EXPLOTADA){
+                iterator.remove();
+                continue;
+            }
+
+        }
+
     }
 
     protected void dibujarTiles(Canvas canvas){

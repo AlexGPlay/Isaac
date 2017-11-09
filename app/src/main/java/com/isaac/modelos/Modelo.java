@@ -8,6 +8,7 @@ public class Modelo {
 
     public static final int PASABLE = 0;
     public static final int SOLIDO = 1;
+    public static final int MOVIBLE = 2;
 
     public int colision;
 

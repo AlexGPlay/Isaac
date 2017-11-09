@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
+import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoMelee;
 import com.isaac.modelos.item.Altar;
@@ -47,6 +48,9 @@ public class Sala_tesoro extends Sala{
             altar.dibujar(canvas);
 
         jugador.dibujar(canvas);
+
+        for(BombaActiva bomba : bombas)
+            bomba.dibujar(canvas);
 
         for(EnemigoMelee enemigo : enemigos)
             enemigo.dibujar(canvas);

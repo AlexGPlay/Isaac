@@ -14,7 +14,7 @@ import com.isaac.modelos.Modelo;
 public class Roca extends Modelo {
 
     public Roca(Context context, double x, double y) {
-        super(context, x, y, 25, 25, Modelo.SOLIDO);
+        super(context, x, y, 30, 30, Modelo.SOLIDO);
         imagen = CargadorGraficos.cargarDrawable(context, R.drawable.rock_1);
     }
 

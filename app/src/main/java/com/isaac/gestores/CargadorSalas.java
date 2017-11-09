@@ -91,7 +91,7 @@ public class CargadorSalas {
     }
 
     private static Tile getRoca(Context context, int x, int y){
-        salaTemp.addRock( new Roca(context,x*Tile.ancho,y*Tile.altura) );
+        salaTemp.addRock( new Roca(context,x*Tile.ancho + Tile.ancho/2,y*Tile.altura + Tile.altura/2) );
 
         return getSuelo(context);
     }

@@ -2,6 +2,7 @@ package com.isaac;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -31,6 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     public int numeroNivel = 0;
     private Pad padMovimiento;
     private Pad padDisparo;
+    private Pad padBombas;
 
     //Hud
     private IconoLlave llaves;
@@ -102,6 +104,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     public void procesarEventosTouch(){
         boolean pulsacionPadMover = false;
         boolean pulsacionPadDisparo = false;
+        boolean pulsacionPadBombas = false;
 
         for(int i=0; i < 6; i++) {
 
@@ -127,6 +130,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
                     }
 
                 }
+
+                else if(padBombas.estaPulsado(x[i], y[i])){
+
+                    if(accion[i] != ACTION_UP) {
+                        pulsacionPadBombas = true;
+                        Sala.bombaActiva = true;
+                    }
+                }
+
             }
         }
 
@@ -135,6 +147,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
         if(!pulsacionPadDisparo)
             Sala.orientacionDisparo = Jugador.NO_DISPARO;
+
+        if(!pulsacionPadBombas)
+            Sala.bombaActiva = false;
     }
 
     public void forceUpdate(){
@@ -145,6 +160,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         nivel = new Nivel(context,numeroNivel,this);
         padMovimiento = new Pad(context,70,270);
         padDisparo = new Pad(context,520,270);
+        padBombas = new Pad(context, 520, 50);
 
         monedas = new IconoMoneda(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.15);
         bombas = new IconoBomba(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.22);
@@ -159,6 +175,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         nivel.dibujar(canvas);
         padMovimiento.dibujar(canvas);
         padDisparo.dibujar(canvas);
+        padBombas.dibujar(canvas);
 
         IconoVida[] vidas = nivel.getActualHP();
 

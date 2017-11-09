@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
 import com.isaac.graficos.Sprite;
+import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.item.BasicShot;
 import com.isaac.modelos.item.ShotModifier;
@@ -93,6 +94,8 @@ public class Jugador extends Modelo{
 
         modifiers = new ArrayList<>();
         modifiers.add(new BasicShot());
+
+        numBombas = 5;
 
         inicializar();
     }
@@ -281,6 +284,17 @@ public class Jugador extends Modelo{
     public void setNumMonedas(int numMonedas) {
         if(numMonedas>=0 && numMonedas<=99)
             this.numMonedas = numMonedas;
+    }
+
+    public List<BombaActiva> fireBomb(){
+        List<BombaActiva> bombas = new ArrayList<>();
+
+        if(this.numBombas>0){
+            bombas.add(new BombaActiva(context,x,y));
+            numBombas--;
+        }
+
+        return bombas;
     }
 
     public void addModifier(ShotModifier modifier){
