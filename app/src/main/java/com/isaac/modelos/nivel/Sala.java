@@ -101,6 +101,12 @@ public class Sala{
                 int y = puerta.getYEntrada();
 
                 mapaTiles[x][y].tipoDeColision = Tile.SOLIDO;
+
+                if(puerta.forzada){
+                    puerta.abierta = true;
+                    mapaTiles[x][y].tipoDeColision = Tile.PASABLE;
+                }
+
             }
         }
 
@@ -173,6 +179,12 @@ public class Sala{
 
             scrollEjeX = 0;
             scrollEjeY = 0;
+
+            for(Puerta temp : puertas.values()) {
+                temp.abierta = false;
+                temp.forzada = false;
+            }
+
         }
 
         else {
@@ -290,7 +302,7 @@ public class Sala{
     protected void modelsInExplosion(BombaActiva bomba){
 
         if( checkExplosion(bomba, jugador) )
-            jugador.HP = jugador.HP-1;
+            jugador.setHP( jugador.HP-1 );
 
         for(EnemigoMelee enemigo : enemigos)
             if( checkExplosion(bomba, enemigo) )
@@ -302,6 +314,11 @@ public class Sala{
                 iterator.remove();
                 continue;
             }
+        }
+
+        for(Puerta puerta : puertas.values()){
+            if( checkExplosion(bomba, puerta) )
+                puerta.forzada = true;
         }
 
     }

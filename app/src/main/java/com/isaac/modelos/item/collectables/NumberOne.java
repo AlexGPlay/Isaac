@@ -18,19 +18,8 @@ public class NumberOne extends Item{
 
     @Override
     public void doStuff(Jugador jugador) {
-        if(jugador.tearDelay>=50){
-            jugador.tearDelay *= 0.70;
-
-            if(jugador.tearDelay<50)
-                jugador.tearDelay = 50;
-        }
-
-        if(jugador.tearRange>=150){
-            jugador.tearRange *= 0.75;
-
-            if(jugador.tearRange<150)
-                jugador.tearRange = 150;
-        }
+        jugador.setTearDelay( (int)(jugador.tearDelay*0.75) );
+        jugador.setTearRange( (int)(jugador.tearRange*0.75) );
 
     }
 

@@ -18,12 +18,7 @@ public class TheSadOnion extends Item {
 
     @Override
     public void doStuff(Jugador jugador) {
-        if(jugador.tearDelay>=50){
-            jugador.tearDelay *= 0.75;
-
-            if(jugador.tearDelay<50)
-                jugador.tearDelay = 50;
-        }
+        jugador.setTearDelay((int)(jugador.tearDelay*0.75));
     }
 
 }

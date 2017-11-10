@@ -301,4 +301,49 @@ public class Jugador extends Modelo{
         modifiers.add(modifier);
     }
 
+    public void setHP(int newHP){
+        if(newHP>=0 && newHP<=this.actualMaxHP){
+            this.HP = newHP;
+        }
+    }
+
+    public void setMaxHP(int newMaxHP){
+        if(newMaxHP<maxHP){
+            actualMaxHP = actualMaxHP+2;
+        }
+    }
+
+    public void setTearDelay(int tearDelay){
+        if(tearDelay>=50){
+            this.tearDelay = tearDelay;
+        }
+
+        else{
+            this.tearDelay = 50;
+        }
+
+    }
+
+    public void setEspecialTearDelay(int newTearDelay){
+        this.tearDelay = newTearDelay;
+
+        if(newTearDelay<25)
+            this.tearDelay = 25;
+    }
+
+    public void setTearRange(int newRange){
+        if(newRange>=150){
+            this.tearRange = newRange;
+        }
+        else{
+            this.tearRange = 150;
+        }
+    }
+
+    public void setMovementSpeed(int ms){
+        if(ms<10 && ms>2){
+            this.speed = ms;
+        }
+    }
+
 }

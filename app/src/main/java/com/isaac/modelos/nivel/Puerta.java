@@ -13,6 +13,8 @@ import com.isaac.modelos.Modelo;
 public class Puerta extends Modelo {
 
     public boolean abierta;
+    public boolean forzada;
+
     private int xSalida, ySalida;
     private int xEntrada, yEntrada;
 
@@ -27,6 +29,7 @@ public class Puerta extends Modelo {
 
         imagen = CargadorGraficos.cargarDrawable(context, puertaAbierta);
         abierta = true;
+        forzada = false;
     }
 
     public void setTile(int x, int y){

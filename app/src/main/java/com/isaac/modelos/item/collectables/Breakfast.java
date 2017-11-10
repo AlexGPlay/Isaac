@@ -18,9 +18,7 @@ public class Breakfast extends Item{
 
     @Override
     public void doStuff(Jugador jugador) {
-        if(jugador.actualMaxHP<jugador.maxHP){
-            jugador.actualMaxHP = jugador.actualMaxHP+2;
-            jugador.HP = jugador.actualMaxHP;
-        }
+        jugador.setMaxHP(jugador.actualMaxHP+2);
+        jugador.setHP(jugador.actualMaxHP);
     }
 }
