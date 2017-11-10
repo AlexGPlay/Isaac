@@ -95,7 +95,7 @@ public class Jugador extends Modelo{
         modifiers = new ArrayList<>();
         modifiers.add(new BasicShot());
 
-        numBombas = 5;
+        numBombas = 99;
 
         inicializar();
     }

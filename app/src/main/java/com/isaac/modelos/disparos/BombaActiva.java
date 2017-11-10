@@ -22,10 +22,12 @@ public class BombaActiva extends Modelo {
 
     private Sprite sprite;
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
+    public boolean explotada;
 
     public String estado;
 
-    public int radio = 20;
+    public int radio = 75;
+    public int daño = 10;
 
     public final static String CUENTA_ATRAS = "cuenta_Atras";
     public final static String EXPLOTANDO = "explotando";
@@ -36,6 +38,7 @@ public class BombaActiva extends Modelo {
 
         inicializar();
         estado = CUENTA_ATRAS;
+        explotada = false;
     }
 
     private void inicializar(){
@@ -65,8 +68,13 @@ public class BombaActiva extends Modelo {
             estado = EXPLOTANDO;
             sprite = sprites.get(EXPLOTANDO);
 
+            int antAltura = altura;
+
             this.altura = 96;
             this.ancho = 96;
+
+            int actualY = altura - antAltura;
+            this.y -= actualY/2;
 
             sprite.setFrameActual(0);
         }

@@ -287,6 +287,33 @@ public class Sala{
         return null;
     }
 
+    protected void modelsInExplosion(BombaActiva bomba){
+
+        if( checkExplosion(bomba, jugador) )
+            jugador.HP = jugador.HP-1;
+
+        for(EnemigoMelee enemigo : enemigos)
+            if( checkExplosion(bomba, enemigo) )
+                enemigo.HP = enemigo.HP - bomba.daño;
+
+        for(Iterator<Roca> iterator = rocas.iterator(); iterator.hasNext();) {
+            Roca roca = iterator.next();
+            if (checkExplosion(bomba, roca)) {
+                iterator.remove();
+                continue;
+            }
+        }
+
+    }
+
+    protected boolean checkExplosion(BombaActiva bomba, Modelo modelo){
+        double fC = Math.pow(modelo.x - bomba.x,2);
+        double sC = Math.pow(modelo.y - bomba.y,2);
+        double res = Math.sqrt(fC + sC);
+
+        return res <= bomba.radio;
+    }
+
     protected boolean colisiona(Modelo modelo, int x, int y){
         int tileX = (int) (x / Tile.ancho);
         int tileY = (int) (y / Tile.altura);
@@ -360,6 +387,9 @@ public class Sala{
         for(Iterator<EnemigoMelee> iterator = enemigos.iterator(); iterator.hasNext();){
             EnemigoMelee enemigo = iterator.next();
 
+            if(enemigo.HP <= 0 )
+                enemigo.estado = EnemigoMelee.ESTADO_MUERTO;
+
             if(enemigo.estado == EnemigoMelee.ESTADO_MUERTO) {
                 iterator.remove();
                 continue;
@@ -411,9 +441,6 @@ public class Sala{
                 if (disparo.colisiona(enemigo) && disparo.estado == DisparoJugador.DISPARANDO) {
                     enemigo.HP -= disparo.damage;
 
-                    if(enemigo.HP <= 0 )
-                        enemigo.estado = EnemigoMelee.ESTADO_MUERTO;
-
                     disparo.estado = DisparoJugador.FINALIZANDO;
                     continue;
                 }
@@ -461,6 +488,11 @@ public class Sala{
             if(bomba.estado == BombaActiva.EXPLOTADA){
                 iterator.remove();
                 continue;
+            }
+
+            if(bomba.estado == BombaActiva.EXPLOTANDO && !bomba.explotada){
+                modelsInExplosion(bomba);
+                bomba.explotada = true;
             }
 
         }
