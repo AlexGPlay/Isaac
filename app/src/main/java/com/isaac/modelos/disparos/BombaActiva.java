@@ -22,12 +22,12 @@ public class BombaActiva extends Modelo {
 
     private Sprite sprite;
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
-    public boolean explotada;
+    private boolean explotada;
 
     public String estado;
 
-    public int radio = 75;
-    public int daño = 10;
+    private int radio = 75;
+    private int daño = 10;
 
     public final static String CUENTA_ATRAS = "cuenta_Atras";
     public final static String EXPLOTANDO = "explotando";
@@ -87,6 +87,22 @@ public class BombaActiva extends Modelo {
 
     public void dibujar(Canvas canvas){
         sprite.dibujarSprite(canvas, (int)x - Sala.scrollEjeX,(int) y - Sala.scrollEjeY);
+    }
+
+    public boolean isExplotada(){
+        return explotada;
+    }
+
+    public void setExplotada(boolean explotada){
+        this.explotada = explotada;
+    }
+
+    public int getRadio(){
+        return radio;
+    }
+
+    public int getDaño(){
+        return daño;
     }
 
 }

@@ -220,8 +220,8 @@ public class Nivel {
             temp.puertaAbierta = R.drawable.puerta_sala_boss_derecha;
             temp.puertaCerrada = R.drawable.puerta_sala_boss_derecha_cerrada;
 
-            temp.ancho = 32;
-            temp.altura = 61;
+            temp.setAncho(32);
+            temp.setAltura(61);
         }
 
         if(salaBossJ+1<=ancho-1){
@@ -229,8 +229,8 @@ public class Nivel {
             temp.puertaAbierta = R.drawable.puerta_sala_boss_izquierda;
             temp.puertaCerrada = R.drawable.puerta_sala_boss_izquierda_cerrada;
 
-            temp.ancho = 32;
-            temp.altura = 61;
+            temp.setAncho(32);
+            temp.setAltura(61);
         }
 
         if(salaBossI-1>=0){
@@ -238,8 +238,8 @@ public class Nivel {
             temp.puertaAbierta = R.drawable.puerta_sala_boss_abajo;
             temp.puertaCerrada = R.drawable.puerta_sala_boss_abajo_cerrada;
 
-            temp.altura = 32;
-            temp.ancho = 61;
+            temp.setAncho(61);
+            temp.setAltura(32);
         }
 
         if(salaBossI+1<=largo-1){
@@ -247,8 +247,8 @@ public class Nivel {
             temp.puertaAbierta = R.drawable.puerta_sala_boss_arriba;
             temp.puertaCerrada = R.drawable.puerta_sala_boss_arriba_cerrada;
 
-            temp.altura = 32;
-            temp.ancho = 61;
+            temp.setAncho(61);
+            temp.setAltura(32);
         }
 
     }

@@ -17,7 +17,6 @@ public class Vida extends Item {
 
     @Override
     public void doStuff(Jugador jugador) {
-        if(jugador.HP < jugador.actualMaxHP)
-            jugador.HP += 1;
+        jugador.setHP(jugador.HP+2);
     }
 }

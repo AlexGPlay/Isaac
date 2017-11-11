@@ -102,14 +102,14 @@ public class Sala{
     public void checkEstadoSala(){
         if(enemigos.size()>0){
             for(Puerta puerta : puertas.values()) {
-                puerta.abierta = false;
+                puerta.setAbierta(false);
                 int x = puerta.getXEntrada();
                 int y = puerta.getYEntrada();
 
                 mapaTiles[x][y].tipoDeColision = Tile.SOLIDO;
 
-                if(puerta.forzada){
-                    puerta.abierta = true;
+                if(puerta.isForzada()){
+                    puerta.setAbierta(true);
                     mapaTiles[x][y].tipoDeColision = Tile.PASABLE;
                 }
 
@@ -118,7 +118,7 @@ public class Sala{
 
         else if(enemigos.size()<=0){
             for(Puerta puerta : puertas.values()) {
-                puerta.abierta = true;
+                puerta.setAbierta(true);
                 int x = puerta.getXEntrada();
                 int y = puerta.getYEntrada();
 
@@ -164,38 +164,38 @@ public class Sala{
 
         if(entrada!=null) {
             if(contraria == PUERTA_ABAJO){
-                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho/2;
-                jugador.y = entrada.getYSalida() * Tile.altura - Tile.altura/2;
+                jugador.setX( entrada.getXSalida() * Tile.ancho + Tile.ancho/2 );
+                jugador.setY( entrada.getYSalida() * Tile.altura - Tile.altura/2 );
             }
 
             else if(contraria == PUERTA_ARRIBA){
-                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho/2;
-                jugador.y = entrada.getYSalida() * Tile.altura + Tile.altura;
+                jugador.setX( entrada.getXSalida() * Tile.ancho + Tile.ancho/2 );
+                jugador.setY( entrada.getYSalida() * Tile.altura + Tile.altura );
             }
 
             else if(contraria == PUERTA_DERECHA){
-                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho/2;
-                jugador.y = entrada.getYSalida() * Tile.altura + Tile.altura/2;
+                jugador.setX( entrada.getXSalida() * Tile.ancho + Tile.ancho/2 );
+                jugador.setY( entrada.getYSalida() * Tile.altura + Tile.altura/2 );
             }
 
             else if(contraria == PUERTA_IZQUIERDA){
-                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho/2;
-                jugador.y = entrada.getYSalida() * Tile.altura + Tile.altura/2;
+                jugador.setX( entrada.getXSalida() * Tile.ancho + Tile.ancho/2 );
+                jugador.setY( entrada.getYSalida() * Tile.altura + Tile.altura/2 );
             }
 
             scrollEjeX = 0;
             scrollEjeY = 0;
 
             for(Puerta temp : puertas.values()) {
-                temp.abierta = false;
-                temp.forzada = false;
+                temp.setAbierta(false);
+                temp.setForzada(false);
             }
 
         }
 
         else {
-            jugador.x = 100;
-            jugador.y = 100;
+            jugador.setX( 100 );
+            jugador.setY( 100 );
         }
 
     }
@@ -314,7 +314,7 @@ public class Sala{
 
         for(EnemigoMelee enemigo : enemigos)
             if( checkExplosion(bomba, enemigo) )
-                enemigo.HP = enemigo.HP - bomba.daño;
+                enemigo.HP = enemigo.HP - bomba.getDaño();
 
         for(Iterator<Roca> iterator = rocas.iterator(); iterator.hasNext();) {
             Roca roca = iterator.next();
@@ -326,17 +326,17 @@ public class Sala{
 
         for(Puerta puerta : puertas.values()){
             if( checkExplosion(bomba, puerta) )
-                puerta.forzada = true;
+                puerta.setForzada(true);
         }
 
     }
 
     protected boolean checkExplosion(BombaActiva bomba, Modelo modelo){
-        double fC = Math.pow(modelo.x - bomba.x,2);
-        double sC = Math.pow(modelo.y - bomba.y,2);
+        double fC = Math.pow(modelo.getX() - bomba.getX(),2);
+        double sC = Math.pow(modelo.getY() - bomba.getY(),2);
         double res = Math.sqrt(fC + sC);
 
-        return res <= bomba.radio;
+        return res <= bomba.getRadio();
     }
 
     protected boolean colisiona(Modelo modelo, int x, int y){
@@ -377,7 +377,7 @@ public class Sala{
 
     protected void reglasMovimientoColisionPuerta(){
         for(String key : puertas.keySet()) {
-            if (jugador.colisiona(puertas.get(key)) && puertas.get(key).abierta) {
+            if (jugador.colisiona(puertas.get(key)) && puertas.get(key).isAbierta()) {
                 disparosJugador.clear();
                 nivel.moverSala(key);
             }
@@ -386,27 +386,27 @@ public class Sala{
 
     protected void reglasMovimientoJugador(){
 
-        int virtualX = (int) (jugador.x + jugador.aceleracionX);
-        int virtualY = (int) (jugador.y + jugador.aceleracionY);
+        int virtualX = (int) (jugador.getX() + jugador.aceleracionX);
+        int virtualY = (int) (jugador.getY() + jugador.aceleracionY);
 
         int tileXJugador = (int) (virtualX / Tile.ancho);
         int tileYJugador = (int) (virtualY / Tile.altura);
 
         if(jugador.aceleracionX<0){
-            tileXJugador = (int) ( (virtualX-jugador.ancho/2) / Tile.ancho);
+            tileXJugador = (int) ( (virtualX-jugador.getAncho()/2) / Tile.ancho);
         }
 
         if(jugador.aceleracionX>0){
-            tileXJugador = (int) ( (virtualX+jugador.ancho/2) / Tile.ancho);
+            tileXJugador = (int) ( (virtualX+jugador.getAncho()/2) / Tile.ancho);
         }
 
         if(jugador.aceleracionY>0){
-            tileYJugador = (int) ( (virtualY+jugador.altura/2) / Tile.altura);
+            tileYJugador = (int) ( (virtualY+jugador.getAltura()/2) / Tile.altura);
         }
 
         if(!colisiona(jugador,virtualX,virtualY,tileXJugador,tileYJugador)){
-            jugador.x = virtualX;
-            jugador.y = virtualY;
+            jugador.setX(virtualX);
+            jugador.setY(virtualY);
         }
 
     }
@@ -423,17 +423,17 @@ public class Sala{
                 continue;
             }
 
-            if((jugador.x - jugador.ancho / 2 <= (enemigo.x + enemigo.ancho / 2)
-                    && (jugador.x + jugador.ancho / 2) >= (enemigo.x - enemigo.ancho / 2))){
+            if((jugador.getX() - jugador.getAncho() / 2 <= (enemigo.getX() + enemigo.getAncho() / 2)
+                    && (jugador.getX() + jugador.getAncho() / 2) >= (enemigo.getX() - enemigo.getAncho() / 2))){
                 enemigo.aceleracionX=0;
             }
-            else if(jugador.x>enemigo.x) {
+            else if(jugador.getX()>enemigo.getX()) {
                 enemigo.aceleracionX=2;
-                enemigo.x+=enemigo.aceleracionX;
+                enemigo.setX( enemigo.getX() + enemigo.aceleracionX );
             }
-            else if(enemigo.x<jugador.x){
+            else if(enemigo.getX()<jugador.getX()){
                 enemigo.aceleracionX=-2;
-                enemigo.x+=enemigo.aceleracionX;
+                enemigo.setX( enemigo.getX() + enemigo.aceleracionX );
             }
 
         }
@@ -444,8 +444,8 @@ public class Sala{
         for(Iterator<DisparoJugador> iterator = disparosJugador.iterator(); iterator.hasNext();){
             DisparoJugador disparo = iterator.next();
 
-            int virtualX = (int) (disparo.x + disparo.aceleracionX);
-            int virtualY = (int) (disparo.y + disparo.aceleracionY);
+            int virtualX = (int) (disparo.getX() + disparo.getAceleracionX());
+            int virtualY = (int) (disparo.getY() + disparo.getAceleracionY());
 
             int tileXDisparo = (int) (virtualX / Tile.ancho);
             int tileYDisparo = (int) (virtualY / Tile.altura);
@@ -467,7 +467,7 @@ public class Sala{
 
             for(EnemigoMelee enemigo : enemigos) {
                 if (disparo.colisiona(enemigo) && disparo.estado == DisparoJugador.DISPARANDO) {
-                    enemigo.HP -= disparo.damage;
+                    enemigo.HP -= disparo.getDamage();
 
                     disparo.estado = DisparoJugador.FINALIZANDO;
                     continue;
@@ -482,8 +482,8 @@ public class Sala{
             }
 
             if(disparo.estado == DisparoJugador.DISPARANDO) {
-                disparo.x = virtualX;
-                disparo.y = virtualY;
+                disparo.setX(virtualX);
+                disparo.setY(virtualY);
             }
         }
     }
@@ -518,9 +518,9 @@ public class Sala{
                 continue;
             }
 
-            if(bomba.estado == BombaActiva.EXPLOTANDO && !bomba.explotada){
+            if(bomba.estado == BombaActiva.EXPLOTANDO && !bomba.isExplotada()){
                 modelsInExplosion(bomba);
-                bomba.explotada = true;
+                bomba.setExplotada(true);
             }
 
         }
@@ -530,19 +530,19 @@ public class Sala{
     protected void dibujarTiles(Canvas canvas){
         // Calcular que tiles serán visibles en la pantalla
         // La matriz de tiles es más grande que la pantalla
-        int tileXJugador = (int) jugador.x / Tile.ancho;
-        int izquierda = (int) (tileXJugador - tilesEnDistanciaX(jugador.x - scrollEjeX));
+        int tileXJugador = (int) jugador.getX() / Tile.ancho;
+        int izquierda = (int) (tileXJugador - tilesEnDistanciaX(jugador.getX() - scrollEjeX));
         izquierda = Math.max(0,izquierda); // Que nunca sea < 0, ej -1
 
-        if ( jugador .x  < anchoMapaTiles()* Tile.ancho - GameView.pantallaAncho*0.3 )
-            if( jugador .x - scrollEjeX > GameView.pantallaAncho * 0.7 ){
-                scrollEjeX = (int) ((jugador .x ) - GameView.pantallaAncho* 0.7);
+        if ( jugador.getX()  < anchoMapaTiles()* Tile.ancho - GameView.pantallaAncho*0.3 )
+            if( jugador.getX() - scrollEjeX > GameView.pantallaAncho * 0.7 ){
+                scrollEjeX = (int) ((jugador.getX() ) - GameView.pantallaAncho* 0.7);
             }
 
 
-        if ( jugador .x  > GameView.pantallaAncho*0.3 )
-            if( jugador .x - scrollEjeX < GameView.pantallaAncho *0.3 ){
-                scrollEjeX = (int)(jugador .x - GameView.pantallaAncho*0.3);
+        if ( jugador.getX()  > GameView.pantallaAncho*0.3 )
+            if( jugador.getX() - scrollEjeX < GameView.pantallaAncho *0.3 ){
+                scrollEjeX = (int)(jugador.getX() - GameView.pantallaAncho*0.3);
             }
 
 
@@ -552,19 +552,19 @@ public class Sala{
         // el ultimo tile visible, no puede superar el tamaño del mapa
         derecha = Math.min(derecha, anchoMapaTiles() - 1);
 
-        int tileYJugador = (int) jugador.y / Tile.altura;
-        int alto = (int) (tileYJugador - tilesEnDistanciaY(jugador.y - scrollEjeY));
+        int tileYJugador = (int) jugador.getY() / Tile.altura;
+        int alto = (int) (tileYJugador - tilesEnDistanciaY(jugador.getY() - scrollEjeY));
         alto = Math.max(0,alto);
 
-        if(jugador.y < altoMapaTiles()*Tile.altura - GameView.pantallaAlto*0.3){
-            if(jugador.y -scrollEjeY > GameView.pantallaAlto*0.7){
-                scrollEjeY = (int) (jugador.y - GameView.pantallaAlto*0.7);
+        if(jugador.getY() < altoMapaTiles()*Tile.altura - GameView.pantallaAlto*0.3){
+            if(jugador.getY() -scrollEjeY > GameView.pantallaAlto*0.7){
+                scrollEjeY = (int) (jugador.getY() - GameView.pantallaAlto*0.7);
             }
         }
 
-        if(jugador.y > GameView.pantallaAlto*0.3){
-            if(jugador.y-scrollEjeY < GameView.pantallaAlto*0.3){
-                scrollEjeY = (int)(jugador.y - GameView.pantallaAlto*0.3);
+        if(jugador.getY() > GameView.pantallaAlto*0.3){
+            if(jugador.getY()-scrollEjeY < GameView.pantallaAlto*0.3){
+                scrollEjeY = (int)(jugador.getY() - GameView.pantallaAlto*0.3);
             }
         }
 

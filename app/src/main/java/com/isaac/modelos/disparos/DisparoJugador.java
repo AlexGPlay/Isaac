@@ -20,15 +20,14 @@ public class DisparoJugador extends Modelo {
     public int estado;
 
     private Sprite sprite;
-    private final static double velocidadX = 10;
-    private final static double velocidadY = 10;
-    public int aceleracionX;
-    public int aceleracionY;
+    private final static double velocidad = 10;
+    private int aceleracionX;
+    private int aceleracionY;
 
     private long tearRange;
     private long actualRange;
 
-    public double damage;
+    private double damage;
 
     private int orientacion;
     private HashMap<String,Sprite> sprites = new HashMap<>();
@@ -51,22 +50,22 @@ public class DisparoJugador extends Modelo {
 
         if(orientacion == Jugador.DISPARO_DERECHA){
             aceleracionY = 0;
-            aceleracionX = (int)velocidadX;
+            aceleracionX = (int)velocidad;
         }
 
         else if(orientacion == Jugador.DISPARO_IZQUIERDA){
             aceleracionY = 0;
-            aceleracionX = -(int)velocidadX;
+            aceleracionX = -(int)velocidad;
         }
 
         else if(orientacion == Jugador.DISPARO_ABAJO){
             aceleracionX = 0;
-            aceleracionY = (int)velocidadY;
+            aceleracionY = (int)velocidad;
         }
 
         else if(orientacion == Jugador.DISPARO_ARRIBA){
             aceleracionX = 0;
-            aceleracionY = -(int)velocidadY;
+            aceleracionY = -(int)velocidad;
         }
 
         estado = DISPARANDO;
@@ -107,6 +106,18 @@ public class DisparoJugador extends Modelo {
 
     public void dibujar(Canvas canvas){
         sprite.dibujarSprite(canvas, (int) x - Sala.scrollEjeX, (int) y - Sala.scrollEjeY);
+    }
+
+    public int getAceleracionX(){
+        return aceleracionX;
+    }
+
+    public int getAceleracionY(){
+        return aceleracionY;
+    }
+
+    public double getDamage(){
+        return damage;
     }
 
     public DisparoJugador clone(){

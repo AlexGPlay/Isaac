@@ -12,11 +12,12 @@ public class Modelo {
 
     public int colision;
 
-    public Context context;
-    public double x;
-    public double y;
-    public int altura;
-    public int ancho;
+    protected Context context;
+    protected double x;
+    protected double y;
+    protected int altura;
+    protected int ancho;
+
     protected Drawable imagen;
 
     protected int cDerecha;
@@ -52,7 +53,6 @@ public class Modelo {
         imagen.draw(canvas);
     }
 
-    // No Actualiza
     public void actualizar (long tiempo){}
 
     public boolean colisiona (Modelo modelo){
@@ -92,6 +92,38 @@ public class Modelo {
             colisiona = true;
         }
         return colisiona;
+    }
+
+    public double getX(){
+        return x;
+    }
+
+    public void setX(double x){
+        this.x = x;
+    }
+
+    public double getY(){
+        return y;
+    }
+
+    public void setY(double y){
+        this.y = y;
+    }
+
+    public int getAltura(){
+        return altura;
+    }
+
+    public void setAltura(int altura){
+        this.altura = altura;
+    }
+
+    public int getAncho(){
+        return ancho;
+    }
+
+    public void setAncho(int ancho){
+        this.ancho = ancho;
     }
 
 }

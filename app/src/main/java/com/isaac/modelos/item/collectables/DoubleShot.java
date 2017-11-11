@@ -35,34 +35,34 @@ public class DoubleShot extends Item implements ShotModifier{
 
         if(orientacion == Jugador.DISPARO_DERECHA){
             disparo1 = prueba.clone();
-            disparo1.y = y-5;
+            disparo1.setY( y-5 );
 
             disparo2 = prueba.clone();
-            disparo2.y = y+5;
+            disparo2.setY(y+5);
         }
 
         else if(orientacion == Jugador.DISPARO_IZQUIERDA){
             disparo1 = prueba.clone();
-            disparo1.y = y-5;
+            disparo1.setY(y-5);
 
             disparo2 = prueba.clone();
-            disparo2.y = y+5;
+            disparo2.setY(y+5);
         }
 
         else if(orientacion == Jugador.DISPARO_ABAJO){
             disparo1 = prueba.clone();
-            disparo1.x = x-5;
+            disparo1.setX(x-5);
 
             disparo2 = prueba.clone();
-            disparo2.x = x+5;
+            disparo2.setX(x+5);
         }
 
         else if(orientacion == Jugador.DISPARO_ARRIBA){
             disparo1 = prueba.clone();
-            disparo1.x = x-5;
+            disparo1.setX(x-5);
 
            disparo2 = prueba.clone();
-            disparo2.x = x+5;
+           disparo2.setX(x+5);
         }
 
         disparos.add(disparo1);

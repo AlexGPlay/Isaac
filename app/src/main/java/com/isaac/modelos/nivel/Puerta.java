@@ -12,14 +12,14 @@ import com.isaac.modelos.Modelo;
 
 public class Puerta extends Modelo {
 
-    public boolean abierta;
-    public boolean forzada;
+    private boolean abierta;
+    private boolean forzada;
 
     private int xSalida, ySalida;
     private int xEntrada, yEntrada;
 
-    public int puertaAbierta;
-    public int puertaCerrada;
+    protected int puertaAbierta;
+    protected int puertaCerrada;
 
     public Puerta(Context context, double x, double y, int alto, int ancho, int puertaAbierta, int puertaCerrada) {
         super(context, x, y, alto, ancho);
@@ -53,6 +53,22 @@ public class Puerta extends Modelo {
     public int getYEntrada() { return yEntrada; }
 
     public int getXEntrada() { return xEntrada; }
+
+    public boolean isAbierta(){
+        return abierta;
+    }
+
+    public void setAbierta(boolean abierta){
+        this.abierta = abierta;
+    }
+
+    public boolean isForzada(){
+        return forzada;
+    }
+
+    public void setForzada(boolean forzada){
+        this.forzada = forzada;
+    }
 
     @Override
     public void dibujar(Canvas canvas){
