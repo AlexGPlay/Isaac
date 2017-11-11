@@ -14,5 +14,6 @@ public abstract class ItemID {
     public static final int BLOOD_OF_THE_MARTYR = 6;
     public static final int SOY_MILK = 7;
     public static final int DOUBLE_SHOT = 8;
+    public static final int FATE = 9;
 
 }

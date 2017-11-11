@@ -18,14 +18,14 @@ public class TheHalo extends Item {
 
     @Override
     public void doStuff(Jugador jugador) {
-        jugador.setMaxHP(jugador.actualMaxHP+2);
-        jugador.setHP(jugador.actualMaxHP);
-        jugador.setTearDelay((int)(jugador.tearDelay*0.9));
+        jugador.setMaxHP(jugador.getMaxHP()+2);
+        jugador.setHP(jugador.getMaxHP());
+        jugador.setTearDelay((int)(jugador.getTearDelay()*0.9));
 
-        jugador.setMovementSpeed( (int)(jugador.speed + 0.5));
+        jugador.setMovementSpeed( (int)(jugador.getMovementSpeed() + 0.5));
 
-        jugador.tearDamage *= 1.25;
-        jugador.setTearRange( (int)(jugador.tearRange*1.25) );
+        jugador.setTearDamage( jugador.getTearDamage()*1.25 );
+        jugador.setTearRange( (long)(jugador.getTearRange()*1.25) );
     }
 
 }

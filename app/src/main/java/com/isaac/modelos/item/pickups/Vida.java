@@ -17,6 +17,6 @@ public class Vida extends Item {
 
     @Override
     public void doStuff(Jugador jugador) {
-        jugador.setHP(jugador.HP+2);
+        jugador.setHP(jugador.getHP()+2);
     }
 }

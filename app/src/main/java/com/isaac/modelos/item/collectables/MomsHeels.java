@@ -18,6 +18,6 @@ public class MomsHeels extends Item {
 
     @Override
     public void doStuff(Jugador jugador) {
-        jugador.tearRange *= 1.5;
+        jugador.setTearRange((long)(jugador.getTearRange()*1.5));
     }
 }

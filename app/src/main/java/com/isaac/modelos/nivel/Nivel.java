@@ -54,19 +54,19 @@ public class Nivel {
     }
 
     public IconoVida[] getActualHP(){
-        IconoVida[] vida = new IconoVida[jugador.actualMaxHP/2];
+        IconoVida[] vida = new IconoVida[jugador.getMaxHP()/2];
 
-        if(jugador.HP % 2 == 0){
+        if(jugador.getHP() % 2 == 0){
 
             int i = 0;
             int j = 0;
 
-            for(;i<jugador.HP;i=i+2) {
+            for(;i<jugador.getHP();i=i+2) {
                 vida[j] = new IconoVida(context, GameView.pantallaAncho * (0.04 * (j + 1)), GameView.pantallaAlto * 0.05, IconoVida.FULL_HP);
                 j++;
             }
 
-            for(;i<jugador.actualMaxHP;i=i+2) {
+            for(;i<jugador.getMaxHP();i=i+2) {
                 vida[j] = new IconoVida(context, GameView.pantallaAncho * (0.04 * (j + 1)), GameView.pantallaAlto * 0.05, IconoVida.EMPTY_HP);
                 j++;
             }
@@ -74,7 +74,7 @@ public class Nivel {
 
         else{
 
-            int objHP = jugador.HP-1;
+            int objHP = jugador.getHP()-1;
             int i = 0;
             int j = 0;
 
@@ -87,7 +87,7 @@ public class Nivel {
             i+=2;
             j++;
 
-            for(;i<jugador.actualMaxHP;i=i+2) {
+            for(;i<jugador.getMaxHP();i=i+2) {
                 vida[j] = new IconoVida(context, GameView.pantallaAncho * (0.04 * (j + 1)), GameView.pantallaAlto * 0.05, IconoVida.EMPTY_HP);
                 j++;
             }

@@ -18,7 +18,7 @@ public class BloodOfTheMartyr extends Item {
 
     @Override
     public void doStuff(Jugador jugador) {
-        jugador.tearDamage *= 1.75;
+        jugador.setTearDamage(jugador.getTearDamage()*1.75);
     }
 
 }

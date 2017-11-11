@@ -10,6 +10,10 @@ public class Modelo {
     public static final int SOLIDO = 1;
     public static final int MOVIBLE = 2;
 
+    public static final int NO_COLISION = 0;
+    public static final int COLISION_TILE = 1;
+    public static final int COLISION_MODELO = 2;
+
     public int colision;
 
     protected Context context;

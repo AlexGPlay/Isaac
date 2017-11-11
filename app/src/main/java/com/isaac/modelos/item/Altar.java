@@ -9,6 +9,7 @@ import com.isaac.modelos.Modelo;
 import com.isaac.modelos.item.collectables.BloodOfTheMartyr;
 import com.isaac.modelos.item.collectables.Breakfast;
 import com.isaac.modelos.item.collectables.DoubleShot;
+import com.isaac.modelos.item.collectables.Fate;
 import com.isaac.modelos.item.collectables.ItemID;
 import com.isaac.modelos.item.collectables.MomsHeels;
 import com.isaac.modelos.item.collectables.NumberOne;
@@ -34,9 +35,11 @@ public class Altar extends Modelo {
 
         picked = false;
 
-        int itemID = (int)(Math.random()*nivel.itemPool.size());
-        itemID = nivel.itemPool.get(itemID);
-        //nivel.itemPool.remove(itemID);
+        int posicion = (int)(Math.random()*nivel.itemPool.size());
+        int itemID = nivel.itemPool.get(posicion);
+
+        if(itemID!=ItemID.BREAKFAST)
+            nivel.itemPool.remove(posicion);
 
         item = generateItem(context, itemID);
     }
@@ -68,6 +71,8 @@ public class Altar extends Modelo {
             case ItemID.DOUBLE_SHOT:
                 return new DoubleShot(context, this.x, this.y-20);
 
+            case ItemID.FATE:
+                return new Fate(context, this.x, this.y-20);
         }
 
         return null;

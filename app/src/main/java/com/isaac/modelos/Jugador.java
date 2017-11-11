@@ -46,6 +46,11 @@ public class Jugador extends Modelo{
     private static final String MOVER_IZQUIERDA = "mover_izquierda";
     private static final String PARADO_SPRITE = "parado";
 
+    private static final String VOLAR_ADELANTE = "volar_adelante";
+    private static final String VOLAR_DERECHA  = "volar_derecha";
+    private static final String VOLAR_IZQUIERDA = "volar_izquierda";
+    private static final String VOLAR_ATRAS = "volar_atras";
+
     private final static int alturaCabeza = 25;
     private final static int anchoCabeza = 29;
     private final static int alturaCuerpo = 14;
@@ -55,22 +60,26 @@ public class Jugador extends Modelo{
     private Sprite spriteCuerpo;
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
 
-    public double aceleracionX;
-    public double aceleracionY;
+    private double aceleracionX;
+    private double aceleracionY;
 
-    public long tearDelay;
-    public long tearRange;
-    public double tearDamage;
-    public int HP;
-    public int maxHP;
-    public int actualMaxHP;
-    public double speed;
+    private long tearDelay;
+    private long tearRange;
+    private double tearDamage;
+    private int HP;
+    private int maxHP;
+    private int actualMaxHP;
+    private double speed;
 
-    public int actualDelay;
+    private int actualDelay;
+
+    private boolean flying;
 
     private int numBombas;
     private int numLlaves;
     private int numMonedas;
+
+    private int orientacion;
 
     private List<ShotModifier> modifiers;
 
@@ -96,6 +105,7 @@ public class Jugador extends Modelo{
         modifiers.add(new BasicShot());
 
         numBombas = 99;
+        flying = false;
 
         inicializar();
     }
@@ -150,6 +160,30 @@ public class Jugador extends Modelo{
                 1, 1, true);
         sprites.put(PARADO_SPRITE, cuerpoParado);
 
+        Sprite volarAdelante = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_volar_adelante),
+                44, 31,
+                7, 7, true);
+        sprites.put(VOLAR_ADELANTE, volarAdelante);
+
+        Sprite volarIzquierda = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_volar_izquierda),
+                29, 31,
+                7, 7, true);
+        sprites.put(VOLAR_IZQUIERDA, volarIzquierda);
+
+        Sprite volarDerecha = new Sprite(
+                        CargadorGraficos.cargarDrawable(context, R.drawable.isaac_volar_derecha),
+                        29, 31,
+                        7, 7, true);
+        sprites.put(VOLAR_DERECHA, volarDerecha);
+
+        Sprite volarArriba = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_volar_arriba),
+                44, 31,
+                7, 7, true);
+        sprites.put(VOLAR_ATRAS, volarArriba);
+
 
         spriteCabeza = sprites.get(CABEZA_ADELANTE);
         spriteCuerpo = sprites.get(PARADO_SPRITE);
@@ -178,34 +212,62 @@ public class Jugador extends Modelo{
     }
 
     public void procesarOrdenes (int orientacionPad) {
+        this.orientacion = orientacionPad;
 
         if (orientacionPad == MOVIMIENTO_DERECHA) {
             aceleracionY = 0;
             aceleracionX = speed;
 
-            spriteCabeza = sprites.get(CABEZA_DERECHA);
-            spriteCuerpo = sprites.get(MOVER_DERECHA);
+            if(!flying) {
+                spriteCabeza = sprites.get(CABEZA_DERECHA);
+                spriteCuerpo = sprites.get(MOVER_DERECHA);
+            }
+
+            else{
+                spriteCabeza = sprites.get(CABEZA_DERECHA);
+                spriteCuerpo = sprites.get(VOLAR_DERECHA);
+            }
+
         }
         else if (orientacionPad == MOVIMIENTO_ABAJO){
             aceleracionX = 0;
             aceleracionY = speed;
 
-            spriteCabeza = sprites.get(CABEZA_ADELANTE);
-            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+            if(!flying) {
+                spriteCabeza = sprites.get(CABEZA_ADELANTE);
+                spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+            }
+            else{
+                spriteCabeza = sprites.get(CABEZA_ADELANTE);
+                spriteCuerpo = sprites.get(VOLAR_ADELANTE);
+            }
         }
         else if(orientacionPad == MOVIMIENTO_IZQUIERDA){
             aceleracionY  =0;
             aceleracionX= -speed;
 
-            spriteCabeza = sprites.get(CABEZA_IZQUIERDA);
-            spriteCuerpo = sprites.get(MOVER_IZQUIERDA);
+            if(!flying) {
+                spriteCabeza = sprites.get(CABEZA_IZQUIERDA);
+                spriteCuerpo = sprites.get(MOVER_IZQUIERDA);
+            }
+
+            else{
+                spriteCabeza = sprites.get(CABEZA_IZQUIERDA);
+                spriteCuerpo = sprites.get(VOLAR_IZQUIERDA);
+            }
         }
         else if(orientacionPad == MOVIMIENTO_ARRIBA) {
             aceleracionX = 0;
             aceleracionY = -speed;
 
-            spriteCabeza = sprites.get(CABEZA_ATRAS);
-            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+            if(!flying) {
+                spriteCabeza = sprites.get(CABEZA_ATRAS);
+                spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+            }
+            else{
+                spriteCabeza = sprites.get(CABEZA_ATRAS);
+                spriteCuerpo = sprites.get(VOLAR_ATRAS);
+            }
         }
         else if(orientacionPad == MOVIMIENTO_ARRIBA_DERECHA){
             aceleracionX = 5;
@@ -238,8 +300,16 @@ public class Jugador extends Modelo{
         else if(orientacionPad == PARADO) {
             frenar();
 
-            spriteCabeza = sprites.get(CABEZA_ADELANTE);
-            spriteCuerpo = sprites.get(PARADO_SPRITE);
+            if(!flying) {
+                spriteCabeza = sprites.get(CABEZA_ADELANTE);
+                spriteCuerpo = sprites.get(PARADO_SPRITE);
+            }
+
+            else{
+                spriteCabeza = sprites.get(CABEZA_ADELANTE);
+                spriteCuerpo = sprites.get(VOLAR_ADELANTE);
+            }
+
         }
 
     }
@@ -248,10 +318,38 @@ public class Jugador extends Modelo{
         int xCabeza = (int)(x-(ancho/2)+(anchoCabeza/2));
         int yCabeza = (int)(y-(altura/2)+(alturaCabeza/2));
 
-        int yCuerpo = (int)(yCabeza+(alturaCabeza/2)+(alturaCuerpo/2)-4);
+        int xCuerpo = xCabeza;
+        int yCuerpo = (yCabeza+(alturaCabeza/2)+(alturaCuerpo/2)-4);
 
-        spriteCuerpo.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
-        spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
+        if(flying && (orientacion == Jugador.PARADO || orientacion == Jugador.MOVIMIENTO_ABAJO)){
+            yCuerpo -= 1;
+            spriteCuerpo.dibujarSprite(canvas, xCuerpo - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
+            spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
+        }
+
+        else if(flying && orientacion == Jugador.MOVIMIENTO_IZQUIERDA){
+            xCuerpo += 7;
+            spriteCuerpo.dibujarSprite(canvas, xCuerpo - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
+            spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
+        }
+
+        else if(flying && orientacion == Jugador.MOVIMIENTO_DERECHA){
+            xCuerpo -= 7;
+            spriteCuerpo.dibujarSprite(canvas, xCuerpo - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
+            spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
+        }
+
+        else if(flying && orientacion == Jugador.MOVIMIENTO_ARRIBA){
+            yCuerpo -= 1;
+            spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
+            spriteCuerpo.dibujarSprite(canvas, xCuerpo - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
+        }
+
+        else{
+            spriteCuerpo.dibujarSprite(canvas, xCuerpo - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
+            spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
+        }
+
     }
 
     private void frenar(){
@@ -301,10 +399,22 @@ public class Jugador extends Modelo{
         modifiers.add(modifier);
     }
 
+    public double getTearDamage(){
+        return tearDamage;
+    }
+
+    public void setTearDamage(double damage){
+        this.tearDamage = damage;
+    }
+
     public void setHP(int newHP){
         if(newHP>=0 && newHP<=this.actualMaxHP){
             this.HP = newHP;
         }
+    }
+
+    public int getHP(){
+        return this.HP;
     }
 
     public void setMaxHP(int newMaxHP){
@@ -313,7 +423,11 @@ public class Jugador extends Modelo{
         }
     }
 
-    public void setTearDelay(int tearDelay){
+    public int getMaxHP(){
+        return actualMaxHP;
+    }
+
+    public void setTearDelay(long tearDelay){
         if(tearDelay>=50){
             this.tearDelay = tearDelay;
         }
@@ -324,14 +438,18 @@ public class Jugador extends Modelo{
 
     }
 
-    public void setEspecialTearDelay(int newTearDelay){
+    public void setEspecialTearDelay(long newTearDelay){
         this.tearDelay = newTearDelay;
 
         if(newTearDelay<25)
             this.tearDelay = 25;
     }
 
-    public void setTearRange(int newRange){
+    public long getTearDelay(){
+        return this.tearDelay;
+    }
+
+    public void setTearRange(long newRange){
         if(newRange>=150){
             this.tearRange = newRange;
         }
@@ -340,10 +458,34 @@ public class Jugador extends Modelo{
         }
     }
 
+    public long getTearRange(){
+        return this.tearRange;
+    }
+
     public void setMovementSpeed(int ms){
         if(ms<10 && ms>2){
             this.speed = ms;
         }
+    }
+
+    public double getMovementSpeed(){
+        return speed;
+    }
+
+    public boolean isFlying(){
+        return flying;
+    }
+
+    public void setFlying(boolean status){
+        flying = status;
+    }
+
+    public double getAceleracionX(){
+        return aceleracionX;
+    }
+
+    public double getAceleracionY(){
+        return aceleracionY;
     }
 
 }

@@ -18,8 +18,8 @@ public class SoyMilk extends Item {
 
     @Override
     public void doStuff(Jugador jugador) {
-        jugador.tearDamage *= 0.2;
-        jugador.setEspecialTearDelay((int)((jugador.tearDelay/4)-50));
+        jugador.setTearDamage( jugador.getTearDamage()*0.2 );
+        jugador.setEspecialTearDelay((int)((jugador.getTearDelay()/4)-50));
     }
 
 }
