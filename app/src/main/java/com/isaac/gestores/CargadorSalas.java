@@ -123,7 +123,7 @@ public class CargadorSalas {
                 puertaCerrada = R.drawable.puerta_sala_dorada_izquierda_cerrada;
 
                 tAlto = 49;
-                tAncho = 40;
+                tAncho = 32;
             }
 
             else if(salaTemp.getTipoSala() == Sala.SALA_BOSS){
@@ -131,7 +131,7 @@ public class CargadorSalas {
                 puertaCerrada = R.drawable.puerta_sala_boss_izquierda_cerrada;
 
                 tAlto = 61;
-                tAncho = 40;
+                tAncho = 32;
             }
 
             else{
@@ -139,7 +139,7 @@ public class CargadorSalas {
                 puertaCerrada = R.drawable.puerta_sala_izquierda_cerrada;
 
                 tAlto = 49;
-                tAncho = 40;
+                tAncho = 32;
             }
 
             Puerta temp = new Puerta(context, Tile.ancho * x + Tile.ancho / 2, Tile.altura * y + Tile.altura / 2, tAlto, tAncho, puertaAbierta, puertaCerrada);
@@ -196,7 +196,7 @@ public class CargadorSalas {
                 puertaAbierta = R.drawable.puerta_sala_dorada_derecha;
                 puertaCerrada = R.drawable.puerta_sala_dorada_derecha_cerrada;
 
-                tAncho = 40;
+                tAncho = 32;
                 tAlto = 49;
             }
 
@@ -204,7 +204,7 @@ public class CargadorSalas {
                 puertaAbierta = R.drawable.puerta_sala_boss_derecha;
                 puertaCerrada = R.drawable.puerta_sala_boss_derecha_cerrada;
 
-                tAncho = 40;
+                tAncho = 32;
                 tAlto = 61;
             }
 
@@ -212,7 +212,7 @@ public class CargadorSalas {
                 puertaAbierta = R.drawable.puerta_sala_derecha;
                 puertaCerrada = R.drawable.puerta_sala_derecha_cerrada;
 
-                tAncho = 40;
+                tAncho = 32;
                 tAlto = 49;
             }
 

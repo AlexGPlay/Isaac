@@ -163,14 +163,16 @@ public class Nivel {
         salas[salaBossI][salaBossJ] = new Sala_boss(context, Sala.SALA_BOSS_1, jugador, this);
 
         do {
-            salaActualX = (int) (Math.random() * salas[0].length);
             salaActualY = (int) (Math.random() * salas.length);
-        }while( (salaActualX==salaAmarillaI && salaActualY==salaAmarillaJ) || (salaActualX==salaBossI && salaActualY==salaBossJ));
+            salaActualX = (int) (Math.random() * salas[0].length);
+        }while( (salaActualY==salaAmarillaI && salaActualX==salaAmarillaJ) || (salaActualY==salaBossI && salaActualX==salaBossJ));
+
+        salas[salaActualY][salaActualX] = new Sala(context, Sala.SALA_CUADRADA_1, jugador, this);
 
         for(int i=0;i<salas.length;i++){
             for(int j=0;j<salas[i].length;j++){
                 if(salas[i][j]==null)
-                    salas[i][j] = new Sala(context, Sala.SALA_CUADRADA_1, jugador, this);
+                    salas[i][j] = new Sala(context, Sala.getLayout(), jugador, this);
 
                 if(i==0)
                     salas[i][j].puertas.remove(Sala.PUERTA_ARRIBA);
@@ -217,24 +219,36 @@ public class Nivel {
             Puerta temp = salas[salaBossI][salaBossJ-1].puertas.get(Sala.PUERTA_DERECHA);
             temp.puertaAbierta = R.drawable.puerta_sala_boss_derecha;
             temp.puertaCerrada = R.drawable.puerta_sala_boss_derecha_cerrada;
+
+            temp.ancho = 32;
+            temp.altura = 61;
         }
 
         if(salaBossJ+1<=ancho-1){
             Puerta temp = salas[salaBossI][salaBossJ+1].puertas.get(Sala.PUERTA_IZQUIERDA);
             temp.puertaAbierta = R.drawable.puerta_sala_boss_izquierda;
             temp.puertaCerrada = R.drawable.puerta_sala_boss_izquierda_cerrada;
+
+            temp.ancho = 32;
+            temp.altura = 61;
         }
 
         if(salaBossI-1>=0){
             Puerta temp = salas[salaBossI-1][salaBossJ].puertas.get(Sala.PUERTA_ABAJO);
             temp.puertaAbierta = R.drawable.puerta_sala_boss_abajo;
             temp.puertaCerrada = R.drawable.puerta_sala_boss_abajo_cerrada;
+
+            temp.altura = 32;
+            temp.ancho = 61;
         }
 
         if(salaBossI+1<=largo-1){
             Puerta temp = salas[salaBossI+1][salaBossJ].puertas.get(Sala.PUERTA_ARRIBA);
             temp.puertaAbierta = R.drawable.puerta_sala_boss_arriba;
             temp.puertaCerrada = R.drawable.puerta_sala_boss_arriba_cerrada;
+
+            temp.altura = 32;
+            temp.ancho = 61;
         }
 
     }

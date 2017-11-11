@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alex on 24/10/2017.
@@ -31,6 +32,11 @@ import java.util.List;
 public class Sala{
 
     public static final String SALA_CUADRADA_1 = "Sala_cuadrada_1";
+    public static final String SALA_CUADRADA_2 = "Sala_cuadrada_2";
+    public static final String SALA_CUADRADA_3 = "Sala_cuadrada_3";
+    public static final String SALA_CUADRADA_4 = "Sala_cuadrada_4";
+
+    private static final int NUMBER_OF_LAYOUTS = 4;
 
     public static final String SALA_DORADA_1 = "Sala_dorada_test";
     public static final String SALA_BOSS_1 = "Sala_boss_test";
@@ -158,23 +164,23 @@ public class Sala{
 
         if(entrada!=null) {
             if(contraria == PUERTA_ABAJO){
-                jugador.x = entrada.getXSalida() * Tile.ancho;
-                jugador.y = entrada.getYSalida() * Tile.altura - Tile.altura;
+                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho/2;
+                jugador.y = entrada.getYSalida() * Tile.altura - Tile.altura/2;
             }
 
             else if(contraria == PUERTA_ARRIBA){
-                jugador.x = entrada.getXSalida() * Tile.ancho;
+                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho/2;
                 jugador.y = entrada.getYSalida() * Tile.altura + Tile.altura;
             }
 
             else if(contraria == PUERTA_DERECHA){
-                jugador.x = entrada.getXSalida() * Tile.ancho - Tile.ancho;
-                jugador.y = entrada.getYSalida() * Tile.altura;
+                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho/2;
+                jugador.y = entrada.getYSalida() * Tile.altura + Tile.altura/2;
             }
 
             else if(contraria == PUERTA_IZQUIERDA){
-                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho;
-                jugador.y = entrada.getYSalida() * Tile.altura;
+                jugador.x = entrada.getXSalida() * Tile.ancho + Tile.ancho/2;
+                jugador.y = entrada.getYSalida() * Tile.altura + Tile.altura/2;
             }
 
             scrollEjeX = 0;
@@ -272,31 +278,33 @@ public class Sala{
 
     }
 
-    protected Modelo modelIn(Modelo modelo, int x, int y){
+    protected List<Modelo> modelIn(Modelo modelo, int x, int y){
+        List<Modelo> modelos = new ArrayList<>();
+
         if(jugador.colisionanCoordenadas(modelo,x,y) && jugador!=modelo)
-            return jugador;
+            modelos.add(jugador);
 
         for(EnemigoMelee enemigo : enemigos)
             if(enemigo.colisionanCoordenadas(modelo,x,y) && enemigo!=modelo)
-                return enemigo;
+                modelos.add(enemigo);
 
         for(DisparoJugador disparo : disparosJugador)
             if(disparo.colisionanCoordenadas(modelo,x,y) && disparo!=modelo && modelo!=jugador)
-                return disparo;
+                modelos.add(disparo);
 
         for(Item item : items)
             if(item.colisionanCoordenadas(modelo,x,y) && item!=modelo)
-                return item;
+                modelos.add(item);
 
         for(Roca roca : rocas)
             if(roca.colisionanCoordenadas(modelo,x,y) && roca!=modelo)
-                return roca;
+                modelos.add(roca);
 
         for(Puerta puerta : puertas.values())
             if(puerta.colisionanCoordenadas(modelo,x,y) && puerta!=modelo)
-                return puerta;
+                modelos.add(puerta);
 
-        return null;
+        return modelos;
     }
 
     protected void modelsInExplosion(BombaActiva bomba){
@@ -344,13 +352,16 @@ public class Sala{
         if(colision)
             return true;
 
-        Modelo model = modelIn(modelo,x,y);
+        List<Modelo> modelos = modelIn(modelo,x,y);
 
-        if(model==null)
+        if(modelos.size()==0)
             return false;
 
-        if(model.colision != Modelo.PASABLE)
-            return true;
+        for(Modelo model : modelos) {
+            if (model.colision != Modelo.PASABLE) {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -593,6 +604,27 @@ public class Sala{
 
     public int getTipoSala(){
         return Sala.SALA_NORMAL;
+    }
+
+    public static String getLayout(){
+
+        int rng = new Random().nextInt(NUMBER_OF_LAYOUTS);
+
+        switch(rng){
+            case 0:
+                return SALA_CUADRADA_1;
+
+            case 1:
+                return SALA_CUADRADA_2;
+
+            case 2:
+                return SALA_CUADRADA_3;
+
+            case 3:
+                return SALA_CUADRADA_4;
+        }
+
+        return null;
     }
 
 }

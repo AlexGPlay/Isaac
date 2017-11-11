@@ -12,7 +12,7 @@ public class Tile  {
 
     public int tipoDeColision; // PASABLE o SOLIDO
 
-    public static int ancho = 40;
+    public static int ancho = 32;
     public static int altura = 32;
 
     public Drawable imagen;
