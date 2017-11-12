@@ -118,7 +118,9 @@ public class Sala{
 
         else if(enemigos.size()<=0){
             for(Puerta puerta : puertas.values()) {
-                puerta.setAbierta(true);
+                if(!(puerta instanceof PuertaLlave))
+                    puerta.setAbierta(true);
+
                 int x = puerta.getXEntrada();
                 int y = puerta.getYEntrada();
 
@@ -194,8 +196,8 @@ public class Sala{
         }
 
         else {
-            jugador.setX( 100 );
-            jugador.setY( 100 );
+            jugador.setX( ((anchoMapaTiles()*Tile.ancho)/2) );
+            jugador.setY( ((altoMapaTiles()*Tile.altura)/2) );
         }
 
     }
@@ -406,13 +408,17 @@ public class Sala{
         reglasDeMovimientoBombas();
     }
 
-    protected void reglasMovimientoColisionPuerta(){
+    protected Puerta reglasMovimientoColisionPuerta(){
         for(String key : puertas.keySet()) {
             if (jugador.colisiona(puertas.get(key)) && puertas.get(key).isAbierta()) {
                 disparosJugador.clear();
                 nivel.moverSala(key);
+
+                return puertas.get(key);
             }
         }
+
+        return null;
     }
 
     protected void reglasMovimientoJugador(){
@@ -435,16 +441,29 @@ public class Sala{
             tileYJugador = (int) ( (virtualY+jugador.getAltura()/2) / Tile.altura);
         }
 
-        if(colisiona(jugador,virtualX,virtualY,tileXJugador,tileYJugador) == Modelo.NO_COLISION){
+        int colision = colisiona(jugador,virtualX,virtualY,tileXJugador,tileYJugador);
+
+        if(colision == Modelo.NO_COLISION){
             jugador.setX(virtualX);
             jugador.setY(virtualY);
         }
 
-        else if(colisiona(jugador,virtualX,virtualY,tileXJugador,tileYJugador) == Modelo.COLISION_MODELO && jugador.isFlying()){
+        else if(colision == Modelo.COLISION_MODELO && jugador.isFlying()){
             jugador.setX(virtualX);
             jugador.setY(virtualY);
         }
 
+        else if(colision == Modelo.COLISION_MODELO){
+            Puerta colisionPuerta = reglasMovimientoColisionPuerta();
+
+            if(colisionPuerta != null && colisionPuerta instanceof PuertaLlave){
+                if(jugador.getNumLlaves()>0) {
+                    ((PuertaLlave) colisionPuerta).insertKey();
+                    jugador.setNumLlaves(jugador.getNumLlaves()-1);
+                }
+            }
+
+        }
     }
 
     protected void reglasDeMovimientoEnemigos(){

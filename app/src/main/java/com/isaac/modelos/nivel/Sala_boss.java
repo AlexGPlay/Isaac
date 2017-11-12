@@ -70,6 +70,9 @@ public class Sala_boss extends Sala{
 
     }
 
+    @Override
+    public void generatePickUps(){ }
+
     public void addTrampilla(Trampilla trampilla){
         if(trampillas == null)
             trampillas = new ArrayList<>();

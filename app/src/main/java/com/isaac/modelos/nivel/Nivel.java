@@ -37,7 +37,7 @@ public class Nivel {
         this.gameView = gameView;
         itemPool = GestorXML.getInstance().getItemPool(context);
 
-        jugador = new Jugador(context,100,100);
+        jugador = new Jugador(context,0, 0);
         inicializar();
 
         inicializado = true;

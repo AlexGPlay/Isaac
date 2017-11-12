@@ -9,6 +9,7 @@ import com.isaac.modelos.nivel.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alex on 01/11/2017.
@@ -36,7 +37,7 @@ public class Cofre extends Item {
     }
 
     private Item generatePickUps(int i, int orientacion){
-        int selectedPickUp = (int)(Math.random()* (PickupID.MAX_NUM));
+        int selectedPickUp = new Random().nextInt(PickupID.MAX_NUM)+1;
 
         int modX = (int)x;
         int modY = (int)y;

@@ -26,6 +26,7 @@ public class Sala_tesoro extends Sala{
     public Sala_tesoro(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         super(context,tipoSala,jugador,nivel);
 
+        itemsDropped = true;
         enemigos.clear();
     }
 
