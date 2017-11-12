@@ -8,6 +8,7 @@ import com.isaac.gestores.CargadorGraficos;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.item.collectables.BloodOfTheMartyr;
 import com.isaac.modelos.item.collectables.Breakfast;
+import com.isaac.modelos.item.collectables.CelticCross;
 import com.isaac.modelos.item.collectables.DoubleShot;
 import com.isaac.modelos.item.collectables.Fate;
 import com.isaac.modelos.item.collectables.ItemID;
@@ -73,6 +74,10 @@ public class Altar extends Modelo {
 
             case ItemID.FATE:
                 return new Fate(context, this.x, this.y-20);
+
+            case ItemID.CELTIC_CROSS:
+                return new CelticCross(context,this.x,this.y-20);
+
         }
 
         return null;

@@ -15,5 +15,6 @@ public abstract class ItemID {
     public static final int SOY_MILK = 7;
     public static final int DOUBLE_SHOT = 8;
     public static final int FATE = 9;
+    public static final int CELTIC_CROSS = 10;
 
 }

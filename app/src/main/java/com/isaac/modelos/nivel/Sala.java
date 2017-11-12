@@ -310,7 +310,7 @@ public class Sala{
     protected void modelsInExplosion(BombaActiva bomba){
 
         if( checkExplosion(bomba, jugador) )
-            jugador.setHP( jugador.getHP()-1 );
+            jugador.takeDamage(1);
 
         for(EnemigoMelee enemigo : enemigos)
             if( checkExplosion(bomba, enemigo) )

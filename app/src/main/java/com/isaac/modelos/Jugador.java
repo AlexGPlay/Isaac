@@ -9,6 +9,7 @@ import com.isaac.graficos.Sprite;
 import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.item.BasicShot;
+import com.isaac.modelos.item.DamageModifier;
 import com.isaac.modelos.item.ShotModifier;
 import com.isaac.modelos.nivel.Sala;
 
@@ -21,6 +22,9 @@ import java.util.List;
  */
 
 public class Jugador extends Modelo{
+
+    // VARIABLES GRÁFICAS
+
     public static final int MOVIMIENTO_DERECHA = 0;
     public static final int MOVIMIENTO_IZQUIERDA = 1;
     public static final int MOVIMIENTO_ABAJO = 2;
@@ -60,6 +64,12 @@ public class Jugador extends Modelo{
     private Sprite spriteCuerpo;
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
 
+    private int orientacion;
+
+    //----------------------------------------------------------------------
+
+    //VARIABLES LOGICAS
+
     private double aceleracionX;
     private double aceleracionY;
 
@@ -79,9 +89,12 @@ public class Jugador extends Modelo{
     private int numLlaves;
     private int numMonedas;
 
-    private int orientacion;
+    private boolean shielded;
+    private long actualShield;
+    private long maxShield;
 
-    private List<ShotModifier> modifiers;
+    private List<ShotModifier> shotModifiers;
+    private List<DamageModifier> damageModifiers;
 
     public Jugador(Context context, double xInicial, double yInicial) {
         super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo) );
@@ -101,11 +114,15 @@ public class Jugador extends Modelo{
         maxHP = 20;
         speed = 5;
 
-        modifiers = new ArrayList<>();
-        modifiers.add(new BasicShot());
+        shotModifiers = new ArrayList<>();
+        shotModifiers.add(new BasicShot());
+
+        damageModifiers = new ArrayList<>();
 
         numBombas = 99;
         flying = false;
+
+        shielded = false;
 
         inicializar();
     }
@@ -195,13 +212,22 @@ public class Jugador extends Modelo{
         spriteCabeza.actualizar(tiempo);
 
         this.actualDelay += tiempo;
+
+        if(shielded){
+            this.actualShield += tiempo;
+
+            if(actualShield >= maxShield){
+                shielded = false;
+            }
+        }
+
     }
 
     public List<DisparoJugador> procesarDisparos (int orientacionPad){
         ArrayList<DisparoJugador> disparos = new ArrayList<>();
 
         if(orientacionPad!=Jugador.NO_DISPARO && actualDelay>=tearDelay) {
-            for(ShotModifier modifier : modifiers){
+            for(ShotModifier modifier : shotModifiers){
                 disparos = modifier.shot(context, disparos, this.x, this.y, tearRange, tearDamage, orientacionPad);
             }
 
@@ -395,8 +421,12 @@ public class Jugador extends Modelo{
         return bombas;
     }
 
-    public void addModifier(ShotModifier modifier){
-        modifiers.add(modifier);
+    public void addDamageModifier(DamageModifier modifier){
+        damageModifiers.add(modifier);
+    }
+
+    public void addShotModifier(ShotModifier modifier){
+        shotModifiers.add(modifier);
     }
 
     public double getTearDamage(){
@@ -486,6 +516,46 @@ public class Jugador extends Modelo{
 
     public double getAceleracionY(){
         return aceleracionY;
+    }
+
+    public boolean isShielded(){
+        return shielded;
+    }
+
+    public void setShielded(boolean shielded){
+        this.shielded = shielded;
+    }
+
+    public long getActualShield(){
+        return actualShield;
+    }
+
+    public void setActualShield(long actualShield){
+        this.actualShield = actualShield;
+    }
+
+    public long getMaxShield(){
+        return maxShield;
+    }
+
+    public void setMaxShield(long maxShield){
+        this.maxShield = maxShield;
+    }
+
+    public void takeDamage(int initialDamage){
+
+        if(!shielded) {
+
+            int damage = initialDamage;
+
+            for (DamageModifier modifier : damageModifiers) {
+                damage = modifier.processDamage(this, damage);
+            }
+
+            setHP(getHP() - damage);
+
+        }
+
     }
 
 }

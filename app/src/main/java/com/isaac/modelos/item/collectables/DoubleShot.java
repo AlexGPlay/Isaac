@@ -22,7 +22,7 @@ public class DoubleShot extends Item implements ShotModifier{
 
     @Override
     public void doStuff(Jugador jugador) {
-        jugador.addModifier(this);
+        jugador.addShotModifier(this);
     }
 
     @Override
