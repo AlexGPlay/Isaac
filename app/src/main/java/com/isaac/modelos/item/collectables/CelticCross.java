@@ -14,7 +14,7 @@ import com.isaac.modelos.item.Item;
 public class CelticCross extends Item implements DamageModifier {
 
     public CelticCross(Context context, double x, double y) {
-        super(context, x, y, 32, 32, R.drawable.breakfast_icon);
+        super(context, x, y, 32, 32, R.drawable.celticcross_icon);
     }
 
     @Override

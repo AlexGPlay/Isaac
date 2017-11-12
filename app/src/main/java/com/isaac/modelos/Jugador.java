@@ -2,6 +2,7 @@ package com.isaac.modelos;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
@@ -65,6 +66,7 @@ public class Jugador extends Modelo{
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
 
     private int orientacion;
+    private Drawable escudo;
 
     //----------------------------------------------------------------------
 
@@ -123,6 +125,7 @@ public class Jugador extends Modelo{
         flying = false;
 
         shielded = false;
+        escudo = CargadorGraficos.cargarDrawable(context, R.drawable.shield);
 
         inicializar();
     }
@@ -374,6 +377,15 @@ public class Jugador extends Modelo{
         else{
             spriteCuerpo.dibujarSprite(canvas, xCuerpo - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
             spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
+        }
+
+        if(shielded){
+            int yArriba = (int) (y - 40 / 2) - Sala.scrollEjeY;
+            int xIzquierda = (int) (x - 40 / 2) - Sala.scrollEjeX;
+
+            escudo.setBounds(xIzquierda, yArriba, xIzquierda
+                    + 40, yArriba + 40);
+            escudo.draw(canvas);
         }
 
     }
