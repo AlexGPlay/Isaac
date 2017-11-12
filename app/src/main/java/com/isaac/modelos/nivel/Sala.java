@@ -336,7 +336,38 @@ public class Sala{
         double sC = Math.pow(modelo.getY() - bomba.getY(),2);
         double res = Math.sqrt(fC + sC);
 
-        return res <= bomba.getRadio();
+        if(res<=bomba.getRadio())
+            return true;
+
+        fC = Math.pow(modelo.getX() + modelo.getAncho() - bomba.getX(),2);
+        sC = Math.pow(modelo.getY() - bomba.getY(),2);
+        res = Math.sqrt(fC + sC);
+
+        if(res<=bomba.getRadio())
+            return true;
+
+        fC = Math.pow(modelo.getX() - modelo.getAncho() - bomba.getX(),2);
+        sC = Math.pow(modelo.getY() - bomba.getY(),2);
+        res = Math.sqrt(fC + sC);
+
+        if(res<=bomba.getRadio())
+            return true;
+
+        fC = Math.pow(modelo.getX() - bomba.getX(),2);
+        sC = Math.pow(modelo.getY() + modelo.getAltura() - bomba.getY(),2);
+        res = Math.sqrt(fC + sC);
+
+        if(res<=bomba.getRadio())
+            return true;
+
+        fC = Math.pow(modelo.getX() - bomba.getX(),2);
+        sC = Math.pow(modelo.getY() - modelo.getAltura() - bomba.getY(),2);
+        res = Math.sqrt(fC + sC);
+
+        if(res<=bomba.getRadio())
+            return true;
+
+        return false;
     }
 
     protected int colisiona(Modelo modelo, int x, int y){

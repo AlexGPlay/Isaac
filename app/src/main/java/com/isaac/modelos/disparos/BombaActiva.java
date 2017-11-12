@@ -26,7 +26,7 @@ public class BombaActiva extends Modelo {
 
     public String estado;
 
-    private int radio = 75;
+    private int radio = 50;
     private int daño = 10;
 
     public final static String CUENTA_ATRAS = "cuenta_Atras";
