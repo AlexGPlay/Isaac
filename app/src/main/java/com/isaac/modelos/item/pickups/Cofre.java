@@ -37,7 +37,7 @@ public class Cofre extends Item {
     }
 
     private Item generatePickUps(int i, int orientacion){
-        int selectedPickUp = new Random().nextInt(PickupID.MAX_NUM)+1;
+        int selectedPickUp = new Random().nextInt(PickupID.MAX_NUM-1)+1;
 
         int modX = (int)x;
         int modY = (int)y;

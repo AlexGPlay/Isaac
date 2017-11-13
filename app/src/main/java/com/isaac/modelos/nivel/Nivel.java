@@ -192,26 +192,38 @@ public class Nivel {
         //Salas laterales de la amarilla
         if(salaAmarillaJ-1>=0){
             Puerta temp = salas[salaAmarillaI][salaAmarillaJ-1].puertas.get(Sala.PUERTA_DERECHA);
+            temp = new PuertaLlave(context, temp, R.drawable.puerta_sala_dorada_derecha_cerrada_llave);
             temp.puertaAbierta = R.drawable.puerta_sala_dorada_derecha;
             temp.puertaCerrada = R.drawable.puerta_sala_dorada_derecha_cerrada;
+
+            salas[salaAmarillaI][salaAmarillaJ-1].puertas.put(Sala.PUERTA_DERECHA, temp);
         }
 
         if(salaAmarillaJ+1<=ancho-1){
             Puerta temp = salas[salaAmarillaI][salaAmarillaJ+1].puertas.get(Sala.PUERTA_IZQUIERDA);
+            temp = new PuertaLlave(context, temp, R.drawable.puerta_sala_dorada_izquierda_cerrada_llave);
             temp.puertaAbierta = R.drawable.puerta_sala_dorada_izquierda;
             temp.puertaCerrada = R.drawable.puerta_sala_dorada_izquierda_cerrada;
+
+            salas[salaAmarillaI][salaAmarillaJ+1].puertas.put(Sala.PUERTA_IZQUIERDA,temp);
         }
 
         if(salaAmarillaI-1>=0){
             Puerta temp = salas[salaAmarillaI-1][salaAmarillaJ].puertas.get(Sala.PUERTA_ABAJO);
+            temp = new PuertaLlave(context, temp, R.drawable.puerta_sala_dorada_abajo_cerrada_llave);
             temp.puertaAbierta = R.drawable.puerta_sala_dorada_abajo;
             temp.puertaCerrada = R.drawable.puerta_sala_dorada_abajo_cerrada;
+
+            salas[salaAmarillaI-1][salaAmarillaJ].puertas.put(Sala.PUERTA_ABAJO,temp);
         }
 
         if(salaAmarillaI+1<=largo-1){
             Puerta temp = salas[salaAmarillaI+1][salaAmarillaJ].puertas.get(Sala.PUERTA_ARRIBA);
+            temp = new PuertaLlave(context, temp, R.drawable.puerta_sala_dorada_arriba_cerrada_llave);
             temp.puertaAbierta = R.drawable.puerta_sala_dorada_arriba;
             temp.puertaCerrada = R.drawable.puerta_sala_dorada_arriba_cerrada;
+
+            salas[salaAmarillaI+1][salaAmarillaJ].puertas.put(Sala.PUERTA_ARRIBA,temp);
         }
 
         //Salas laterales boss

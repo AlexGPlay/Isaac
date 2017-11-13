@@ -121,6 +121,9 @@ public class Sala{
                 if(!(puerta instanceof PuertaLlave))
                     puerta.setAbierta(true);
 
+                else if(puerta instanceof PuertaLlave && ((PuertaLlave)puerta).getLlavesNecesarias()==0)
+                    puerta.setAbierta(true);
+
                 int x = puerta.getXEntrada();
                 int y = puerta.getYEntrada();
 
@@ -154,6 +157,9 @@ public class Sala{
 
             case PickupID.COFRE:
                 items.add(new Cofre(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                break;
+
+            case PickupID.NONE:
                 break;
         }
 
@@ -416,6 +422,11 @@ public class Sala{
 
                 return puertas.get(key);
             }
+
+            else if(jugador.colisiona(puertas.get(key)) && !puertas.get(key).isAbierta()){
+                return puertas.get(key);
+            }
+
         }
 
         return null;
@@ -454,6 +465,12 @@ public class Sala{
         }
 
         else if(colision == Modelo.COLISION_MODELO){
+            double ogX = jugador.getX();
+            double ogY = jugador.getY();
+
+            jugador.setX(virtualX);
+            jugador.setY(virtualY);
+
             Puerta colisionPuerta = reglasMovimientoColisionPuerta();
 
             if(colisionPuerta != null && colisionPuerta instanceof PuertaLlave){
@@ -463,6 +480,8 @@ public class Sala{
                 }
             }
 
+            jugador.setX(ogX);
+            jugador.setY(ogY);
         }
     }
 

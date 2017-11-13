@@ -121,6 +121,7 @@ public class Jugador extends Modelo{
 
         damageModifiers = new ArrayList<>();
 
+        numLlaves = 99;
         numBombas = 99;
         flying = false;
 
