@@ -9,6 +9,7 @@ import android.view.SurfaceView;
 
 import com.isaac.controles.Pad;
 import com.isaac.gestores.CargadorSalas;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.hud.IconoBomba;
 import com.isaac.modelos.hud.IconoLlave;
@@ -24,6 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     Context context;
     GameLoop gameloop;
     Canvas canvas;
+    GestorAudio gestorAudio;
 
     public static int pantallaAncho;
     public static int pantallaAlto;
@@ -165,6 +167,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         monedas = new IconoMoneda(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.15);
         bombas = new IconoBomba(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.22);
         llaves = new IconoLlave(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.29);
+
+        inicializarGestorAudio(context);
+    }
+
+    private void inicializarGestorAudio(Context context){
+        gestorAudio = GestorAudio.getInstancia(context, R.raw.music_loop);
+        //gestorAudio.reproducirMusicaAmbiente();
+
+        registrarSonidos();
+    }
+
+    private void registrarSonidos(){
+        gestorAudio.registrarSonido(GestorAudio.DISPARAR_LAGRIMA, R.raw.tear_fire);
+        gestorAudio.registrarSonido(GestorAudio.DESAPARECER_LAGRIMA, R.raw.tear_disappear);
     }
 
     public void actualizar(long tiempo) throws Exception {

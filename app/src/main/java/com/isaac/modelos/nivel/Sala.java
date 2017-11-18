@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.gestores.CargadorSalas;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.disparos.BombaActiva;
@@ -526,6 +527,7 @@ public class Sala{
 
             if(disparo.estado == DisparoJugador.FINALIZADO){
                 iterator.remove();
+                GestorAudio.getInstancia().reproducirSonido(GestorAudio.DESAPARECER_LAGRIMA);
                 continue;
             }
 

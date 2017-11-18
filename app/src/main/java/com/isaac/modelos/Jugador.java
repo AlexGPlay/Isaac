@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.graficos.Sprite;
 import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoJugador;
@@ -237,6 +238,9 @@ public class Jugador extends Modelo{
 
             actualDelay = 0;
         }
+
+        if(disparos.size()>0)
+            GestorAudio.getInstancia().reproducirSonido(GestorAudio.DISPARAR_LAGRIMA);
 
         return disparos;
     }
