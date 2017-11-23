@@ -390,20 +390,20 @@ public class Sala{
         boolean colision = (mapaTiles[tileX][tileY].tipoDeColision != Tile.PASABLE);
 
         if(colision)
-            return Modelo.COLISION_TILE;
+            return Modelo.TILE;
 
         List<Modelo> modelos = modelIn(modelo,x,y);
 
         if(modelos.size()==0)
-            return Modelo.NO_COLISION;
+            return Modelo.VOID;
 
         for(Modelo model : modelos) {
             if (model.colision != Modelo.PASABLE) {
-                return Modelo.COLISION_MODELO;
+                return model.getTipoModelo();
             }
         }
 
-        return Modelo.NO_COLISION;
+        return Modelo.VOID;
     }
 
     protected void aplicarReglasMovimiento() throws Exception {
@@ -455,17 +455,17 @@ public class Sala{
 
         int colision = colisiona(jugador,virtualX,virtualY,tileXJugador,tileYJugador);
 
-        if(colision == Modelo.NO_COLISION){
+        if(colision == Modelo.VOID){
             jugador.setX(virtualX);
             jugador.setY(virtualY);
         }
 
-        else if(colision == Modelo.COLISION_MODELO && jugador.isFlying()){
+        else if(colision == Modelo.ROCA && jugador.isFlying()){
             jugador.setX(virtualX);
             jugador.setY(virtualY);
         }
 
-        else if(colision == Modelo.COLISION_MODELO){
+        else if(colision == Modelo.PUERTA){
             double ogX = jugador.getX();
             double ogY = jugador.getY();
 
@@ -536,7 +536,7 @@ public class Sala{
                 continue;
             }
 
-            if(colisiona(disparo,virtualX,virtualY) != Modelo.NO_COLISION) {
+            if(colisiona(disparo,virtualX,virtualY) != Modelo.VOID) {
                 disparo.estado = DisparoJugador.FINALIZANDO;
                 continue;
             }

@@ -28,5 +28,8 @@ public class Roca extends Modelo {
         imagen.draw(canvas);
     }
 
+    public int getTipoModelo(){
+        return Modelo.ROCA;
+    }
 
 }

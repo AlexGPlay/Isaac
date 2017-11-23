@@ -66,6 +66,7 @@ public class EnemigoMelee extends Modelo {
 
         inicializar();
     }
+
     public void inicializar (){
 
         Sprite cabezaDerecha = new Sprite(
@@ -127,7 +128,6 @@ public class EnemigoMelee extends Modelo {
         spriteCabeza.actualizar(tiempo);
     }
 
-
     public void dibujar(Canvas canvas){
         int xCabeza = (int)(x-(ancho/2)+(anchoCabeza/2));
         int yCabeza = (int)(y-(altura/2)+(alturaCabeza/2));
@@ -137,4 +137,9 @@ public class EnemigoMelee extends Modelo {
         spriteCuerpo.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
         spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
     }
+
+    public int getTipoModelo(){
+        return Modelo.ENEMIGO;
+    }
+
 }

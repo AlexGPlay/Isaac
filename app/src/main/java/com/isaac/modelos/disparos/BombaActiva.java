@@ -105,4 +105,8 @@ public class BombaActiva extends Modelo {
         return daño;
     }
 
+    public int getTipoModelo(){
+        return Modelo.BOMBA;
+    }
+
 }

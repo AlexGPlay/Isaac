@@ -124,4 +124,8 @@ public class DisparoJugador extends Modelo {
         return new DisparoJugador(context,x,y,tearRange,damage,orientacion);
     }
 
+    public int getTipoModelo(){
+        return Modelo.DISPARO;
+    }
+
 }

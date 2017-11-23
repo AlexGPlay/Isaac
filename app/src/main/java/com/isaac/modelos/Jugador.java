@@ -575,4 +575,8 @@ public class Jugador extends Modelo{
 
     }
 
+    public int getTipoModelo(){
+        return Modelo.JUGADOR;
+    }
+
 }

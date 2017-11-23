@@ -41,4 +41,8 @@ public class Trampilla extends Modelo {
             nivel.changeLevel();
     }
 
+    public int getTipoModelo(){
+        return Modelo.TRAMPILLA;
+    }
+
 }

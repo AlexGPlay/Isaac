@@ -86,4 +86,8 @@ public class Puerta extends Modelo {
         imagen.draw(canvas);
     }
 
+    public int getTipoModelo(){
+        return Modelo.PUERTA;
+    }
+
 }

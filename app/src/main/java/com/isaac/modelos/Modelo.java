@@ -10,9 +10,18 @@ public class Modelo {
     public static final int SOLIDO = 1;
     public static final int MOVIBLE = 2;
 
-    public static final int NO_COLISION = 0;
-    public static final int COLISION_TILE = 1;
-    public static final int COLISION_MODELO = 2;
+    public static final int VOID = 0;
+    public static final int TILE = 1;
+    public static final int MODELO = 2;
+    public static final int PUERTA = 3;
+    public static final int ROCA = 4;
+    public static final int TRAMPILLA = 5;
+    public static final int JUGADOR = 6;
+    public static final int DISPARO = 7;
+    public static final int BOMBA = 8;
+    public static final int ENEMIGO = 9;
+    public static final int ITEM = 10;
+    public static final int ALTAR = 11;
 
     public int colision;
 
@@ -128,6 +137,10 @@ public class Modelo {
 
     public void setAncho(int ancho){
         this.ancho = ancho;
+    }
+
+    public int getTipoModelo(){
+        return MODELO;
     }
 
 }

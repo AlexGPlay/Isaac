@@ -33,4 +33,8 @@ public abstract class Item extends Modelo {
 
     public abstract void doStuff(Jugador jugador);
 
+    public int getTipoModelo(){
+        return Modelo.ITEM;
+    }
+
 }
