@@ -486,34 +486,70 @@ public class Sala{
         }
     }
 
-    protected void reglasDeMovimientoEnemigos(){
-        for(Iterator<EnemigoMelee> iterator = enemigos.iterator(); iterator.hasNext();){
+    protected void reglasDeMovimientoEnemigos() {
+        for (Iterator<EnemigoMelee> iterator = enemigos.iterator(); iterator.hasNext(); ) {
             EnemigoMelee enemigo = iterator.next();
 
-            if(enemigo.HP <= 0 )
+            if (enemigo.HP <= 0)
                 enemigo.estado = EnemigoMelee.ESTADO_MUERTO;
 
-            if(enemigo.estado == EnemigoMelee.ESTADO_MUERTO) {
+            if (enemigo.estado == EnemigoMelee.ESTADO_MUERTO) {
                 iterator.remove();
                 continue;
             }
 
-            if((jugador.getX() - jugador.getAncho() / 2 <= (enemigo.getX() + enemigo.getAncho() / 2)
-                    && (jugador.getX() + jugador.getAncho() / 2) >= (enemigo.getX() - enemigo.getAncho() / 2))){
-                enemigo.aceleracionX=0;
-            }
-            else if(jugador.getX()>enemigo.getX()) {
-                enemigo.aceleracionX=2;
-                enemigo.setX( enemigo.getX() + enemigo.aceleracionX );
-            }
-            else if(enemigo.getX()<jugador.getX()){
-                enemigo.aceleracionX=-2;
-                enemigo.setX( enemigo.getX() + enemigo.aceleracionX );
-            }
+            if ((jugador.getX() - jugador.getAncho() / 2 < (enemigo.getX() + enemigo.getAncho() / 2)
+                    && (jugador.getX() + jugador.getAncho() / 2) > (enemigo.getX() - enemigo.getAncho() / 2))) {
 
+                if (jugador.getX() > enemigo.getX()) {
+                    enemigo.aceleracionX = 2;
+                    enemigo.setX(enemigo.getX() + enemigo.aceleracionX);
+                }
+                else if (jugador.getX() < enemigo.getX()) {
+                    enemigo.aceleracionX = -2;
+                    enemigo.setX(enemigo.getX() + enemigo.aceleracionX);
+
+                }
+
+                else if (jugador.getY() < enemigo.getY()) {
+                    enemigo.aceleracionY = -2;
+                    enemigo.setY(enemigo.getY() + enemigo.aceleracionY);
+                }
+                else if (jugador.getY() > enemigo.getY()) {
+                    enemigo.aceleracionY = 2;
+                    enemigo.setY(enemigo.getY() + enemigo.aceleracionY);
+                }
+//                if ((jugador.getY() - jugador.getAltura() / 2 < (enemigo.getY() + enemigo.getAltura() / 2)
+//                        && (jugador.getY() + jugador.getAltura() / 2) > (enemigo.getY() - enemigo.getAltura() / 2)) && jugador.getX() < enemigo.getX()) {
+//                    enemigo.aceleracionX = -2;
+//                }
+//                if(enemigo.getY() == jugador.getY() && jugador.getX() > enemigo.getX())
+//                    enemigo.aceleracionX = 2;
+            } else {
+                if (jugador.getX() > enemigo.getX()) {
+                    enemigo.aceleracionX = 2;
+                    enemigo.setX(enemigo.getX() + enemigo.aceleracionX);
+                }
+                if (jugador.getX() < enemigo.getX()) {
+                    enemigo.aceleracionX = -2;
+                    enemigo.setX(enemigo.getX() + enemigo.aceleracionX);
+
+                }
+//                if(enemigo.getX()==jugador.getX() && jugador.getY() < enemigo.getY()){
+//                    enemigo.aceleracionY=-2;
+//
+//                }
+//                if(enemigo.getX()==jugador.getX() && jugador.getY() > enemigo.getY()){
+//                    enemigo.aceleracionY=2;
+//                }
+            }
+            if (enemigo.colisiona(jugador)) {
+                jugador.takeDamage(1);
+            }
         }
-
     }
+
+
 
     protected void reglasDeMovimientoDisparosJugador(){
         for(Iterator<DisparoJugador> iterator = disparosJugador.iterator(); iterator.hasNext();){

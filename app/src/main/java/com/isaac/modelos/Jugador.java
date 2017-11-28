@@ -68,6 +68,7 @@ public class Jugador extends Modelo{
 
     private int orientacion;
     private Drawable escudo;
+    public double msInmunidad = 0;
 
     //----------------------------------------------------------------------
 
@@ -215,6 +216,7 @@ public class Jugador extends Modelo{
     public void actualizar (long tiempo) {
         spriteCuerpo.actualizar(tiempo);
         spriteCabeza.actualizar(tiempo);
+        msInmunidad-=tiempo;
 
         this.actualDelay += tiempo;
 
@@ -562,22 +564,24 @@ public class Jugador extends Modelo{
     public void takeDamage(int initialDamage){
 
         if(!shielded) {
+            if(msInmunidad<=0) {
 
-            int damage = initialDamage;
+                int damage = initialDamage;
 
-            for (DamageModifier modifier : damageModifiers) {
-                damage = modifier.processDamage(this, damage);
+                for (DamageModifier modifier : damageModifiers) {
+                    damage = modifier.processDamage(this, damage);
+                }
+
+                if (damage > 0) {
+                    GestorAudio.getInstancia().reproducirSonido(GestorAudio.ISAAC_DAÑO);
+                }
+                msInmunidad=3000;
+
+                setHP(getHP() - damage);
             }
-
-            if(damage>0){
-                GestorAudio.getInstancia().reproducirSonido(GestorAudio.ISAAC_DAÑO);
-            }
-
-            setHP(getHP() - damage);
         }
 
     }
-
     public int getTipoModelo(){
         return Modelo.JUGADOR;
     }
