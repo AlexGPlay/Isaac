@@ -406,6 +406,19 @@ public class Sala{
         return Modelo.VOID;
     }
 
+    protected int colisiona(Modelo modelo, List<Modelo> modelos){
+        if(modelos.size()==0)
+            return Modelo.VOID;
+
+        for(Modelo model : modelos) {
+            if (model.colision != Modelo.PASABLE) {
+                return model.getTipoModelo();
+            }
+        }
+
+        return Modelo.VOID;
+    }
+
     protected void aplicarReglasMovimiento() throws Exception {
         reglasMovimientoJugador();
         reglasMovimientoColisionPuerta();
@@ -504,7 +517,7 @@ public class Sala{
             double movX = 0;
             double movY = 0;
 
-            if(jugador.getX()<enemigo.getX()){
+            if(jugador.getX() <enemigo.getX()){
                 movX = Math.min(enemigo.aceleracionX, Math.abs(jugador.getX()-enemigo.getX()));
                 movX = -Math.abs(movX);
             }
@@ -556,6 +569,8 @@ public class Sala{
 
             if (enemigo.colisiona(jugador)) {
                 jugador.takeDamage(1);
+                enemigo.setX(enemigo.getX()-movX);
+                enemigo.setY(enemigo.getY()-movY);
             }
         }
     }

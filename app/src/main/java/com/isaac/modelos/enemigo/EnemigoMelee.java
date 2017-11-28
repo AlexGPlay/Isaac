@@ -49,7 +49,7 @@ public class EnemigoMelee extends Modelo {
     public double HP;
 
     public EnemigoMelee(Context context, double xInicial, double yInicial) {
-        super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo) );
+        super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo), Modelo.SOLIDO);
 
         // guardamos la posición inicial porque más tarde vamos a reiniciarlo
         this.xInicial = xInicial;
