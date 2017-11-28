@@ -569,8 +569,11 @@ public class Jugador extends Modelo{
                 damage = modifier.processDamage(this, damage);
             }
 
-            setHP(getHP() - damage);
+            if(damage>0){
+                GestorAudio.getInstancia().reproducirSonido(GestorAudio.ISAAC_DAÑO);
+            }
 
+            setHP(getHP() - damage);
         }
 
     }

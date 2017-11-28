@@ -30,6 +30,8 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     //------------------------- VARIABLES SONIDOS
     public static final int DISPARAR_LAGRIMA = 1;
     public static final int DESAPARECER_LAGRIMA = 2;
+    public static final int BOMBA_EXPLOTAR = 3;
+    public static final int ISAAC_DAÑO = 4;
 
     private GestorAudio() { }
 

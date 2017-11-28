@@ -173,7 +173,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
 
     private void inicializarGestorAudio(Context context){
         gestorAudio = GestorAudio.getInstancia(context, R.raw.music_loop);
-        //gestorAudio.reproducirMusicaAmbiente();
+        gestorAudio.reproducirMusicaAmbiente();
 
         registrarSonidos();
     }
@@ -181,6 +181,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     private void registrarSonidos(){
         gestorAudio.registrarSonido(GestorAudio.DISPARAR_LAGRIMA, R.raw.tear_fire);
         gestorAudio.registrarSonido(GestorAudio.DESAPARECER_LAGRIMA, R.raw.tear_disappear);
+        gestorAudio.registrarSonido(GestorAudio.BOMBA_EXPLOTAR, R.raw.bomb_explosion);
+        gestorAudio.registrarSonido(GestorAudio.ISAAC_DAÑO, R.raw.isaac_hurt);
     }
 
     public void actualizar(long tiempo) throws Exception {

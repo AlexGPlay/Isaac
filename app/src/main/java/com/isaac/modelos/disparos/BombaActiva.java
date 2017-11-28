@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.graficos.Sprite;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.nivel.Sala;
@@ -77,6 +78,7 @@ public class BombaActiva extends Modelo {
             this.y -= actualY/2;
 
             sprite.setFrameActual(0);
+            GestorAudio.getInstancia().reproducirSonido(GestorAudio.BOMBA_EXPLOTAR);
         }
 
         if(estado == EXPLOTANDO && finSprite){
