@@ -43,6 +43,7 @@ public class PuertaLlave extends Puerta{
         if(llavesNecesarias==0) {
             setAbierta(true);
             this.colision = Modelo.PASABLE;
+
         }
     }
 

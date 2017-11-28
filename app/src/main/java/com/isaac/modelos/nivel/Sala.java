@@ -490,6 +490,8 @@ public class Sala{
         for (Iterator<EnemigoMelee> iterator = enemigos.iterator(); iterator.hasNext(); ) {
             EnemigoMelee enemigo = iterator.next();
 
+            // -- COMPROBAR ESTADO
+
             if (enemigo.HP <= 0)
                 enemigo.estado = EnemigoMelee.ESTADO_MUERTO;
 
@@ -498,58 +500,65 @@ public class Sala{
                 continue;
             }
 
-            if ((jugador.getX() - jugador.getAncho() / 2 < (enemigo.getX() + enemigo.getAncho() / 2)
-                    && (jugador.getX() + jugador.getAncho() / 2) > (enemigo.getX() - enemigo.getAncho() / 2))) {
+            // -- CALCULO DE MOVIMIENTO
+            double movX = 0;
+            double movY = 0;
 
-                if (jugador.getX() > enemigo.getX()) {
-                    enemigo.aceleracionX = 2;
-                    enemigo.setX(enemigo.getX() + enemigo.aceleracionX);
-                }
-                else if (jugador.getX() < enemigo.getX()) {
-                    enemigo.aceleracionX = -2;
-                    enemigo.setX(enemigo.getX() + enemigo.aceleracionX);
-
-                }
-
-                else if (jugador.getY() < enemigo.getY()) {
-                    enemigo.aceleracionY = -2;
-                    enemigo.setY(enemigo.getY() + enemigo.aceleracionY);
-                }
-                else if (jugador.getY() > enemigo.getY()) {
-                    enemigo.aceleracionY = 2;
-                    enemigo.setY(enemigo.getY() + enemigo.aceleracionY);
-                }
-//                if ((jugador.getY() - jugador.getAltura() / 2 < (enemigo.getY() + enemigo.getAltura() / 2)
-//                        && (jugador.getY() + jugador.getAltura() / 2) > (enemigo.getY() - enemigo.getAltura() / 2)) && jugador.getX() < enemigo.getX()) {
-//                    enemigo.aceleracionX = -2;
-//                }
-//                if(enemigo.getY() == jugador.getY() && jugador.getX() > enemigo.getX())
-//                    enemigo.aceleracionX = 2;
-            } else {
-                if (jugador.getX() > enemigo.getX()) {
-                    enemigo.aceleracionX = 2;
-                    enemigo.setX(enemigo.getX() + enemigo.aceleracionX);
-                }
-                if (jugador.getX() < enemigo.getX()) {
-                    enemigo.aceleracionX = -2;
-                    enemigo.setX(enemigo.getX() + enemigo.aceleracionX);
-
-                }
-//                if(enemigo.getX()==jugador.getX() && jugador.getY() < enemigo.getY()){
-//                    enemigo.aceleracionY=-2;
-//
-//                }
-//                if(enemigo.getX()==jugador.getX() && jugador.getY() > enemigo.getY()){
-//                    enemigo.aceleracionY=2;
-//                }
+            if(jugador.getX()<enemigo.getX()){
+                movX = Math.min(enemigo.aceleracionX, Math.abs(jugador.getX()-enemigo.getX()));
+                movX = -Math.abs(movX);
             }
+
+            else if(jugador.getX()>enemigo.getX()){
+                movX = Math.min(enemigo.aceleracionX, Math.abs(jugador.getX()-enemigo.getX()));
+            }
+
+            if(jugador.getY()<enemigo.getY()){
+                movY = Math.min(enemigo.aceleracionY, Math.abs(jugador.getY()-enemigo.getY()));
+                movY = -Math.abs(movY);
+            }
+
+            else if(jugador.getY()>enemigo.getY()){
+                movY = Math.min(enemigo.aceleracionY, Math.abs(jugador.getY()-enemigo.getY()));
+            }
+
+            if(movX!=0 && movY!=0){
+                movX /= 1.5;
+                movY /= 1.5;
+            }
+
+            // -- COMPROBAR MOVIMIENTO
+            int colision = colisiona(enemigo, (int)(enemigo.getX()+movX), (int)(enemigo.getY()+movY) );
+
+            if(colision==Modelo.VOID) {
+                enemigo.setX(enemigo.getX() + movX);
+                enemigo.setY(enemigo.getY() + movY);
+            }
+
+            else{
+                int colisionX = colisiona(enemigo, (int)(enemigo.getX()+movX), (int)enemigo.getY());
+
+                if(colisionX==Modelo.VOID){
+                    enemigo.setX(enemigo.getX() + movX);
+                    enemigo.setY(enemigo.getY());
+                }
+
+                else {
+                    int colisionY = colisiona(enemigo, (int)enemigo.getX(), (int)(enemigo.getY()+movY) );
+
+                    if(colisionY==Modelo.VOID){
+                        enemigo.setX(enemigo.getX());
+                        enemigo.setY(enemigo.getY() + movY);
+                    }
+
+                }
+            }
+
             if (enemigo.colisiona(jugador)) {
                 jugador.takeDamage(1);
             }
         }
     }
-
-
 
     protected void reglasDeMovimientoDisparosJugador(){
         for(Iterator<DisparoJugador> iterator = disparosJugador.iterator(); iterator.hasNext();){
