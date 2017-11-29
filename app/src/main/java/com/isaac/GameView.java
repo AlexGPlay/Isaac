@@ -183,6 +183,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         gestorAudio.registrarSonido(GestorAudio.DESAPARECER_LAGRIMA, R.raw.tear_disappear);
         gestorAudio.registrarSonido(GestorAudio.BOMBA_EXPLOTAR, R.raw.bomb_explosion);
         gestorAudio.registrarSonido(GestorAudio.ISAAC_DAÑO, R.raw.isaac_hurt);
+        gestorAudio.registrarSonido(GestorAudio.PUERTA_ABRIR, R.raw.door_open);
+        gestorAudio.registrarSonido(GestorAudio.PUERTA_CERRAR, R.raw.door_close);
+        gestorAudio.registrarSonido(GestorAudio.DROP_COFRE, R.raw.chest_drop);
+        gestorAudio.registrarSonido(GestorAudio.DROP_LLAVE, R.raw.key_drop);
+        gestorAudio.registrarSonido(GestorAudio.DROP_MONEDA, R.raw.coin_drop);
+        gestorAudio.registrarSonido(GestorAudio.PICK_LLAVE, R.raw.key_pick);
+        gestorAudio.registrarSonido(GestorAudio.PICK_MONEDA, R.raw.coin_pick);
+        gestorAudio.registrarSonido(GestorAudio.PICK_COFRE, R.raw.chest_pick);
+        gestorAudio.registrarSonido(GestorAudio.PICK_ITEM, R.raw.item_pick);
     }
 
     public void actualizar(long tiempo) throws Exception {

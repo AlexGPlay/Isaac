@@ -3,6 +3,7 @@ package com.isaac.modelos.item.pickups;
 import android.content.Context;
 
 import com.isaac.R;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.item.Item;
 
@@ -17,6 +18,7 @@ public class Moneda extends Item {
 
     @Override
     public void doStuff(Jugador jugador) {
+        GestorAudio.getInstancia().reproducirSonido(GestorAudio.PICK_MONEDA);
         jugador.setNumMonedas(jugador.getNumMonedas()+1);
     }
 }

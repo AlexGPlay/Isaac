@@ -32,6 +32,15 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     public static final int DESAPARECER_LAGRIMA = 2;
     public static final int BOMBA_EXPLOTAR = 3;
     public static final int ISAAC_DAÑO = 4;
+    public static final int PUERTA_ABRIR = 5;
+    public static final int PUERTA_CERRAR = 6;
+    public static final int DROP_LLAVE = 7;
+    public static final int DROP_MONEDA = 8;
+    public static final int DROP_COFRE = 9;
+    public static final int PICK_LLAVE = 10;
+    public static final int PICK_MONEDA = 11;
+    public static final int PICK_COFRE = 12;
+    public static final int PICK_ITEM = 13;
 
     private GestorAudio() { }
 

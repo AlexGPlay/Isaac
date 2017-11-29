@@ -3,6 +3,7 @@ package com.isaac.modelos.item.pickups;
 import android.content.Context;
 
 import com.isaac.R;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.item.Item;
 import com.isaac.modelos.nivel.Tile;
@@ -33,6 +34,7 @@ public class Cofre extends Item {
         for(int i=0;i<numObjetos;i++)
             items.add(generatePickUps(i, orientacion));
 
+        GestorAudio.getInstancia().reproducirSonido(GestorAudio.PICK_COFRE);
         return items;
     }
 

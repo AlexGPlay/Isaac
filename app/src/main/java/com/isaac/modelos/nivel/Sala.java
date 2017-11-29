@@ -79,6 +79,9 @@ public class Sala{
 
     protected HashMap<String,Puerta> puertas;
 
+    private boolean sonidoCerrada = false;
+    private boolean sonidoAbierta = false;
+
     public Sala(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         this.nivel = nivel;
 
@@ -122,6 +125,11 @@ public class Sala{
                     mapaTiles[x][y].tipoDeColision = Tile.PASABLE;
                 }
 
+                if(!sonidoCerrada){
+                    sonidoCerrada = true;
+                    GestorAudio.getInstancia().reproducirSonido(GestorAudio.PUERTA_CERRAR);
+                }
+
             }
         }
 
@@ -135,6 +143,11 @@ public class Sala{
 
                 int x = puerta.getXEntrada();
                 int y = puerta.getYEntrada();
+
+                if(!sonidoAbierta){
+                    sonidoAbierta = true;
+                    GestorAudio.getInstancia().reproducirSonido(GestorAudio.PUERTA_ABRIR);
+                }
 
                 mapaTiles[x][y].tipoDeColision = Tile.PASABLE;
             }
@@ -154,10 +167,12 @@ public class Sala{
 
             case PickupID.LLAVE:
                 items.add(new Llave(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                GestorAudio.getInstancia().reproducirSonido(GestorAudio.DROP_LLAVE);
                 break;
 
             case PickupID.MONEDA:
                 items.add(new Moneda(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                GestorAudio.getInstancia().reproducirSonido(GestorAudio.DROP_MONEDA);
                 break;
 
             case PickupID.VIDA:
@@ -166,6 +181,7 @@ public class Sala{
 
             case PickupID.COFRE:
                 items.add(new Cofre(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                GestorAudio.getInstancia().reproducirSonido(GestorAudio.DROP_COFRE);
                 break;
 
             case PickupID.NONE:

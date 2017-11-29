@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.item.collectables.BloodOfTheMartyr;
 import com.isaac.modelos.item.collectables.Breakfast;
@@ -99,6 +100,7 @@ public class Altar extends Modelo {
     public Item pickItem(){
         if(!picked) {
             picked = true;
+            GestorAudio.getInstancia().reproducirSonido(GestorAudio.PICK_ITEM);
             return item;
         }
 
