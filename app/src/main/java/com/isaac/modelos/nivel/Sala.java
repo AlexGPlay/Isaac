@@ -588,10 +588,41 @@ public class Sala{
                 }
 
             if(enemigo instanceof EnemigoDispara){
-                DisparoEnemigo disparo=((EnemigoDispara) enemigo).procesarDisparos();
-                if(disparo!=null){
-                    disparosEnemigo.add(disparo);
+                DisparoEnemigo disparo;
+                if(((EnemigoDispara) enemigo).comprobarAlineacionY(jugador)){
+                    if(enemigo.getY()<jugador.getY()){
+                        disparo = ((EnemigoDispara) enemigo).procesarDisparoDirigido(2);
+                        if(disparo!=null) {
+                            disparosEnemigo.add(disparo);
+                        }
+                    }
+                    else {
+                        disparo=((EnemigoDispara) enemigo).procesarDisparoDirigido(3);
+                        if(disparo!=null) {
+                            disparosEnemigo.add(disparo);
+                        }
+                    }
                 }
+                else if(((EnemigoDispara) enemigo).comprobarAlineacionX(jugador)){
+                    if(enemigo.getX()<jugador.getX()){
+                        disparo = ((EnemigoDispara) enemigo).procesarDisparoDirigido(0);
+                        if(disparo!=null) {
+                            disparosEnemigo.add(disparo);
+                        }
+                    }
+                    else {
+                        disparo = ((EnemigoDispara) enemigo).procesarDisparoDirigido(1);
+                        if(disparo!=null) {
+                            disparosEnemigo.add(disparo);
+                        }
+                    }
+                    for(DisparoEnemigo disparoEnemigo : disparosEnemigo){
+                        if(disparoEnemigo==null){
+                            disparosEnemigo.remove(disparoEnemigo);
+                        }
+                    }
+                }
+
             }
 
         }

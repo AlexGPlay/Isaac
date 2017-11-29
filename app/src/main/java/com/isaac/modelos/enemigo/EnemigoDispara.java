@@ -41,7 +41,7 @@ public class EnemigoDispara extends EnemigoBase {
     private final static int alturaCuerpo = 14;
     private final static int anchoCuerpo = 32;
 
-    private long milisegundosDisparo=100;
+    private long milisegundosDisparo=10;
     private long tearDelay;
     private long tearRange;
     private int tearDamage;
@@ -144,16 +144,48 @@ public class EnemigoDispara extends EnemigoBase {
         spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
     }
 
-    public DisparoEnemigo procesarDisparos (){
+    public DisparoEnemigo procesarDisparos (Jugador jugador){
 
         actualDelay+=milisegundosDisparo;
+        int posicionRandom;
         if (actualDelay> tearDelay
                 + Math.random()* tearDelay) {
 
             actualDelay=0;
-            return new DisparoEnemigo(context, x, y,tearRange,tearDamage, EnemigoBase.MOVIMIENTO_ARRIBA);
+            posicionRandom=(int)Math.random()*4;
+            return new DisparoEnemigo(context, x, y,tearRange,tearDamage, posicionRandom);
         }
         return null;
+    }
+    public DisparoEnemigo procesarDisparoDirigido(int posicion){
+
+        actualDelay+=milisegundosDisparo;
+
+        if (actualDelay> tearDelay
+                + Math.random()* tearDelay) {
+
+            actualDelay=0;
+
+            return new DisparoEnemigo(context,x,y,tearRange,tearDamage,posicion);
+        }
+        return null;
+    }
+
+
+    public boolean comprobarAlineacionY(Jugador jugador){
+        if(jugador.getX() - jugador.getAncho() / 2 <= (x + ancho / 2)
+                && (jugador.getX() + jugador.getAncho() / 2) >= (x - ancho / 2)){
+            return true;
+        }
+        return false;
+    }
+    public boolean comprobarAlineacionX(Jugador jugador){
+        if(jugador.getY() - jugador.getAltura() / 2 < (y + altura / 2)
+                && (jugador.getY() + jugador.getAltura() / 2) > (y - altura / 2)){
+            return true;
+
+        }
+        return false;
     }
 
 }
