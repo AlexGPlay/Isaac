@@ -11,6 +11,7 @@ import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoJugador;
+import com.isaac.modelos.enemigo.EnemigoBase;
 import com.isaac.modelos.enemigo.EnemigoMelee;
 import com.isaac.modelos.item.Item;
 import com.isaac.modelos.item.pickups.Bomba;
@@ -60,7 +61,7 @@ public class Sala{
     public static boolean bombaActiva;
 
     protected Jugador jugador;
-    protected List <EnemigoMelee> enemigos;
+    protected List <EnemigoBase> enemigos;
     protected List<DisparoJugador> disparosJugador;
     protected List<BombaActiva> bombas;
     protected List<Item> items;
@@ -250,7 +251,7 @@ public class Sala{
 
         jugador.actualizar(time);
 
-        for(EnemigoMelee enemigo : enemigos)
+        for(EnemigoBase enemigo : enemigos)
             enemigo.actualizar(time);
 
         for(DisparoJugador disparo : disparosJugador)
@@ -268,7 +269,7 @@ public class Sala{
         for( Puerta puerta : puertas.values() )
             puerta.dibujar(canvas);
 
-        for(EnemigoMelee enemigo : enemigos)
+        for(EnemigoBase enemigo : enemigos)
             enemigo.dibujar(canvas);
 
         for(DisparoJugador disparo : disparosJugador)
@@ -293,7 +294,7 @@ public class Sala{
         if(jugador.colisionanCoordenadas(modelo,x,y) && jugador!=modelo)
             modelos.add(jugador);
 
-        for(EnemigoMelee enemigo : enemigos)
+        for(EnemigoBase enemigo : enemigos)
             if(enemigo.colisionanCoordenadas(modelo,x,y) && enemigo!=modelo)
                 modelos.add(enemigo);
 
@@ -321,9 +322,9 @@ public class Sala{
         if( checkExplosion(bomba, jugador) )
             jugador.takeDamage(1);
 
-        for(EnemigoMelee enemigo : enemigos)
+        for(EnemigoBase enemigo : enemigos)
             if( checkExplosion(bomba, enemigo) )
-                enemigo.HP = enemigo.HP - bomba.getDaño();
+                enemigo.setHP(enemigo.getHP() - bomba.getDaño());
 
         for(Iterator<Roca> iterator = rocas.iterator(); iterator.hasNext();) {
             Roca roca = iterator.next();
@@ -500,12 +501,12 @@ public class Sala{
     }
 
     protected void reglasDeMovimientoEnemigos() {
-        for (Iterator<EnemigoMelee> iterator = enemigos.iterator(); iterator.hasNext(); ) {
-            EnemigoMelee enemigo = iterator.next();
+        for (Iterator<EnemigoBase> iterator = enemigos.iterator(); iterator.hasNext(); ) {
+            EnemigoBase enemigo = iterator.next();
 
             // -- COMPROBAR ESTADO
 
-            if (enemigo.HP <= 0)
+            if (enemigo.getHP() <= 0)
                 enemigo.estado = EnemigoMelee.ESTADO_MUERTO;
 
             if (enemigo.estado == EnemigoMelee.ESTADO_MUERTO) {
@@ -518,21 +519,21 @@ public class Sala{
             double movY = 0;
 
             if(jugador.getX() <enemigo.getX()){
-                movX = Math.min(enemigo.aceleracionX, Math.abs(jugador.getX()-enemigo.getX()));
+                movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX()-enemigo.getX()));
                 movX = -Math.abs(movX);
             }
 
             else if(jugador.getX()>enemigo.getX()){
-                movX = Math.min(enemigo.aceleracionX, Math.abs(jugador.getX()-enemigo.getX()));
+                movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX()-enemigo.getX()));
             }
 
             if(jugador.getY()<enemigo.getY()){
-                movY = Math.min(enemigo.aceleracionY, Math.abs(jugador.getY()-enemigo.getY()));
+                movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY()-enemigo.getY()));
                 movY = -Math.abs(movY);
             }
 
             else if(jugador.getY()>enemigo.getY()){
-                movY = Math.min(enemigo.aceleracionY, Math.abs(jugador.getY()-enemigo.getY()));
+                movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY()-enemigo.getY()));
             }
 
             if(movX!=0 && movY!=0){
@@ -601,9 +602,9 @@ public class Sala{
                 continue;
             }
 
-            for(EnemigoMelee enemigo : enemigos) {
+            for(EnemigoBase enemigo : enemigos) {
                 if (disparo.colisiona(enemigo) && disparo.estado == DisparoJugador.DISPARANDO) {
-                    enemigo.HP -= disparo.getDamage();
+                    enemigo.setHP(enemigo.getHP()-disparo.getDamage());
 
                     disparo.estado = DisparoJugador.FINALIZANDO;
                     continue;

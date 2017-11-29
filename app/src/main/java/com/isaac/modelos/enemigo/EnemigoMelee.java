@@ -15,12 +15,11 @@ import java.util.HashMap;
  * Created by Pelayo on 27/10/2017.
  */
 
-public class EnemigoMelee extends Modelo {
+public class EnemigoMelee extends EnemigoBase {
 
     public final static int ESTADO_VIVO = 0;
     public final static int ESTADO_MUERTO = 1;
 
-    public int estado;
 
     private static final String CABEZA_DERECHA = "cabeza_derecha";
     private static final String CABEZA_IZQUIERDA = "cabeza_izquierda";
@@ -36,20 +35,9 @@ public class EnemigoMelee extends Modelo {
     private final static int alturaCuerpo = 14;
     private final static int anchoCuerpo = 32;
 
-    private Sprite spriteCabeza;
-    private Sprite spriteCuerpo;
-    private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
-
-    private double xInicial;
-    private double yInicial;
-
-    public double aceleracionX;
-    public double aceleracionY;
-
-    public double HP;
 
     public EnemigoMelee(Context context, double xInicial, double yInicial) {
-        super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo), Modelo.SOLIDO);
+        super(context, xInicial, yInicial, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo), Modelo.SOLIDO);
 
         // guardamos la posición inicial porque más tarde vamos a reiniciarlo
         this.xInicial = xInicial;
@@ -123,11 +111,13 @@ public class EnemigoMelee extends Modelo {
 
     }
 
+    @Override
     public void actualizar (long tiempo) {
         spriteCuerpo.actualizar(tiempo);
         spriteCabeza.actualizar(tiempo);
     }
 
+    @Override
     public void dibujar(Canvas canvas){
         int xCabeza = (int)(x-(ancho/2)+(anchoCabeza/2));
         int yCabeza = (int)(y-(altura/2)+(alturaCabeza/2));
@@ -141,5 +131,7 @@ public class EnemigoMelee extends Modelo {
     public int getTipoModelo(){
         return Modelo.ENEMIGO;
     }
+
+
 
 }
