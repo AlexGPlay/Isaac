@@ -21,6 +21,7 @@ public abstract class EnemigoBase extends Modelo {
     public static final int MOVIMIENTO_IZQUIERDA = 1;
     public static final int MOVIMIENTO_ABAJO = 2;
     public static final int MOVIMIENTO_ARRIBA = 3;
+    public static final int MOVIMIENTO_PARADO = 4;
 
     public int estado;
 
@@ -35,11 +36,8 @@ public abstract class EnemigoBase extends Modelo {
     protected double aceleracionX;
     protected double aceleracionY;
 
-    private final static int alturaCabeza = 25;
-    private final static int anchoCabeza = 29;
-    private final static int alturaCuerpo = 14;
-    private final static int anchoCuerpo = 32;
     protected double HP;
+    protected int movimiento;
 
     public EnemigoBase(Context context, double xInicial, double yInicial, int alturaCabezaCuerpo,int CabezaCuerpo,int tipoModelo) {
         super(context, xInicial, yInicial, alturaCabezaCuerpo, CabezaCuerpo, tipoModelo);
@@ -87,6 +85,14 @@ public abstract class EnemigoBase extends Modelo {
 
     public int getTipoModelo(){
         return Modelo.ENEMIGO;
+    }
+
+    public int getMovimiento(){
+        return movimiento;
+    }
+
+    public void setMovimiento(int movimiento){
+        this.movimiento = movimiento;
     }
 
     public abstract void actualizar (long tiempo);
