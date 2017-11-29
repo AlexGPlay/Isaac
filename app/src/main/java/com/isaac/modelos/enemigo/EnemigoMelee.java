@@ -20,7 +20,6 @@ public class EnemigoMelee extends EnemigoBase {
     public final static int ESTADO_VIVO = 0;
     public final static int ESTADO_MUERTO = 1;
 
-
     private static final String CABEZA_DERECHA = "cabeza_derecha";
     private static final String CABEZA_IZQUIERDA = "cabeza_izquierda";
     private static final String CABEZA_ATRAS = "cabeza_atras";
@@ -109,10 +108,37 @@ public class EnemigoMelee extends EnemigoBase {
         spriteCabeza = sprites.get(CABEZA_ADELANTE);
         spriteCuerpo = sprites.get(PARADO_SPRITE);
 
+        movimiento = MOVIMIENTO_PARADO;
+
     }
 
     @Override
     public void actualizar (long tiempo) {
+        if(movimiento == MOVIMIENTO_ABAJO){
+            spriteCabeza = sprites.get(CABEZA_ADELANTE);
+            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        }
+
+        else if(movimiento == MOVIMIENTO_ARRIBA){
+            spriteCabeza = sprites.get(CABEZA_ATRAS);
+            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        }
+
+        else if(movimiento == MOVIMIENTO_DERECHA){
+            spriteCabeza = sprites.get(CABEZA_DERECHA);
+            spriteCuerpo = sprites.get(MOVER_DERECHA);
+        }
+
+        else if(movimiento == MOVIMIENTO_IZQUIERDA){
+            spriteCabeza = sprites.get(CABEZA_IZQUIERDA);
+            spriteCuerpo = sprites.get(MOVER_IZQUIERDA);
+        }
+
+        else if(movimiento == MOVIMIENTO_PARADO){
+            spriteCabeza = sprites.get(CABEZA_ADELANTE);
+            spriteCuerpo = sprites.get(PARADO_SPRITE);
+        }
+
         spriteCuerpo.actualizar(tiempo);
         spriteCabeza.actualizar(tiempo);
     }

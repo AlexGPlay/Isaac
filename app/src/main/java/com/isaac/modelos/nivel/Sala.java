@@ -539,53 +539,57 @@ public class Sala{
             double movX = 0;
             double movY = 0;
 
-                if (jugador.getX() < enemigo.getX()) {
-                    movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
-                    movX = -Math.abs(movX);
-                } else if (jugador.getX() > enemigo.getX()) {
-                    movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
-                }
+            if (jugador.getX() < enemigo.getX()) {
+                movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
+                movX = -Math.abs(movX);
+            }
+            else if (jugador.getX() > enemigo.getX()) {
+                movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
+            }
 
-                if (jugador.getY() < enemigo.getY()) {
-                    movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY() - enemigo.getY()));
-                    movY = -Math.abs(movY);
-                } else if (jugador.getY() > enemigo.getY()) {
-                    movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY() - enemigo.getY()));
-                }
+            if (jugador.getY() < enemigo.getY()) {
+                movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY() - enemigo.getY()));
+                movY = -Math.abs(movY);
+            }
+            else if (jugador.getY() > enemigo.getY()) {
+                movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY() - enemigo.getY()));
+            }
 
-                if (movX != 0 && movY != 0) {
-                    movX /= 1.5;
-                    movY /= 1.5;
-                }
+            if (movX != 0 && movY != 0) {
+                movX /= 1.5;
+                movY /= 1.5;
+            }
 
-                // -- COMPROBAR MOVIMIENTO
-                int colision = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) (enemigo.getY() + movY));
+            // -- COMPROBAR MOVIMIENTO
+            int colision = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) (enemigo.getY() + movY));
 
-                if (colision == Modelo.VOID) {
+            if (colision == Modelo.VOID) {
+                enemigo.setX(enemigo.getX() + movX);
+                enemigo.setY(enemigo.getY() + movY);
+            }
+            else {
+                int colisionX = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) enemigo.getY());
+
+                if (colisionX == Modelo.VOID) {
                     enemigo.setX(enemigo.getX() + movX);
-                    enemigo.setY(enemigo.getY() + movY);
-                } else {
-                    int colisionX = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) enemigo.getY());
+                    enemigo.setY(enemigo.getY());
+                }
+                else {
+                    int colisionY = colisiona(enemigo, (int) enemigo.getX(), (int) (enemigo.getY() + movY));
 
-                    if (colisionX == Modelo.VOID) {
-                        enemigo.setX(enemigo.getX() + movX);
-                        enemigo.setY(enemigo.getY());
-                    } else {
-                        int colisionY = colisiona(enemigo, (int) enemigo.getX(), (int) (enemigo.getY() + movY));
-
-                        if (colisionY == Modelo.VOID) {
-                            enemigo.setX(enemigo.getX());
-                            enemigo.setY(enemigo.getY() + movY);
-                        }
-
+                    if (colisionY == Modelo.VOID) {
+                        enemigo.setX(enemigo.getX());
+                        enemigo.setY(enemigo.getY() + movY);
                     }
-                }
 
-                if (enemigo.colisiona(jugador)) {
-                    jugador.takeDamage(1);
-                    enemigo.setX(enemigo.getX() - movX);
-                    enemigo.setY(enemigo.getY() - movY);
                 }
+            }
+
+            if (enemigo.colisiona(jugador)) {
+                jugador.takeDamage(1);
+                enemigo.setX(enemigo.getX() - movX);
+                enemigo.setY(enemigo.getY() - movY);
+            }
 
             if(enemigo instanceof EnemigoDispara){
                 DisparoEnemigo disparo;
@@ -624,6 +628,34 @@ public class Sala{
                 }
 
             }
+
+            // --GESTION DE SPRITE
+            if(movX>0 && movY>0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+            else if(movX==0 && movY>0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+            else if(movX<0 && movY>0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+            else if(movX<0 && movY==0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_IZQUIERDA);
+
+            else if(movX<0 && movY<0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+            else if(movX==0 && movY<0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+            else if(movX>0 && movY<0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+            else if(movX>0 && movY==0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_DERECHA);
+
+            else if(movX==0 && movY==0)
+                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_PARADO);
 
         }
     }

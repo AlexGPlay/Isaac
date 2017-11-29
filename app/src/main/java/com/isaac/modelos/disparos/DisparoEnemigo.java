@@ -40,7 +40,7 @@ public class DisparoEnemigo extends Modelo {
     private String desapareciendo = "DESAPARECIENDO";
 
     public DisparoEnemigo(Context context, double xInicial, double yInicial, long tearRange, int damage, int orientacion) {
-        super(context, xInicial, yInicial, 12, 12);
+        super(context, xInicial, yInicial, 32, 32);
 
         cDerecha = 6;
         cIzquierda = 6;
@@ -78,7 +78,7 @@ public class DisparoEnemigo extends Modelo {
     }
 
     private void inicializar (){
-        Sprite disparo = new Sprite(CargadorGraficos.cargarDrawable(context, R.drawable.isaac_tear), ancho, altura, 1, 1, true);
+        Sprite disparo = new Sprite(CargadorGraficos.cargarDrawable(context, R.drawable.bone_projectile), ancho, altura, 4, 4, true);
         sprites.put(disparando, disparo);
 
         Sprite desaparecer = new Sprite(CargadorGraficos.cargarDrawable(context, R.drawable.isaac_tear_effect), ancho, altura, 120, 16, false);
@@ -90,12 +90,8 @@ public class DisparoEnemigo extends Modelo {
     public void actualizar (long tiempo) {
         boolean finSprite = sprite.actualizar(tiempo);
 
-        if(estado == FINALIZANDO && finSprite){
+        if(estado == FINALIZANDO){
             estado = FINALIZADO;
-        }
-
-        else if(estado == FINALIZANDO){
-            sprite = sprites.get(desapareciendo);
         }
 
         else if(estado == DISPARANDO){

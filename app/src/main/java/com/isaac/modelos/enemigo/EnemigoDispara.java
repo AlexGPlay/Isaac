@@ -37,8 +37,8 @@ public class EnemigoDispara extends EnemigoBase {
     private static final String PARADO_SPRITE = "parado";
 
     private final static int alturaCabeza = 25;
-    private final static int anchoCabeza = 29;
-    private final static int alturaCuerpo = 14;
+    private final static int anchoCabeza = 28;
+    private final static int alturaCuerpo = 15;
     private final static int anchoCuerpo = 32;
 
     private long milisegundosDisparo=10;
@@ -74,61 +74,87 @@ public class EnemigoDispara extends EnemigoBase {
     public void inicializar (){
 
         Sprite cabezaDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_cabeza_adelante),
+                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_cabeza_derecha),
                 anchoCabeza, alturaCabeza,
-                2, 2, true);
+                1, 1, true);
         sprites.put(CABEZA_DERECHA, cabezaDerecha);
 
         Sprite cabezaIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_cabeza_adelante),
+                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_cabeza_izquierda),
                 anchoCabeza, alturaCabeza,
-                2, 2, true);
+                1, 1, true);
         sprites.put(CABEZA_IZQUIERDA, cabezaIzquierda);
 
         Sprite cabezaAtras = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_cabeza_atras),
+                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_cabeza_atras),
                 anchoCabeza, alturaCabeza,
                 1, 1, true);
         sprites.put(CABEZA_ATRAS, cabezaAtras);
 
         Sprite cabezaAdelante = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_cabeza_adelante),
+                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_cabeza_adelante),
                 anchoCabeza, alturaCabeza,
-                2, 2, true);
+                1, 1, true);
         sprites.put(CABEZA_ADELANTE, cabezaAdelante);
 
         Sprite cuerpoDerechaDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_caminar_derecha),
+                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_caminar_derecha),
                 anchoCuerpo, alturaCuerpo,
-                8, 8, true);
+                10, 10, true);
         sprites.put(MOVER_DERECHA, cuerpoDerechaDerecha);
 
         Sprite cuerpoDerechaIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_caminar_izquierda),
+                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_caminar_izquierda),
                 anchoCuerpo, alturaCuerpo,
-                8, 8, true);
+                10, 10, true);
         sprites.put(MOVER_IZQUIERDA, cuerpoDerechaIzquierda);
 
         Sprite cuerpoAdelanteAtras = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_caminar_adelante),
+                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_andar_atras_adelante),
                 anchoCuerpo, alturaCuerpo,
-                8, 8, true);
+                10, 10, true);
         sprites.put(MOVER_ADELANTE_ATRAS, cuerpoAdelanteAtras);
 
         Sprite cuerpoParado = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_caminar_adelante),
+                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_andar_atras_adelante),
                 anchoCuerpo, alturaCuerpo,
-                8, 8, true);
+                10, 10, true);
         sprites.put(PARADO_SPRITE, cuerpoParado);
 
 
         spriteCabeza = sprites.get(CABEZA_ADELANTE);
         spriteCuerpo = sprites.get(PARADO_SPRITE);
 
+        movimiento = MOVIMIENTO_PARADO;
     }
 
     @Override
     public void actualizar (long tiempo) {
+        if(movimiento == MOVIMIENTO_ABAJO){
+            spriteCabeza = sprites.get(CABEZA_ADELANTE);
+            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        }
+
+        else if(movimiento == MOVIMIENTO_ARRIBA){
+            spriteCabeza = sprites.get(CABEZA_ATRAS);
+            spriteCuerpo = sprites.get(MOVER_ADELANTE_ATRAS);
+        }
+
+        else if(movimiento == MOVIMIENTO_DERECHA){
+            spriteCabeza = sprites.get(CABEZA_DERECHA);
+            spriteCuerpo = sprites.get(MOVER_DERECHA);
+        }
+
+        else if(movimiento == MOVIMIENTO_IZQUIERDA){
+            spriteCabeza = sprites.get(CABEZA_IZQUIERDA);
+            spriteCuerpo = sprites.get(MOVER_IZQUIERDA);
+        }
+
+        else if(movimiento == MOVIMIENTO_PARADO){
+            spriteCabeza = sprites.get(CABEZA_ADELANTE);
+            spriteCuerpo = sprites.get(PARADO_SPRITE);
+        }
+
         spriteCuerpo.actualizar(tiempo);
         spriteCabeza.actualizar(tiempo);
     }
