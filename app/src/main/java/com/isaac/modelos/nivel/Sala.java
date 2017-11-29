@@ -537,7 +537,6 @@ public class Sala{
             double movX = 0;
             double movY = 0;
 
-            if(enemigo instanceof EnemigoMelee) {
                 if (jugador.getX() < enemigo.getX()) {
                     movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
                     movX = -Math.abs(movX);
@@ -585,7 +584,7 @@ public class Sala{
                     enemigo.setX(enemigo.getX() - movX);
                     enemigo.setY(enemigo.getY() - movY);
                 }
-            }
+
             if(enemigo instanceof EnemigoDispara){
                 DisparoEnemigo disparo=((EnemigoDispara) enemigo).procesarDisparos();
                 if(disparo!=null){

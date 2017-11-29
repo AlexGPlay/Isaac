@@ -58,8 +58,8 @@ public class EnemigoDispara extends EnemigoBase {
         this.x =  this.xInicial;
         this.y =  this.yInicial;
 
-        aceleracionX = 2;
-        aceleracionY = 2;
+        aceleracionX = 1;
+        aceleracionY = 1;
 
         tearDelay = 400;
         tearRange = 1000;
