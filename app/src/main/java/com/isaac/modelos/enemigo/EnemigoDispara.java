@@ -41,11 +41,10 @@ public class EnemigoDispara extends EnemigoBase {
     private final static int alturaCuerpo = 14;
     private final static int anchoCuerpo = 32;
 
-    private int cadenciaDisparo=1000;
     private long milisegundosDisparo=100;
     private long tearDelay;
     private long tearRange;
-    private double tearDamage;
+    private int tearDamage;
     private int actualDelay;
 
     public EnemigoDispara(Context context, double xInicial, double yInicial) {
@@ -64,7 +63,7 @@ public class EnemigoDispara extends EnemigoBase {
         tearDelay = 400;
         tearRange = 1000;
         actualDelay = 0;
-        tearDamage = 3.5;
+        tearDamage = 1;
 
         HP = 10;
         estado = ESTADO_VIVO;
@@ -148,16 +147,13 @@ public class EnemigoDispara extends EnemigoBase {
     public DisparoEnemigo procesarDisparos (){
 
         actualDelay+=milisegundosDisparo;
-        if (actualDelay> cadenciaDisparo
-                + Math.random()* cadenciaDisparo) {
+        if (actualDelay> tearDelay
+                + Math.random()* tearDelay) {
 
             actualDelay=0;
-            return new DisparoEnemigo(context, x, y,tearRange,tearDamage,3);
+            return new DisparoEnemigo(context, x, y,tearRange,tearDamage, EnemigoBase.MOVIMIENTO_ARRIBA);
         }
         return null;
     }
 
-    public int getTipoModelo(){
-        return Modelo.ENEMIGO;
-    }
 }

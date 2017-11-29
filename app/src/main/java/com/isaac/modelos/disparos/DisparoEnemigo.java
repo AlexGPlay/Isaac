@@ -8,6 +8,7 @@ import com.isaac.gestores.CargadorGraficos;
 import com.isaac.graficos.Sprite;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
+import com.isaac.modelos.enemigo.EnemigoBase;
 import com.isaac.modelos.nivel.Sala;
 
 import java.util.HashMap;
@@ -24,29 +25,47 @@ public class DisparoEnemigo extends Modelo {
     public int estado;
 
     private Sprite sprite;
-    private final static double velocidad = 10;
+    private final static double velocidad = 5;
     private int aceleracionX;
     private int aceleracionY;
 
     private long tearRange;
     private long actualRange;
 
-    private double damage;
+    private int damage;
 
     private int orientacion;
     private HashMap<String,Sprite> sprites = new HashMap<>();
     private String disparando = "DISPARANDO";
     private String desapareciendo = "DESAPARECIENDO";
 
-    public DisparoEnemigo(Context context, double xInicial, double yInicial, long tearRange, double damage, int orientacion) {
+    public DisparoEnemigo(Context context, double xInicial, double yInicial, long tearRange, int damage, int orientacion) {
         super(context, xInicial, yInicial, 12, 12);
 
         cDerecha = 6;
         cIzquierda = 6;
         cArriba = 6;
         cAbajo = 6;
-        aceleracionX=3;
-        aceleracionY=3;
+
+        if(orientacion == EnemigoBase.MOVIMIENTO_DERECHA){
+            aceleracionY = 0;
+            aceleracionX = (int)velocidad;
+        }
+
+        else if(orientacion == EnemigoBase.MOVIMIENTO_IZQUIERDA){
+            aceleracionY = 0;
+            aceleracionX = -(int)velocidad;
+        }
+
+        else if(orientacion == EnemigoBase.MOVIMIENTO_ABAJO){
+            aceleracionX = 0;
+            aceleracionY = (int)velocidad;
+        }
+
+        else if(orientacion == EnemigoBase.MOVIMIENTO_ARRIBA){
+            aceleracionX = 0;
+            aceleracionY = -(int)velocidad;
+        }
 
         this.orientacion = orientacion;
 
@@ -82,7 +101,6 @@ public class DisparoEnemigo extends Modelo {
         else if(estado == DISPARANDO){
             sprite = sprites.get(disparando);
         }
-        x+=aceleracionX;
 
         actualRange += tiempo;
     }

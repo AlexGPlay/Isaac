@@ -128,10 +128,4 @@ public class EnemigoMelee extends EnemigoBase {
         spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
     }
 
-    public int getTipoModelo(){
-        return Modelo.ENEMIGO;
-    }
-
-
-
 }

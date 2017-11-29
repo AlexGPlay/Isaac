@@ -17,6 +17,11 @@ public abstract class EnemigoBase extends Modelo {
     public final static int ESTADO_VIVO = 0;
     public final static int ESTADO_MUERTO = 1;
 
+    public static final int MOVIMIENTO_DERECHA = 0;
+    public static final int MOVIMIENTO_IZQUIERDA = 1;
+    public static final int MOVIMIENTO_ABAJO = 2;
+    public static final int MOVIMIENTO_ARRIBA = 3;
+
     public int estado;
 
     protected Sprite spriteCabeza;
@@ -24,6 +29,21 @@ public abstract class EnemigoBase extends Modelo {
     protected HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
 
     protected double xInicial;
+
+    protected double yInicial;
+
+    protected double aceleracionX;
+    protected double aceleracionY;
+
+    private final static int alturaCabeza = 25;
+    private final static int anchoCabeza = 29;
+    private final static int alturaCuerpo = 14;
+    private final static int anchoCuerpo = 32;
+    protected double HP;
+
+    public EnemigoBase(Context context, double xInicial, double yInicial, int alturaCabezaCuerpo,int CabezaCuerpo,int tipoModelo) {
+        super(context, xInicial, yInicial, alturaCabezaCuerpo, CabezaCuerpo, tipoModelo);
+    }
 
     public double getxInicial() {
         return xInicial;
@@ -57,16 +77,6 @@ public abstract class EnemigoBase extends Modelo {
         this.aceleracionY = aceleracionY;
     }
 
-    protected double yInicial;
-
-    protected double aceleracionX;
-    protected double aceleracionY;
-
-    private final static int alturaCabeza = 25;
-    private final static int anchoCabeza = 29;
-    private final static int alturaCuerpo = 14;
-    private final static int anchoCuerpo = 32;
-
     public double getHP() {
         return HP;
     }
@@ -75,17 +85,10 @@ public abstract class EnemigoBase extends Modelo {
         this.HP = HP;
     }
 
-    protected double HP;
-
-    public EnemigoBase(Context context, double xInicial, double yInicial, int alturaCabezaCuerpo,int CabezaCuerpo,int modelo) {
-        super(context, 0, 0, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo), Modelo.SOLIDO);
-
-    }
-    public void actualizar (long tiempo) {
-
+    public int getTipoModelo(){
+        return Modelo.ENEMIGO;
     }
 
-    public void dibujar(Canvas canvas){
-
-    }
+    public abstract void actualizar (long tiempo);
+    public abstract void dibujar(Canvas canvas);
 }

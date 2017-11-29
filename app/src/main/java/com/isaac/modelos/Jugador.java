@@ -460,6 +460,9 @@ public class Jugador extends Modelo{
         if(newHP>=0 && newHP<=this.actualMaxHP){
             this.HP = newHP;
         }
+
+        else if(newHP>=actualMaxHP)
+            this.HP = actualMaxHP;
     }
 
     public int getHP(){

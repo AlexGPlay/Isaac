@@ -23,6 +23,7 @@ import com.isaac.modelos.item.pickups.Moneda;
 import com.isaac.modelos.item.pickups.PickupID;
 import com.isaac.modelos.item.pickups.Vida;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -93,7 +94,7 @@ public class Sala{
         enemigos = new ArrayList<>();
         enemigos.add(new EnemigoMelee(context,200,200));
         enemigos.add(new EnemigoMelee(context,150,150));
-        enemigos.add(new EnemigoDispara(context,200,250));
+        enemigos.add(new EnemigoDispara(context,150,100));
 
         this.disparosEnemigo= new ArrayList<DisparoEnemigo>();
 
@@ -446,6 +447,7 @@ public class Sala{
         reglasDeMovimientoDisparosJugador();
         reglasDeMovimientoColisionPickUps();
         reglasDeMovimientoBombas();
+        reglasDeMovimientoDisparosEnemigo();
     }
 
     protected Puerta reglasMovimientoColisionPuerta(){
@@ -616,7 +618,8 @@ public class Sala{
                 continue;
             }
 
-            if(colisiona(disparo,virtualX,virtualY) != Modelo.VOID) {
+            int colision = colisiona(disparo,virtualX,virtualY);
+            if(colision != Modelo.VOID && colision != Modelo.ENEMIGO ) {
                 disparo.estado = DisparoJugador.FINALIZANDO;
                 continue;
             }
@@ -681,6 +684,48 @@ public class Sala{
 
         }
 
+    }
+
+    protected void reglasDeMovimientoDisparosEnemigo(){
+        for(Iterator<DisparoEnemigo> iterator = disparosEnemigo.iterator(); iterator.hasNext();){
+            DisparoEnemigo disparo = iterator.next();
+
+            int virtualX = (int) (disparo.getX() + disparo.getAceleracionX());
+            int virtualY = (int) (disparo.getY() + disparo.getAceleracionY());
+
+            if(disparo.estado == DisparoJugador.FINALIZADO){
+                iterator.remove();
+                GestorAudio.getInstancia().reproducirSonido(GestorAudio.DESAPARECER_LAGRIMA);
+                continue;
+            }
+
+            if(disparo.isOutOfRange()){
+                disparo.estado = DisparoJugador.FINALIZANDO;
+                continue;
+            }
+
+            int colision = colisiona(disparo,virtualX,virtualY);
+            if(colision != Modelo.VOID && colision != Modelo.ENEMIGO ) {
+                disparo.estado = DisparoJugador.FINALIZANDO;
+                continue;
+            }
+
+            if(disparo.colisiona(jugador)){
+                jugador.takeDamage((int)disparo.getDamage());
+            }
+
+            for(Puerta puerta : puertas.values()) {
+                if (puerta.colisiona(disparo)) {
+                    disparo.estado = DisparoJugador.FINALIZANDO;
+                    continue;
+                }
+            }
+
+            if(disparo.estado == DisparoJugador.DISPARANDO) {
+                disparo.setX(virtualX);
+                disparo.setY(virtualY);
+            }
+        }
     }
 
     protected void dibujarTiles(Canvas canvas){

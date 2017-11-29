@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.disparos.BombaActiva;
+import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
 import com.isaac.modelos.enemigo.EnemigoMelee;
@@ -45,6 +46,9 @@ public class Sala_boss extends Sala{
             enemigo.dibujar(canvas);
 
         for(DisparoJugador disparo : disparosJugador)
+            disparo.dibujar(canvas);
+
+        for(DisparoEnemigo disparo : disparosEnemigo)
             disparo.dibujar(canvas);
 
     }
