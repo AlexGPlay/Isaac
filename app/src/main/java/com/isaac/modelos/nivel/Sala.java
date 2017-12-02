@@ -2,6 +2,7 @@ package com.isaac.modelos.nivel;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.util.Log;
 
 import com.isaac.GameView;
@@ -81,6 +82,8 @@ public class Sala{
 
     private boolean sonidoCerrada = false;
     private boolean sonidoAbierta = false;
+
+    private Point pickUpPoint;
 
     public Sala(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         this.nivel = nivel;
@@ -162,25 +165,25 @@ public class Sala{
 
         switch (selectedPickUp){
             case PickupID.BOMBA:
-                items.add(new Bomba(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                items.add(new Bomba(context, pickUpPoint.x, pickUpPoint.y));
                 break;
 
             case PickupID.LLAVE:
-                items.add(new Llave(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                items.add(new Llave(context, pickUpPoint.x, pickUpPoint.y));
                 GestorAudio.getInstancia().reproducirSonido(GestorAudio.DROP_LLAVE);
                 break;
 
             case PickupID.MONEDA:
-                items.add(new Moneda(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                items.add(new Moneda(context, pickUpPoint.x, pickUpPoint.y));
                 GestorAudio.getInstancia().reproducirSonido(GestorAudio.DROP_MONEDA);
                 break;
 
             case PickupID.VIDA:
-                items.add(new Vida(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                items.add(new Vida(context, pickUpPoint.x, pickUpPoint.y));
                 break;
 
             case PickupID.COFRE:
-                items.add(new Cofre(context, (anchoMapaTiles()*Tile.ancho)/2, (altoMapaTiles()*Tile.altura)/2));
+                items.add(new Cofre(context, pickUpPoint.x, pickUpPoint.y));
                 GestorAudio.getInstancia().reproducirSonido(GestorAudio.DROP_COFRE);
                 break;
 
@@ -905,6 +908,10 @@ public class Sala{
         }
 
         return null;
+    }
+
+    public void setPickUpPoint(Point point){
+        this.pickUpPoint = point;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.isaac.gestores;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.util.Log;
 
 import com.isaac.R;
@@ -85,6 +86,9 @@ public class CargadorSalas {
             case 'R':
                 return getRoca(context,x,y);
 
+            case 'U':
+                return getPickUp(context,x,y);
+
             default:
                 return new Tile(null, Tile.PASABLE);
         }
@@ -98,7 +102,13 @@ public class CargadorSalas {
 
     private static Tile getTrampilla(Context context, int x, int y){
         Sala_boss temp = (Sala_boss)salaTemp;
-        temp.addTrampilla(new Trampilla(context,x*Tile.ancho,y*Tile.altura,salaTemp.nivel));
+        temp.addTrampilla(new Trampilla(context,x*Tile.ancho+Tile.ancho,y*Tile.altura+Tile.altura,salaTemp.nivel));
+
+        return getSuelo(context);
+    }
+
+    private static Tile getPickUp(Context context, int x, int y){
+        salaTemp.setPickUpPoint(new Point(x*Tile.ancho,y*Tile.altura));
 
         return getSuelo(context);
     }

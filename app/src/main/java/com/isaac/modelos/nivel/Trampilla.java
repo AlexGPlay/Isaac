@@ -20,20 +20,24 @@ public class Trampilla extends Modelo {
         super(context, x, y, 23, 27);
 
         this.nivel = nivel;
-        imagen = CargadorGraficos.cargarDrawable(context, R.drawable.trampilla_abierta);
         activa = false;
     }
 
     @Override
     public void dibujar(Canvas canvas){
-        if(activa) {
-            int yArriba = (int) (y - altura / 2) - Sala.scrollEjeY;
-            int xIzquierda = (int) (x - ancho / 2) - Sala.scrollEjeX;
+        if(activa)
+            imagen = CargadorGraficos.cargarDrawable(context, R.drawable.trampilla_abierta);
 
-            imagen.setBounds(xIzquierda, yArriba, xIzquierda
-                    + ancho, yArriba + altura);
-            imagen.draw(canvas);
-        }
+        else
+            imagen = CargadorGraficos.cargarDrawable(context, R.drawable.trampilla_cerrada);
+
+        int yArriba = (int) (y - altura / 2) - Sala.scrollEjeY;
+        int xIzquierda = (int) (x - ancho / 2) - Sala.scrollEjeX;
+
+        imagen.setBounds(xIzquierda, yArriba, xIzquierda
+                + ancho, yArriba + altura);
+        imagen.draw(canvas);
+
     }
 
     public void levelChange() throws Exception {
