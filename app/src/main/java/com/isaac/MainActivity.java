@@ -6,6 +6,8 @@ import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.isaac.gestores.GestorAudio;
+
 public class MainActivity extends Activity {
     GameView gameView = null;
 
@@ -39,4 +41,20 @@ public class MainActivity extends Activity {
             gameView = null;
         }
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        gameView.gameloop = null;
+        gameView = null;
+
+        GestorAudio.getInstancia().reproducirSonido(GestorAudio.ISAAC_DIES);
+
+        GestorAudio.getInstancia().pararMusicaAmbiente();
+        GestorAudio.getInstancia().changeSound(R.raw.main_theme);
+        GestorAudio.getInstancia().reproducirMusicaAmbiente();
+
+    }
+
 }

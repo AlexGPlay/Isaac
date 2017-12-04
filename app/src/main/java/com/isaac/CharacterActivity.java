@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import com.isaac.R;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.modelos.Jugador;
 
 public class CharacterActivity extends AppCompatActivity {
@@ -43,6 +44,7 @@ public class CharacterActivity extends AppCompatActivity {
         if(actual>=imagenes.length)
             actual = 0;
 
+        GestorAudio.getInstancia().reproducirSonido(GestorAudio.SELECT_RIGHT);
         setImage();
     }
 
@@ -52,11 +54,13 @@ public class CharacterActivity extends AppCompatActivity {
         if(actual<0)
             actual = imagenes.length-1;
 
+        GestorAudio.getInstancia().reproducirSonido(GestorAudio.SELECT_LEFT);
         setImage();
     }
 
     public void launchGame(View v){
         Jugador.JUGADOR_ACTUAL = actual;
+        GestorAudio.getInstancia().reproducirSonido(GestorAudio.START_UP);
         Intent actividadJuego = new Intent(this, MainActivity.class);
         startActivity(actividadJuego);
     }

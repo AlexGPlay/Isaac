@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.util.Log;
 
 import com.isaac.GameView;
+import com.isaac.MainActivity;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.gestores.GestorAudio;
 import com.isaac.modelos.Jugador;
@@ -291,6 +292,8 @@ public class Sala{
         }
 
         aplicarReglasMovimiento();
+
+        checkHP();
     }
 
     public void dibujar(Canvas canvas){
@@ -912,6 +915,12 @@ public class Sala{
 
     public void setPickUpPoint(Point point){
         this.pickUpPoint = point;
+    }
+
+    private void checkHP(){
+        if(jugador.getHP()<=0) {
+            ((MainActivity) context).finish();
+        }
     }
 
 }

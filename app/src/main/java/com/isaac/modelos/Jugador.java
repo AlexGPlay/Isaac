@@ -139,8 +139,8 @@ public class Jugador extends Modelo{
 
         damageModifiers = new ArrayList<>();
 
-        numLlaves = 99;
-        numBombas = 99;
+        numLlaves = 0;
+        numBombas = 0;
         flying = false;
 
         inicializarIsaac();
@@ -150,14 +150,14 @@ public class Jugador extends Modelo{
         aceleracionX = 0;
         aceleracionY = 0;
 
-        tearDelay = 400;
-        tearRange = 1000;
+        tearDelay = 420;
+        tearRange = 900;
         actualDelay = 0;
-        tearDamage = 3;
-        HP = 8;
-        actualMaxHP = 8;
+        tearDamage = 3.5;
+        HP = 6;
+        actualMaxHP = 6;
         maxHP = 20;
-        speed = 5;
+        speed = 6;
 
         shotModifiers = new ArrayList<>();
         shotModifiers.add(new BasicShot());

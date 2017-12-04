@@ -41,6 +41,10 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     public static final int PICK_MONEDA = 11;
     public static final int PICK_COFRE = 12;
     public static final int PICK_ITEM = 13;
+    public static final int ISAAC_DIES = 14;
+    public static final int SELECT_LEFT = 15;
+    public static final int SELECT_RIGHT = 16;
+    public static final int START_UP = 17;
 
     private GestorAudio() { }
 
@@ -63,6 +67,12 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
         poolSonidos = new SoundPool(4, AudioManager.STREAM_MUSIC, 100);
         mapSonidos = new HashMap<Integer, Integer>();
         gestorAudio = (AudioManager) contexto.getSystemService(Context.AUDIO_SERVICE);
+        sonidoAmbiente = MediaPlayer.create(contexto, idMusicaAmbiente);
+        sonidoAmbiente.setLooping(true);
+        sonidoAmbiente.setVolume(1, 1);
+    }
+
+    public void changeSound(int idMusicaAmbiente){
         sonidoAmbiente = MediaPlayer.create(contexto, idMusicaAmbiente);
         sonidoAmbiente.setLooping(true);
         sonidoAmbiente.setVolume(1, 1);

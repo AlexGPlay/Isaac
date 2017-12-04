@@ -25,7 +25,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
     Context context;
     GameLoop gameloop;
     Canvas canvas;
-    GestorAudio gestorAudio;
 
     public static int pantallaAncho;
     public static int pantallaAlto;
@@ -168,30 +167,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         bombas = new IconoBomba(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.22);
         llaves = new IconoLlave(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.29);
 
-        inicializarGestorAudio(context);
-    }
-
-    private void inicializarGestorAudio(Context context){
-        gestorAudio = GestorAudio.getInstancia(context, R.raw.music_loop);
-        gestorAudio.reproducirMusicaAmbiente();
-
-        registrarSonidos();
-    }
-
-    private void registrarSonidos(){
-        gestorAudio.registrarSonido(GestorAudio.DISPARAR_LAGRIMA, R.raw.tear_fire);
-        gestorAudio.registrarSonido(GestorAudio.DESAPARECER_LAGRIMA, R.raw.tear_disappear);
-        gestorAudio.registrarSonido(GestorAudio.BOMBA_EXPLOTAR, R.raw.bomb_explosion);
-        gestorAudio.registrarSonido(GestorAudio.ISAAC_DAÑO, R.raw.isaac_hurt);
-        gestorAudio.registrarSonido(GestorAudio.PUERTA_ABRIR, R.raw.door_open);
-        gestorAudio.registrarSonido(GestorAudio.PUERTA_CERRAR, R.raw.door_close);
-        gestorAudio.registrarSonido(GestorAudio.DROP_COFRE, R.raw.chest_drop);
-        gestorAudio.registrarSonido(GestorAudio.DROP_LLAVE, R.raw.key_drop);
-        gestorAudio.registrarSonido(GestorAudio.DROP_MONEDA, R.raw.coin_drop);
-        gestorAudio.registrarSonido(GestorAudio.PICK_LLAVE, R.raw.key_pick);
-        gestorAudio.registrarSonido(GestorAudio.PICK_MONEDA, R.raw.coin_pick);
-        gestorAudio.registrarSonido(GestorAudio.PICK_COFRE, R.raw.chest_pick);
-        gestorAudio.registrarSonido(GestorAudio.PICK_ITEM, R.raw.item_pick);
+        GestorAudio.getInstancia().pararMusicaAmbiente();
+        GestorAudio.getInstancia().changeSound(R.raw.music_loop);
+        GestorAudio.getInstancia().reproducirMusicaAmbiente();
     }
 
     public void actualizar(long tiempo) throws Exception {
