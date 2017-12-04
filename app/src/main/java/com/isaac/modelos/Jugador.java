@@ -25,6 +25,11 @@ import java.util.List;
 
 public class Jugador extends Modelo{
 
+    // VARIABLES DE INICIALIZACION
+    public static int JUGADOR_ACTUAL = 0;
+    public static final int ISAAC = 0;
+    public static final int SAMSON = 1;
+
     // VARIABLES GRÁFICAS
 
     public static final int MOVIMIENTO_DERECHA = 0;
@@ -106,6 +111,17 @@ public class Jugador extends Modelo{
         this.x =  xInicial;
         this.y =  yInicial - altura/2;
 
+        shielded = false;
+        escudo = CargadorGraficos.cargarDrawable(context, R.drawable.shield);
+
+        if(JUGADOR_ACTUAL==ISAAC)
+            setIsaac();
+
+        else if(JUGADOR_ACTUAL==SAMSON)
+            setSamson();
+    }
+
+    public void setIsaac(){
         aceleracionX = 0;
         aceleracionY = 0;
 
@@ -127,13 +143,35 @@ public class Jugador extends Modelo{
         numBombas = 99;
         flying = false;
 
-        shielded = false;
-        escudo = CargadorGraficos.cargarDrawable(context, R.drawable.shield);
-
-        inicializar();
+        inicializarIsaac();
     }
 
-    public void inicializar (){
+    public void setSamson(){
+        aceleracionX = 0;
+        aceleracionY = 0;
+
+        tearDelay = 400;
+        tearRange = 1000;
+        actualDelay = 0;
+        tearDamage = 3;
+        HP = 8;
+        actualMaxHP = 8;
+        maxHP = 20;
+        speed = 5;
+
+        shotModifiers = new ArrayList<>();
+        shotModifiers.add(new BasicShot());
+
+        damageModifiers = new ArrayList<>();
+
+        numLlaves = 0;
+        numBombas = 0;
+        flying = false;
+
+        inicializarSamson();
+    }
+
+    public void inicializarIsaac (){
 
         Sprite cabezaDerecha = new Sprite(
                 CargadorGraficos.cargarDrawable(context, R.drawable.isaac_cabeza_derecha),
@@ -211,6 +249,84 @@ public class Jugador extends Modelo{
         spriteCabeza = sprites.get(CABEZA_ADELANTE);
         spriteCuerpo = sprites.get(PARADO_SPRITE);
 
+    }
+
+    public void inicializarSamson(){
+        Sprite cabezaDerecha = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.samson_cabeza_derecha),
+                anchoCabeza, alturaCabeza,
+                2, 2, true);
+        sprites.put(CABEZA_DERECHA, cabezaDerecha);
+
+        Sprite cabezaIzquierda = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.samson_cabeza_izquierda),
+                anchoCabeza, alturaCabeza,
+                2, 2, true);
+        sprites.put(CABEZA_IZQUIERDA, cabezaIzquierda);
+
+        Sprite cabezaAtras = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.samson_cabeza_atras),
+                anchoCabeza, alturaCabeza,
+                2, 2, true);
+        sprites.put(CABEZA_ATRAS, cabezaAtras);
+
+        Sprite cabezaAdelante = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.samson_cabeza_defrente),
+                anchoCabeza, alturaCabeza,
+                2, 2, true);
+        sprites.put(CABEZA_ADELANTE, cabezaAdelante);
+
+        Sprite cuerpoDerechaDerecha = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_andar_derecha),
+                anchoCuerpo, alturaCuerpo,
+                10, 10, true);
+        sprites.put(MOVER_DERECHA, cuerpoDerechaDerecha);
+
+        Sprite cuerpoDerechaIzquierda = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_andar_izquierda),
+                anchoCuerpo, alturaCuerpo,
+                10, 10, true);
+        sprites.put(MOVER_IZQUIERDA, cuerpoDerechaIzquierda);
+
+        Sprite cuerpoAdelanteAtras = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_andar_adelante_atras),
+                anchoCuerpo, alturaCuerpo,
+                10, 10, true);
+        sprites.put(MOVER_ADELANTE_ATRAS, cuerpoAdelanteAtras);
+
+        Sprite cuerpoParado = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_cuerpo_parado),
+                anchoCuerpo, alturaCuerpo,
+                1, 1, true);
+        sprites.put(PARADO_SPRITE, cuerpoParado);
+
+        Sprite volarAdelante = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_volar_adelante),
+                44, 31,
+                7, 7, true);
+        sprites.put(VOLAR_ADELANTE, volarAdelante);
+
+        Sprite volarIzquierda = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_volar_izquierda),
+                29, 31,
+                7, 7, true);
+        sprites.put(VOLAR_IZQUIERDA, volarIzquierda);
+
+        Sprite volarDerecha = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_volar_derecha),
+                29, 31,
+                7, 7, true);
+        sprites.put(VOLAR_DERECHA, volarDerecha);
+
+        Sprite volarArriba = new Sprite(
+                CargadorGraficos.cargarDrawable(context, R.drawable.isaac_volar_arriba),
+                44, 31,
+                7, 7, true);
+        sprites.put(VOLAR_ATRAS, volarArriba);
+
+
+        spriteCabeza = sprites.get(CABEZA_ADELANTE);
+        spriteCuerpo = sprites.get(PARADO_SPRITE);
     }
 
     public void actualizar (long tiempo) {
@@ -584,6 +700,7 @@ public class Jugador extends Modelo{
         }
 
     }
+
     public int getTipoModelo(){
         return Modelo.JUGADOR;
     }

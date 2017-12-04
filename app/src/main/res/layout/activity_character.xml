@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/character_background"
+    android:orientation="vertical"
+    tools:context="com.isaac.CharacterActivity">
+
+    <ImageButton
+        android:id="@+id/btnIzda"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50dp"
+        android:background="@android:color/transparent"
+        android:onClick="changeLeft"
+        android:src="@drawable/left_arrow" />
+
+    <ImageButton
+        android:id="@+id/btnDcha"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_column="25"
+        android:layout_marginRight="50dp"
+        android:layout_row="0"
+        android:background="@android:color/transparent"
+        android:onClick="changeRight"
+        app:srcCompat="@drawable/right_arrow" />
+
+    <ImageButton
+        android:id="@+id/btnJugador"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_column="24"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_row="0"
+        android:background="@android:color/transparent"
+        android:onClick="launchGame"
+        android:src="@drawable/isaac_seleccion" />
+</GridLayout>
