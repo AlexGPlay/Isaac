@@ -665,43 +665,8 @@ public class Sala{
                 enemigo.setY(enemigo.getY() - movY);
             }
 
-            if(enemigo instanceof Bony){
-                DisparoEnemigo disparo;
-                if(((Bony) enemigo).comprobarAlineacionY(jugador)){
-                    if(enemigo.getY()<jugador.getY()){
-                        disparo = ((Bony) enemigo).procesarDisparoDirigido(2);
-                        if(disparo!=null) {
-                            disparosEnemigo.add(disparo);
-                        }
-                    }
-                    else {
-                        disparo=((Bony) enemigo).procesarDisparoDirigido(3);
-                        if(disparo!=null) {
-                            disparosEnemigo.add(disparo);
-                        }
-                    }
-                }
-                else if(((Bony) enemigo).comprobarAlineacionX(jugador)){
-                    if(enemigo.getX()<jugador.getX()){
-                        disparo = ((Bony) enemigo).procesarDisparoDirigido(0);
-                        if(disparo!=null) {
-                            disparosEnemigo.add(disparo);
-                        }
-                    }
-                    else {
-                        disparo = ((Bony) enemigo).procesarDisparoDirigido(1);
-                        if(disparo!=null) {
-                            disparosEnemigo.add(disparo);
-                        }
-                    }
-                    for(DisparoEnemigo disparoEnemigo : disparosEnemigo){
-                        if(disparoEnemigo==null){
-                            disparosEnemigo.remove(disparoEnemigo);
-                        }
-                    }
-                }
-
-            }
+            //AÑADIR DISPAROS
+            disparosEnemigo.addAll(enemigo.disparar(jugador));
 
             // --GESTION DE SPRITE
             if(movX>0 && movY>0)

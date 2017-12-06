@@ -171,20 +171,8 @@ public class Bony extends EnemigoBase {
         spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
     }
 
-    public DisparoEnemigo procesarDisparos (Jugador jugador){
-
-        actualDelay+=milisegundosDisparo;
-        int posicionRandom;
-        if (actualDelay> tearDelay
-                + Math.random()* tearDelay) {
-
-            actualDelay=0;
-            posicionRandom=(int)Math.random()*4;
-            return new DisparoEnemigo(context, x, y,tearRange,tearDamage, posicionRandom);
-        }
-        return null;
-    }
-    public DisparoEnemigo procesarDisparoDirigido(int posicion){
+    public ArrayList<DisparoEnemigo> disparar(Jugador jugador){
+        ArrayList<DisparoEnemigo> disparos = new ArrayList<>();
 
         actualDelay+=milisegundosDisparo;
 
@@ -193,9 +181,24 @@ public class Bony extends EnemigoBase {
 
             actualDelay=0;
 
-            return new DisparoEnemigo(context,x,y,tearRange,tearDamage,posicion);
+            if(comprobarAlineacionY(jugador)) {
+                if (getY() < jugador.getY())
+                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO) );
+
+                else
+                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA) );
+            }
+
+            else if(comprobarAlineacionX(jugador)){
+                if(getX()<jugador.getX())
+                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_DERECHA) );
+
+                else
+                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_IZQUIERDA) );
+            }
+
         }
-        return null;
+        return disparos;
     }
 
 

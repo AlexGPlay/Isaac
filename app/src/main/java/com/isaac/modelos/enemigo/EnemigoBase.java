@@ -4,9 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 import com.isaac.graficos.Sprite;
+import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
+import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.nivel.Sala;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -96,5 +99,11 @@ public abstract class EnemigoBase extends Modelo {
     }
 
     public abstract void actualizar (long tiempo);
+
     public abstract void dibujar(Canvas canvas);
+
+    public ArrayList<DisparoEnemigo> disparar(Jugador jugador){
+        return new ArrayList<DisparoEnemigo>();
+    }
+
 }
