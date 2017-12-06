@@ -596,15 +596,14 @@ public class Sala{
     }
 
     protected void reglasDeMovimientoEnemigos() {
+        ArrayList<EnemigoBase> enemigosToAdd = new ArrayList<>();
+
         for (Iterator<EnemigoBase> iterator = enemigos.iterator(); iterator.hasNext(); ) {
             EnemigoBase enemigo = iterator.next();
 
             // -- COMPROBAR ESTADO
 
-            if (enemigo.getHP() <= 0)
-                enemigo.estado = FrowningGaper.ESTADO_MUERTO;
-
-            if (enemigo.estado == FrowningGaper.ESTADO_MUERTO) {
+            if (enemigo.estado == EnemigoBase.ESTADO_MUERTO) {
                 iterator.remove();
                 continue;
             }
@@ -637,10 +636,16 @@ public class Sala{
             // -- COMPROBAR MOVIMIENTO
             int colision = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) (enemigo.getY() + movY));
 
+            if(colision != Modelo.TILE && colision!=Modelo.JUGADOR && enemigo.isFlying()){
+                enemigo.setX(enemigo.getX() + movX);
+                enemigo.setY(enemigo.getY() + movY);
+            }
+
             if (colision == Modelo.VOID) {
                 enemigo.setX(enemigo.getX() + movX);
                 enemigo.setY(enemigo.getY() + movY);
             }
+
             else {
                 int colisionX = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) enemigo.getY());
 
@@ -665,8 +670,9 @@ public class Sala{
                 enemigo.setY(enemigo.getY() - movY);
             }
 
-            //AÑADIR DISPAROS
+            //AÑADIR DISPAROS E INVOCACIONES
             disparosEnemigo.addAll(enemigo.disparar(jugador));
+            enemigosToAdd.addAll(enemigo.summon());
 
             // --GESTION DE SPRITE
             if(movX>0 && movY>0)
@@ -697,6 +703,8 @@ public class Sala{
                 enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_PARADO);
 
         }
+
+        enemigos.addAll(enemigosToAdd);
     }
 
     protected void reglasDeMovimientoDisparosJugador(){

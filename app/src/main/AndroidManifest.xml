@@ -28,8 +28,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".CharacterActivity"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".CharacterActivity"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>

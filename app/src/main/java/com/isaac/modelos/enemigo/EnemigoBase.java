@@ -17,6 +17,15 @@ import java.util.HashMap;
  */
 
 public abstract class EnemigoBase extends Modelo {
+    protected static final String CABEZA_DERECHA = "cabeza_derecha";
+    protected static final String CABEZA_IZQUIERDA = "cabeza_izquierda";
+    protected static final String CABEZA_ATRAS = "cabeza_atras";
+    protected static final String CABEZA_ADELANTE = "cabeza_adelante";
+    protected static final String MOVER_ADELANTE_ATRAS = "mover_adelante";
+    protected static final String MOVER_DERECHA = "mover_derecha";
+    protected static final String MOVER_IZQUIERDA = "mover_izquierda";
+    protected static final String PARADO_SPRITE = "parado";
+
     public final static int ESTADO_VIVO = 0;
     public final static int ESTADO_MUERTO = 1;
 
@@ -25,6 +34,10 @@ public abstract class EnemigoBase extends Modelo {
     public static final int MOVIMIENTO_ABAJO = 2;
     public static final int MOVIMIENTO_ARRIBA = 3;
     public static final int MOVIMIENTO_PARADO = 4;
+    public static final int MOVIMIENTO_ARRIBA_IZQUIERDA = 5;
+    public static final int MOVIMIENTO_ARRIBA_DERECHA = 6;
+    public static final int MOVIMIENTO_ABAJO_IZQUIERDA = 7;
+    public static final int MOVIMIENTO_ABAJO_DERECHA = 8;
 
     public int estado;
 
@@ -41,9 +54,12 @@ public abstract class EnemigoBase extends Modelo {
 
     protected double HP;
     protected int movimiento;
+    protected boolean fly;
 
     public EnemigoBase(Context context, double xInicial, double yInicial, int alturaCabezaCuerpo,int CabezaCuerpo,int tipoModelo) {
         super(context, xInicial, yInicial, alturaCabezaCuerpo, CabezaCuerpo, tipoModelo);
+
+        fly = false;
     }
 
     public double getxInicial() {
@@ -104,6 +120,31 @@ public abstract class EnemigoBase extends Modelo {
 
     public ArrayList<DisparoEnemigo> disparar(Jugador jugador){
         return new ArrayList<DisparoEnemigo>();
+    }
+
+    protected boolean comprobarAlineacionY(Jugador jugador){
+        if(jugador.getX() - jugador.getAncho() / 2 <= (x + ancho / 2)
+                && (jugador.getX() + jugador.getAncho() / 2) >= (x - ancho / 2)){
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean comprobarAlineacionX(Jugador jugador){
+        if(jugador.getY() - jugador.getAltura() / 2 < (y + altura / 2)
+                && (jugador.getY() + jugador.getAltura() / 2) > (y - altura / 2)){
+            return true;
+
+        }
+        return false;
+    }
+
+    public ArrayList<EnemigoBase> summon(){
+        return new ArrayList<EnemigoBase>();
+    }
+
+    public boolean isFlying(){
+        return fly;
     }
 
 }

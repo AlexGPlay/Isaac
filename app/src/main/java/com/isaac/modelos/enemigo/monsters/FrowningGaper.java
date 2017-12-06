@@ -18,23 +18,10 @@ import java.util.HashMap;
 
 public class FrowningGaper extends EnemigoBase {
 
-    public final static int ESTADO_VIVO = 0;
-    public final static int ESTADO_MUERTO = 1;
-
-    private static final String CABEZA_DERECHA = "cabeza_derecha";
-    private static final String CABEZA_IZQUIERDA = "cabeza_izquierda";
-    private static final String CABEZA_ATRAS = "cabeza_atras";
-    private static final String CABEZA_ADELANTE = "cabeza_adelante";
-    private static final String MOVER_ADELANTE_ATRAS = "mover_adelante";
-    private static final String MOVER_DERECHA = "mover_derecha";
-    private static final String MOVER_IZQUIERDA = "mover_izquierda";
-    private static final String PARADO_SPRITE = "parado";
-
     private final static int alturaCabeza = 25;
     private final static int anchoCabeza = 29;
     private final static int alturaCuerpo = 14;
     private final static int anchoCuerpo = 32;
-
 
     public FrowningGaper(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo), Modelo.SOLIDO);
@@ -139,6 +126,9 @@ public class FrowningGaper extends EnemigoBase {
             spriteCabeza = sprites.get(CABEZA_ADELANTE);
             spriteCuerpo = sprites.get(PARADO_SPRITE);
         }
+
+        if(getHP()<=0)
+            estado = ESTADO_MUERTO;
 
         spriteCuerpo.actualizar(tiempo);
         spriteCabeza.actualizar(tiempo);

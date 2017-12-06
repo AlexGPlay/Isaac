@@ -2,16 +2,16 @@
 <monsterPull1 id="1">
 
     <monster>
-        <id>1</id>
-    </monster>
-    <monster>
-        <id>1</id>
-    </monster>
-    <monster>
-        <id>1</id>
+        <id>2</id>
     </monster>
     <monster>
         <id>2</id>
+    </monster>
+    <monster>
+        <id>2</id>
+    </monster>
+    <monster>
+        <id>1</id>
     </monster>
 
 </monsterPull1>

@@ -67,6 +67,26 @@ public class DisparoEnemigo extends Modelo {
             aceleracionY = -(int)velocidad;
         }
 
+        else if(orientacion == EnemigoBase.MOVIMIENTO_ABAJO_DERECHA){
+            aceleracionX = (int)velocidad;
+            aceleracionY = (int)velocidad;
+        }
+
+        else if(orientacion == EnemigoBase.MOVIMIENTO_ABAJO_IZQUIERDA){
+            aceleracionX = -(int)velocidad;;
+            aceleracionY = (int)velocidad;
+        }
+
+        else if(orientacion == EnemigoBase.MOVIMIENTO_ARRIBA_DERECHA){
+            aceleracionX = (int)velocidad;
+            aceleracionY = -(int)velocidad;
+        }
+
+        else if(orientacion == EnemigoBase.MOVIMIENTO_ARRIBA_IZQUIERDA){
+            aceleracionX = -(int)velocidad;
+            aceleracionY = -(int)velocidad;
+        }
+
         this.orientacion = orientacion;
 
         this.tearRange = tearRange;
