@@ -3,18 +3,15 @@ package com.isaac.modelos.nivel;
 import android.content.Context;
 import android.graphics.Canvas;
 
-import com.isaac.gestores.CargadorSalas;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
-import com.isaac.modelos.enemigo.EnemigoMelee;
 import com.isaac.modelos.item.Altar;
 import com.isaac.modelos.item.Item;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,6 +28,9 @@ public class Sala_tesoro extends Sala{
         itemsDropped = true;
         enemigos.clear();
     }
+
+    @Override
+    protected void addEnemies(){ }
 
     public void addAltar(Altar altar){
         if(altares==null)

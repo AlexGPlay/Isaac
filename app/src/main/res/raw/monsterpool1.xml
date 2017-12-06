@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monsterPull1 id="1">
+
+    <monster>
+        <id>1</id>
+    </monster>
+    <monster>
+        <id>1</id>
+    </monster>
+    <monster>
+        <id>1</id>
+    </monster>
+    <monster>
+        <id>2</id>
+    </monster>
+
+</monsterPull1>

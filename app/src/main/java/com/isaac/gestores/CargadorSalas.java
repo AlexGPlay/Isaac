@@ -89,9 +89,18 @@ public class CargadorSalas {
             case 'U':
                 return getPickUp(context,x,y);
 
+            case 'M':
+                return getSpawnPoint(context,x,y);
+
             default:
                 return new Tile(null, Tile.PASABLE);
         }
+    }
+
+    private static Tile getSpawnPoint(Context context, int x, int y){
+        salaTemp.addSpawnPoint( new Point(x*Tile.ancho+Tile.ancho/2, y*Tile.altura+Tile.altura/2) );
+
+        return getSuelo(context);
     }
 
     private static Tile getRoca(Context context, int x, int y){

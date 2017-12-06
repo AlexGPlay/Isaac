@@ -3,20 +3,22 @@ package com.isaac.modelos.nivel;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.MainActivity;
+import com.isaac.R;
 import com.isaac.gestores.CargadorSalas;
 import com.isaac.gestores.GestorAudio;
+import com.isaac.gestores.GestorXML;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
-import com.isaac.modelos.enemigo.EnemigoDispara;
-import com.isaac.modelos.enemigo.EnemigoMelee;
+import com.isaac.modelos.enemigo.monsters.Bony;
+import com.isaac.modelos.enemigo.monsters.FrowningGaper;
+import com.isaac.modelos.enemigo.monsters.MonsterID;
 import com.isaac.modelos.item.Item;
 import com.isaac.modelos.item.pickups.Bomba;
 import com.isaac.modelos.item.pickups.Cofre;
@@ -25,7 +27,6 @@ import com.isaac.modelos.item.pickups.Moneda;
 import com.isaac.modelos.item.pickups.PickupID;
 import com.isaac.modelos.item.pickups.Vida;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,6 +38,8 @@ import java.util.Random;
  */
 
 public class Sala{
+
+    public static final int NUMBER_OF_ENEMY_POOLS = 1;
 
     public static final String SALA_CUADRADA_1 = "Sala_cuadrada_1";
     public static final String SALA_CUADRADA_2 = "Sala_cuadrada_2";
@@ -85,11 +88,14 @@ public class Sala{
     private boolean sonidoAbierta = false;
 
     private Point pickUpPoint;
+    private ArrayList<Point> spawnPoints;
 
     public Sala(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         this.nivel = nivel;
 
         puertas = new HashMap<>();
+        spawnPoints = new ArrayList<>();
+
         mapaTiles = CargadorSalas.inicializarMapaTiles(tipoSala,this, context);
 
         this.disparosJugador = new ArrayList<>();
@@ -97,11 +103,6 @@ public class Sala{
         this.itemsDropped = false;
         this.jugador = jugador;
         this.context = context;
-
-        enemigos = new ArrayList<>();
-        enemigos.add(new EnemigoMelee(context,200,200));
-        enemigos.add(new EnemigoMelee(context,150,150));
-        enemigos.add(new EnemigoDispara(context,150,100));
 
         this.disparosEnemigo= new ArrayList<DisparoEnemigo>();
 
@@ -113,6 +114,57 @@ public class Sala{
         this.orientacionPad = Jugador.PARADO;
         this.orientacionDisparo = Jugador.NO_DISPARO;
         this.bombaActiva = false;
+
+        enemigos = new ArrayList<>();
+        addEnemies();
+    }
+
+    protected void addEnemies(){
+        Random r = new Random();
+
+        int pool = r.nextInt(NUMBER_OF_ENEMY_POOLS);
+        List<Integer> enemies;
+
+        switch(pool){
+            case 0:
+                enemies = GestorXML.getInstance().getEnemyPools(context, R.raw.monsterpool1);
+                break;
+
+            default:
+                enemies = new ArrayList<>();
+                break;
+        }
+
+
+        generateEnemiesFromIDS(enemies);
+    }
+
+    private void generateEnemiesFromIDS(List<Integer> enemies){
+        for(int i=0;i<enemies.size();i++)
+            enemigos.add(generateEnemy(enemies.get(i), i));
+    }
+
+    private EnemigoBase generateEnemy(int id, int iteration){
+        EnemigoBase enemigo;
+
+        switch(id){
+            case MonsterID.BONY:
+                enemigo = new Bony(context,0,0);
+                break;
+
+            case MonsterID.FROWNING_GAPER:
+                enemigo = new FrowningGaper(context,0,0);
+                break;
+
+            default:
+                enemigo = null;
+        }
+
+        Point p = spawnPoints.get(iteration);
+        enemigo.setX(p.x);
+        enemigo.setY(p.y);
+
+        return enemigo;
     }
 
     public void checkEstadoSala(){
@@ -550,9 +602,9 @@ public class Sala{
             // -- COMPROBAR ESTADO
 
             if (enemigo.getHP() <= 0)
-                enemigo.estado = EnemigoMelee.ESTADO_MUERTO;
+                enemigo.estado = FrowningGaper.ESTADO_MUERTO;
 
-            if (enemigo.estado == EnemigoMelee.ESTADO_MUERTO) {
+            if (enemigo.estado == FrowningGaper.ESTADO_MUERTO) {
                 iterator.remove();
                 continue;
             }
@@ -613,31 +665,31 @@ public class Sala{
                 enemigo.setY(enemigo.getY() - movY);
             }
 
-            if(enemigo instanceof EnemigoDispara){
+            if(enemigo instanceof Bony){
                 DisparoEnemigo disparo;
-                if(((EnemigoDispara) enemigo).comprobarAlineacionY(jugador)){
+                if(((Bony) enemigo).comprobarAlineacionY(jugador)){
                     if(enemigo.getY()<jugador.getY()){
-                        disparo = ((EnemigoDispara) enemigo).procesarDisparoDirigido(2);
+                        disparo = ((Bony) enemigo).procesarDisparoDirigido(2);
                         if(disparo!=null) {
                             disparosEnemigo.add(disparo);
                         }
                     }
                     else {
-                        disparo=((EnemigoDispara) enemigo).procesarDisparoDirigido(3);
+                        disparo=((Bony) enemigo).procesarDisparoDirigido(3);
                         if(disparo!=null) {
                             disparosEnemigo.add(disparo);
                         }
                     }
                 }
-                else if(((EnemigoDispara) enemigo).comprobarAlineacionX(jugador)){
+                else if(((Bony) enemigo).comprobarAlineacionX(jugador)){
                     if(enemigo.getX()<jugador.getX()){
-                        disparo = ((EnemigoDispara) enemigo).procesarDisparoDirigido(0);
+                        disparo = ((Bony) enemigo).procesarDisparoDirigido(0);
                         if(disparo!=null) {
                             disparosEnemigo.add(disparo);
                         }
                     }
                     else {
-                        disparo = ((EnemigoDispara) enemigo).procesarDisparoDirigido(1);
+                        disparo = ((Bony) enemigo).procesarDisparoDirigido(1);
                         if(disparo!=null) {
                             disparosEnemigo.add(disparo);
                         }
@@ -915,6 +967,10 @@ public class Sala{
 
     public void setPickUpPoint(Point point){
         this.pickUpPoint = point;
+    }
+
+    public void addSpawnPoint(Point point){
+        spawnPoints.add(point);
     }
 
     private void checkHP(){

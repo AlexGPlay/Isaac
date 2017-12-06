@@ -8,9 +8,6 @@ import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
-import com.isaac.modelos.enemigo.EnemigoMelee;
-import com.isaac.modelos.item.Altar;
-import com.isaac.modelos.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +23,9 @@ public class Sala_boss extends Sala{
     public Sala_boss(Context context, String tipoSala, Jugador jugador, Nivel nivel) throws Exception {
         super(context,tipoSala,jugador,nivel);
     }
+
+    @Override
+    protected void addEnemies(){ }
 
     @Override
     public void dibujar(Canvas canvas){

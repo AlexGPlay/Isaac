@@ -58,4 +58,35 @@ public class GestorXML {
         return itemPool;
     }
 
+    public List<Integer> getEnemyPools(Context context, int pool){
+        ParserXML parser = new ParserXML();
+        String textoFicheroNivel = "";
+
+        try {
+            InputStream inputStream = context.getResources().openRawResource(pool);
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(inputStream));
+            String linea = bufferedReader.readLine();
+            while (linea != null) {
+                textoFicheroNivel += linea;
+                linea = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        Document doc = parser.getDom(textoFicheroNivel);
+
+        List<Integer> enemyPool = new ArrayList<>();
+        NodeList nodos = doc.getElementsByTagName("monster");
+        for (int i = 0; i < nodos.getLength(); i++) {
+            Element elementoActual = (Element) nodos.item(i);
+            int id = Integer.valueOf( parser.getValor(elementoActual, "id") );
+            enemyPool.add( id );
+
+        }
+        return enemyPool;
+    }
+
 }

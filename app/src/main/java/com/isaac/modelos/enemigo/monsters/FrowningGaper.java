@@ -1,31 +1,25 @@
-package com.isaac.modelos.enemigo;
+package com.isaac.modelos.enemigo.monsters;
 
 import android.content.Context;
 import android.graphics.Canvas;
 
 import com.isaac.R;
 import com.isaac.gestores.CargadorGraficos;
-import com.isaac.gestores.GestorAudio;
 import com.isaac.graficos.Sprite;
-import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
-import com.isaac.modelos.disparos.DisparoEnemigo;
-import com.isaac.modelos.disparos.DisparoJugador;
-import com.isaac.modelos.item.ShotModifier;
+import com.isaac.modelos.enemigo.EnemigoBase;
 import com.isaac.modelos.nivel.Sala;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
- * Created by Pelayo on 29/11/2017.
+ * Created by Pelayo on 27/10/2017.
  */
 
-public class EnemigoDispara extends EnemigoBase {
+public class FrowningGaper extends EnemigoBase {
 
     public final static int ESTADO_VIVO = 0;
     public final static int ESTADO_MUERTO = 1;
-
 
     private static final String CABEZA_DERECHA = "cabeza_derecha";
     private static final String CABEZA_IZQUIERDA = "cabeza_izquierda";
@@ -37,17 +31,12 @@ public class EnemigoDispara extends EnemigoBase {
     private static final String PARADO_SPRITE = "parado";
 
     private final static int alturaCabeza = 25;
-    private final static int anchoCabeza = 28;
-    private final static int alturaCuerpo = 15;
+    private final static int anchoCabeza = 29;
+    private final static int alturaCuerpo = 14;
     private final static int anchoCuerpo = 32;
 
-    private long milisegundosDisparo=10;
-    private long tearDelay;
-    private long tearRange;
-    private int tearDamage;
-    private int actualDelay;
 
-    public EnemigoDispara(Context context, double xInicial, double yInicial) {
+    public FrowningGaper(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial, alturaCabeza+alturaCuerpo, Math.max(anchoCabeza,anchoCuerpo), Modelo.SOLIDO);
 
         // guardamos la posición inicial porque más tarde vamos a reiniciarlo
@@ -57,13 +46,8 @@ public class EnemigoDispara extends EnemigoBase {
         this.x =  this.xInicial;
         this.y =  this.yInicial;
 
-        aceleracionX = 1;
-        aceleracionY = 1;
-
-        tearDelay = 400;
-        tearRange = 1000;
-        actualDelay = 0;
-        tearDamage = 1;
+        aceleracionX = 2;
+        aceleracionY = 2;
 
         HP = 10;
         estado = ESTADO_VIVO;
@@ -74,51 +58,51 @@ public class EnemigoDispara extends EnemigoBase {
     public void inicializar (){
 
         Sprite cabezaDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_cabeza_derecha),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_cabeza_adelante),
                 anchoCabeza, alturaCabeza,
-                1, 1, true);
+                2, 2, true);
         sprites.put(CABEZA_DERECHA, cabezaDerecha);
 
         Sprite cabezaIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_cabeza_izquierda),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_cabeza_adelante),
                 anchoCabeza, alturaCabeza,
-                1, 1, true);
+                2, 2, true);
         sprites.put(CABEZA_IZQUIERDA, cabezaIzquierda);
 
         Sprite cabezaAtras = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_cabeza_atras),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_cabeza_atras),
                 anchoCabeza, alturaCabeza,
                 1, 1, true);
         sprites.put(CABEZA_ATRAS, cabezaAtras);
 
         Sprite cabezaAdelante = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_cabeza_adelante),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_cabeza_adelante),
                 anchoCabeza, alturaCabeza,
-                1, 1, true);
+                2, 2, true);
         sprites.put(CABEZA_ADELANTE, cabezaAdelante);
 
         Sprite cuerpoDerechaDerecha = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_caminar_derecha),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_caminar_derecha),
                 anchoCuerpo, alturaCuerpo,
-                10, 10, true);
+                8, 8, true);
         sprites.put(MOVER_DERECHA, cuerpoDerechaDerecha);
 
         Sprite cuerpoDerechaIzquierda = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_caminar_izquierda),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_caminar_izquierda),
                 anchoCuerpo, alturaCuerpo,
-                10, 10, true);
+                8, 8, true);
         sprites.put(MOVER_IZQUIERDA, cuerpoDerechaIzquierda);
 
         Sprite cuerpoAdelanteAtras = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_andar_atras_adelante),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_caminar_adelante),
                 anchoCuerpo, alturaCuerpo,
-                10, 10, true);
+                8, 8, true);
         sprites.put(MOVER_ADELANTE_ATRAS, cuerpoAdelanteAtras);
 
         Sprite cuerpoParado = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.bonney_andar_atras_adelante),
+                CargadorGraficos.cargarDrawable(context, R.drawable.enemigo_caminar_adelante),
                 anchoCuerpo, alturaCuerpo,
-                10, 10, true);
+                8, 8, true);
         sprites.put(PARADO_SPRITE, cuerpoParado);
 
 
@@ -126,6 +110,7 @@ public class EnemigoDispara extends EnemigoBase {
         spriteCuerpo = sprites.get(PARADO_SPRITE);
 
         movimiento = MOVIMIENTO_PARADO;
+
     }
 
     @Override
@@ -168,50 +153,6 @@ public class EnemigoDispara extends EnemigoBase {
 
         spriteCuerpo.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCuerpo - Sala.scrollEjeY);
         spriteCabeza.dibujarSprite(canvas, xCabeza - Sala.scrollEjeX, yCabeza - Sala.scrollEjeY);
-    }
-
-    public DisparoEnemigo procesarDisparos (Jugador jugador){
-
-        actualDelay+=milisegundosDisparo;
-        int posicionRandom;
-        if (actualDelay> tearDelay
-                + Math.random()* tearDelay) {
-
-            actualDelay=0;
-            posicionRandom=(int)Math.random()*4;
-            return new DisparoEnemigo(context, x, y,tearRange,tearDamage, posicionRandom);
-        }
-        return null;
-    }
-    public DisparoEnemigo procesarDisparoDirigido(int posicion){
-
-        actualDelay+=milisegundosDisparo;
-
-        if (actualDelay> tearDelay
-                + Math.random()* tearDelay) {
-
-            actualDelay=0;
-
-            return new DisparoEnemigo(context,x,y,tearRange,tearDamage,posicion);
-        }
-        return null;
-    }
-
-
-    public boolean comprobarAlineacionY(Jugador jugador){
-        if(jugador.getX() - jugador.getAncho() / 2 <= (x + ancho / 2)
-                && (jugador.getX() + jugador.getAncho() / 2) >= (x - ancho / 2)){
-            return true;
-        }
-        return false;
-    }
-    public boolean comprobarAlineacionX(Jugador jugador){
-        if(jugador.getY() - jugador.getAltura() / 2 < (y + altura / 2)
-                && (jugador.getY() + jugador.getAltura() / 2) > (y - altura / 2)){
-            return true;
-
-        }
-        return false;
     }
 
 }
