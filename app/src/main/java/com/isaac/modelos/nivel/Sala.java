@@ -195,7 +195,7 @@ public class Sala{
                 if(!(puerta instanceof PuertaLlave))
                     puerta.setAbierta(true);
 
-                else if(puerta instanceof PuertaLlave && ((PuertaLlave)puerta).getLlavesNecesarias()==0)
+                else if((puerta instanceof PuertaLlave) && ((PuertaLlave)puerta).getLlavesNecesarias()==0)
                     puerta.setAbierta(true);
 
                 int x = puerta.getXEntrada();
@@ -378,8 +378,6 @@ public class Sala{
                 disparoEnemigo.dibujar(canvas);
             }
         }
-
-
 
     }
 

@@ -15,7 +15,7 @@ import com.isaac.modelos.Jugador;
 public class TitleActivity extends AppCompatActivity {
 
     private GestorAudio gestorAudio;
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

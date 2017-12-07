@@ -48,9 +48,9 @@ public class Nivel {
         generateRooms();
 
         salaActual = salas[salaActualY][salaActualX];
+        salaActual.moveToRoom(null);
         salaActual.enemigos.clear();
         salaActual.itemsDropped = true;
-        salaActual.moveToRoom(null);
     }
 
     public IconoVida[] getActualHP(){

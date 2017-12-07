@@ -11,6 +11,7 @@ import com.isaac.modelos.enemigo.EnemigoBase;
 import com.isaac.modelos.enemigo.bosses.TheLamb;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -93,6 +94,24 @@ public class Sala_boss extends Sala{
         return Sala.SALA_BOSS;
     }
 
+    @Override
+    protected void modelsInExplosion(BombaActiva bomba){
 
+        if( checkExplosion(bomba, jugador) )
+            jugador.takeDamage(1);
+
+        for(EnemigoBase enemigo : enemigos)
+            if( checkExplosion(bomba, enemigo) )
+                enemigo.takeDamage(bomba.getDaño(), bomba);
+
+        for(Iterator<Roca> iterator = rocas.iterator(); iterator.hasNext();) {
+            Roca roca = iterator.next();
+            if (checkExplosion(bomba, roca)) {
+                iterator.remove();
+                continue;
+            }
+        }
+
+    }
 
 }
