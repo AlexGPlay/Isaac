@@ -18,8 +18,8 @@ import java.util.HashMap;
 
 public class BombaActiva extends Modelo {
 
-    private int ticksToExplode = 1500;
-    private int actualTicks = 0;
+    private long ticksToExplode = 1500;
+    private long actualTicks = 0;
 
     private Sprite sprite;
     private HashMap<String,Sprite> sprites = new HashMap<String,Sprite>();
@@ -109,6 +109,10 @@ public class BombaActiva extends Modelo {
 
     public int getTipoModelo(){
         return Modelo.BOMBA;
+    }
+
+    public void setTicksToExplode(long ticks){
+        this.ticksToExplode = ticks;
     }
 
 }

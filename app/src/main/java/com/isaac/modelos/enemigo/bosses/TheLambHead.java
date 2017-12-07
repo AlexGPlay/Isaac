@@ -39,6 +39,8 @@ public class TheLambHead extends EnemigoBase {
     public TheLambHead(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial, altura, ancho, Modelo.SOLIDO);
 
+        comportamiento = ALEATORIO;
+
         this.x = xInicial;
         this.y = yInicial;
 
@@ -115,14 +117,14 @@ public class TheLambHead extends EnemigoBase {
         if(hasShot) {
             actualDelay = 0;
 
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_DERECHA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_IZQUIERDA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO_DERECHA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO_IZQUIERDA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA_DERECHA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA_IZQUIERDA) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_DERECHA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_IZQUIERDA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO_DERECHA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO_IZQUIERDA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA_DERECHA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA_IZQUIERDA, R.drawable.disparo_enemigo, 1) );
 
             hasShot = false;
         }
@@ -130,10 +132,15 @@ public class TheLambHead extends EnemigoBase {
         return disparos;
     }
 
-
     @Override
     public void dibujar(Canvas canvas) {
         spriteCuerpo.dibujarSprite(canvas,(int)x- Sala.scrollEjeX,(int)y - Sala.scrollEjeY);
+    }
+
+    @Override
+    public void takeDamage(double damage, Modelo source) {
+        if(source.getTipoModelo() != Modelo.BOMBA)
+            this.setHP( this.getHP()-damage );
     }
 
 }

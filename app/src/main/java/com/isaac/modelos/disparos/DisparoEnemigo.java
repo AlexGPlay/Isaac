@@ -39,8 +39,14 @@ public class DisparoEnemigo extends Modelo {
     private String disparando = "DISPARANDO";
     private String desapareciendo = "DESAPARECIENDO";
 
-    public DisparoEnemigo(Context context, double xInicial, double yInicial, long tearRange, int damage, int orientacion) {
+    public int TIPO_DISPARO;
+    public static final int DISPARO_NORMAL = 1;
+    public static final int DISPARO_EXPLOSIVO = 2;
+
+    public DisparoEnemigo(Context context, double xInicial, double yInicial, long tearRange, int damage, int orientacion, int sprite, int fps) {
         super(context, xInicial, yInicial, 32, 32);
+
+        TIPO_DISPARO = DISPARO_NORMAL;
 
         cDerecha = 6;
         cIzquierda = 6;
@@ -94,17 +100,14 @@ public class DisparoEnemigo extends Modelo {
         actualRange = 0;
 
         estado = DISPARANDO;
-        inicializar();
+        inicializar(sprite,fps);
     }
 
-    private void inicializar (){
-        Sprite disparo = new Sprite(CargadorGraficos.cargarDrawable(context, R.drawable.bone_projectile), ancho, altura, 4, 4, true);
+    private void inicializar (int sprite, int fps){
+        Sprite disparo = new Sprite(CargadorGraficos.cargarDrawable(context, sprite), ancho, altura, fps, fps, true);
         sprites.put(disparando, disparo);
 
-        Sprite desaparecer = new Sprite(CargadorGraficos.cargarDrawable(context, R.drawable.isaac_tear_effect), ancho, altura, 120, 16, false);
-        sprites.put(desapareciendo, desaparecer);
-
-        sprite = sprites.get(disparando);
+        this.sprite = sprites.get(disparando);
     }
 
     public void actualizar (long tiempo) {
@@ -139,10 +142,6 @@ public class DisparoEnemigo extends Modelo {
 
     public double getDamage(){
         return damage;
-    }
-
-    public DisparoJugador clone(){
-        return new DisparoJugador(context,x,y,tearRange,damage,orientacion);
     }
 
     public int getTipoModelo(){

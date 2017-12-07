@@ -10,6 +10,7 @@ import com.isaac.graficos.Sprite;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.disparos.DisparoEnemigo;
+import com.isaac.modelos.disparos.DisparoExplosivo;
 import com.isaac.modelos.enemigo.EnemigoBase;
 import com.isaac.modelos.nivel.Sala;
 
@@ -39,6 +40,7 @@ public class TheLamb extends EnemigoBase{
     //VARIABLES DISPARO
     private long tearDelay;
     private long tearRange;
+    private long explosiveRange;
     private int tearDamage;
     private int actualDelay;
 
@@ -49,7 +51,8 @@ public class TheLamb extends EnemigoBase{
     public TheLamb(Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial, altura, ancho, Modelo.SOLIDO);
 
-        // guardamos la posición inicial porque más tarde vamos a reiniciarlo
+        comportamiento = ALEATORIO;
+
         this.xInicial = xInicial;
         this.yInicial = yInicial - altura/2;
 
@@ -61,6 +64,8 @@ public class TheLamb extends EnemigoBase{
 
         tearDelay = 2000;
         tearRange = 5000;
+        explosiveRange = 1500;
+
         actualDelay = 0;
         tearDamage = 1;
 
@@ -145,14 +150,23 @@ public class TheLamb extends EnemigoBase{
         if(hasShot) {
             actualDelay = 0;
 
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_DERECHA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_IZQUIERDA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO_DERECHA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO_IZQUIERDA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA_DERECHA) );
-            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA_IZQUIERDA) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_DERECHA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_IZQUIERDA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO_DERECHA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO_IZQUIERDA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA_DERECHA, R.drawable.disparo_enemigo, 1) );
+            disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA_IZQUIERDA, R.drawable.disparo_enemigo, 1) );
+
+            disparos.add( new DisparoExplosivo(context, x, y, explosiveRange, tearDamage, MOVIMIENTO_ABAJO, R.drawable.disparo_explosivo, 1) );
+            disparos.add( new DisparoExplosivo(context, x, y, explosiveRange, tearDamage, MOVIMIENTO_ARRIBA, R.drawable.disparo_explosivo, 1) );
+            disparos.add( new DisparoExplosivo(context, x, y, explosiveRange, tearDamage, MOVIMIENTO_DERECHA, R.drawable.disparo_explosivo, 1) );
+            disparos.add( new DisparoExplosivo(context, x, y, explosiveRange, tearDamage, MOVIMIENTO_IZQUIERDA, R.drawable.disparo_explosivo, 1) );
+            disparos.add( new DisparoExplosivo(context, x, y, explosiveRange, tearDamage, MOVIMIENTO_ABAJO_DERECHA, R.drawable.disparo_explosivo, 1) );
+            disparos.add( new DisparoExplosivo(context, x, y, explosiveRange, tearDamage, MOVIMIENTO_ABAJO_IZQUIERDA, R.drawable.disparo_explosivo, 1) );
+            disparos.add( new DisparoExplosivo(context, x, y, explosiveRange, tearDamage, MOVIMIENTO_ARRIBA_DERECHA, R.drawable.disparo_explosivo, 1) );
+            disparos.add( new DisparoExplosivo(context, x, y, explosiveRange, tearDamage, MOVIMIENTO_ARRIBA_IZQUIERDA, R.drawable.disparo_explosivo, 1) );
 
             hasShot = false;
         }
@@ -185,6 +199,12 @@ public class TheLamb extends EnemigoBase{
         }
 
         return toAdd;
+    }
+
+    @Override
+    public void takeDamage(double damage, Modelo source) {
+        if(source.getTipoModelo() != Modelo.BOMBA)
+            this.setHP( this.getHP()-damage );
     }
 
 }

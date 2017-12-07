@@ -56,9 +56,15 @@ public abstract class EnemigoBase extends Modelo {
     protected int movimiento;
     protected boolean fly;
 
+    public int comportamiento;
+    public static final int ESTATICO = 2;
+    public static final int PERSEGUIDOR = 1;
+    public static final int ALEATORIO = 2;
+
     public EnemigoBase(Context context, double xInicial, double yInicial, int alturaCabezaCuerpo,int CabezaCuerpo,int tipoModelo) {
         super(context, xInicial, yInicial, alturaCabezaCuerpo, CabezaCuerpo, tipoModelo);
 
+        comportamiento = PERSEGUIDOR;
         fly = false;
     }
 
@@ -145,6 +151,10 @@ public abstract class EnemigoBase extends Modelo {
 
     public boolean isFlying(){
         return fly;
+    }
+
+    public void takeDamage(double damage, Modelo source){
+        this.setHP( this.getHP()-damage );
     }
 
 }

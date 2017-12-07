@@ -173,18 +173,18 @@ public class Bony extends EnemigoBase {
 
             if(comprobarAlineacionY(jugador)) {
                 if (getY() < jugador.getY())
-                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO) );
+                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ABAJO, R.drawable.bone_projectile, 4) );
 
                 else
-                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA) );
+                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_ARRIBA, R.drawable.bone_projectile, 4) );
             }
 
             else if(comprobarAlineacionX(jugador)){
                 if(getX()<jugador.getX())
-                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_DERECHA) );
+                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_DERECHA, R.drawable.bone_projectile, 4) );
 
                 else
-                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_IZQUIERDA) );
+                    disparos.add( new DisparoEnemigo(context, x, y, tearRange, tearDamage, MOVIMIENTO_IZQUIERDA, R.drawable.bone_projectile, 4) );
             }
 
         }

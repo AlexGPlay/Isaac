@@ -14,6 +14,7 @@ import com.isaac.modelos.Jugador;
 import com.isaac.modelos.Modelo;
 import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoEnemigo;
+import com.isaac.modelos.disparos.DisparoExplosivo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
 import com.isaac.modelos.enemigo.monsters.Bony;
@@ -418,7 +419,7 @@ public class Sala{
 
         for(EnemigoBase enemigo : enemigos)
             if( checkExplosion(bomba, enemigo) )
-                enemigo.setHP(enemigo.getHP() - bomba.getDaño());
+                enemigo.takeDamage(bomba.getDaño(), bomba);
 
         for(Iterator<Roca> iterator = rocas.iterator(); iterator.hasNext();) {
             Roca roca = iterator.next();
@@ -608,103 +609,198 @@ public class Sala{
                 continue;
             }
 
-            // -- CALCULO DE MOVIMIENTO
-            double movX = 0;
-            double movY = 0;
+            // -- SELECCION TIPO DE COMPORTAMIENTO
+            if(enemigo.comportamiento == EnemigoBase.PERSEGUIDOR)
+                enemigosToAdd.addAll( reglasDeMovimientoEnemigosPerseguidores(enemigo) );
 
-            if (jugador.getX() < enemigo.getX()) {
-                movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
-                movX = -Math.abs(movX);
-            }
-            else if (jugador.getX() > enemigo.getX()) {
-                movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
-            }
-
-            if (jugador.getY() < enemigo.getY()) {
-                movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY() - enemigo.getY()));
-                movY = -Math.abs(movY);
-            }
-            else if (jugador.getY() > enemigo.getY()) {
-                movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY() - enemigo.getY()));
-            }
-
-            if (movX != 0 && movY != 0) {
-                movX /= 1.5;
-                movY /= 1.5;
-            }
-
-            // -- COMPROBAR MOVIMIENTO
-            int colision = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) (enemigo.getY() + movY));
-
-            if(colision != Modelo.TILE && colision!=Modelo.JUGADOR && enemigo.isFlying()){
-                enemigo.setX(enemigo.getX() + movX);
-                enemigo.setY(enemigo.getY() + movY);
-            }
-
-            if (colision == Modelo.VOID) {
-                enemigo.setX(enemigo.getX() + movX);
-                enemigo.setY(enemigo.getY() + movY);
-            }
-
-            else {
-                int colisionX = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) enemigo.getY());
-
-                if (colisionX == Modelo.VOID) {
-                    enemigo.setX(enemigo.getX() + movX);
-                    enemigo.setY(enemigo.getY());
-                }
-                else {
-                    int colisionY = colisiona(enemigo, (int) enemigo.getX(), (int) (enemigo.getY() + movY));
-
-                    if (colisionY == Modelo.VOID) {
-                        enemigo.setX(enemigo.getX());
-                        enemigo.setY(enemigo.getY() + movY);
-                    }
-
-                }
-            }
-
-            if (enemigo.colisiona(jugador)) {
-                jugador.takeDamage(1);
-                enemigo.setX(enemigo.getX() - movX);
-                enemigo.setY(enemigo.getY() - movY);
-            }
-
-            //AÑADIR DISPAROS E INVOCACIONES
-            disparosEnemigo.addAll(enemigo.disparar(jugador));
-            enemigosToAdd.addAll(enemigo.summon());
-
-            // --GESTION DE SPRITE
-            if(movX>0 && movY>0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
-
-            else if(movX==0 && movY>0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
-
-            else if(movX<0 && movY>0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
-
-            else if(movX<0 && movY==0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_IZQUIERDA);
-
-            else if(movX<0 && movY<0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
-
-            else if(movX==0 && movY<0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
-
-            else if(movX>0 && movY<0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
-
-            else if(movX>0 && movY==0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_DERECHA);
-
-            else if(movX==0 && movY==0)
-                enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_PARADO);
+            else if(enemigo.comportamiento == EnemigoBase.ALEATORIO)
+                enemigosToAdd.addAll( reglasDeMovimientoEnemigosAleatorios(enemigo) );
 
         }
 
         enemigos.addAll(enemigosToAdd);
+    }
+
+    protected ArrayList<EnemigoBase> reglasDeMovimientoEnemigosAleatorios(EnemigoBase enemigo){
+        ArrayList<EnemigoBase> toAdd = new ArrayList<>();
+
+        // -- CALCULO DE MOVIMIENTO
+        double movX = enemigo.getAceleracionX();
+        double movY = enemigo.getAceleracionY();
+
+        // -- GESTION DE MOVIMIENTO
+        int colision = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) (enemigo.getY() + movY));
+
+        if (colision != Modelo.TILE && enemigo.isFlying()){
+            enemigo.setX(enemigo.getX() + movX);
+            enemigo.setY(enemigo.getY() + movY);
+        }
+
+        else if (colision == Modelo.VOID) {
+            enemigo.setX(enemigo.getX() + movX);
+            enemigo.setY(enemigo.getY() + movY);
+        }
+
+        else if(colision != Modelo.VOID){
+            int alX;
+            int alY;
+
+            if(Math.random()>=0.5)
+                alX = -1;
+
+            else
+                alX = 1;
+
+            if(Math.random()>=0.5)
+                alY = 1;
+
+            else
+                alY = -1;
+
+            enemigo.setAceleracionX( enemigo.getAceleracionX()*alX );
+            enemigo.setAceleracionY( enemigo.getAceleracionY()*alY );
+        }
+
+        // COMPROBAR COLISION JUGADOR
+        if (enemigo.colisiona(jugador)) {
+            jugador.takeDamage(1);
+            enemigo.setX(enemigo.getX() - movX);
+            enemigo.setY(enemigo.getY() - movY);
+        }
+
+        // COMPROBAR DISPAROS E INVOCACIONES
+        disparosEnemigo.addAll(enemigo.disparar(jugador));
+        toAdd.addAll(enemigo.summon());
+
+        // GESTION DE SPRITE
+        if(movX>0 && movY>0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+        else if(movX==0 && movY>0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+        else if(movX<0 && movY>0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+        else if(movX<0 && movY==0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_IZQUIERDA);
+
+        else if(movX<0 && movY<0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+        else if(movX==0 && movY<0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+        else if(movX>0 && movY<0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+        else if(movX>0 && movY==0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_DERECHA);
+
+        else if(movX==0 && movY==0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_PARADO);
+
+        return toAdd;
+    }
+
+    protected ArrayList<EnemigoBase> reglasDeMovimientoEnemigosPerseguidores(EnemigoBase enemigo){
+        ArrayList<EnemigoBase> toAdd = new ArrayList<>();
+
+        // -- CALCULO DE MOVIMIENTO
+        double movX = 0;
+        double movY = 0;
+
+        if (jugador.getX() < enemigo.getX()) {
+            movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
+            movX = -Math.abs(movX);
+        }
+        else if (jugador.getX() > enemigo.getX()) {
+            movX = Math.min(enemigo.getAceleracionX(), Math.abs(jugador.getX() - enemigo.getX()));
+        }
+
+        if (jugador.getY() < enemigo.getY()) {
+            movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY() - enemigo.getY()));
+            movY = -Math.abs(movY);
+        }
+        else if (jugador.getY() > enemigo.getY()) {
+            movY = Math.min(enemigo.getAceleracionY(), Math.abs(jugador.getY() - enemigo.getY()));
+        }
+
+        if (movX != 0 && movY != 0) {
+            movX /= 1.5;
+            movY /= 1.5;
+        }
+
+        // -- COMPROBAR MOVIMIENTO
+        int colision = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) (enemigo.getY() + movY));
+
+        if(colision != Modelo.TILE && colision!=Modelo.JUGADOR && enemigo.isFlying()){
+            enemigo.setX(enemigo.getX() + movX);
+            enemigo.setY(enemigo.getY() + movY);
+        }
+
+        if (colision == Modelo.VOID) {
+            enemigo.setX(enemigo.getX() + movX);
+            enemigo.setY(enemigo.getY() + movY);
+        }
+
+        else {
+            int colisionX = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) enemigo.getY());
+
+            if (colisionX == Modelo.VOID) {
+                enemigo.setX(enemigo.getX() + movX);
+                enemigo.setY(enemigo.getY());
+            }
+            else {
+                int colisionY = colisiona(enemigo, (int) enemigo.getX(), (int) (enemigo.getY() + movY));
+
+                if (colisionY == Modelo.VOID) {
+                    enemigo.setX(enemigo.getX());
+                    enemigo.setY(enemigo.getY() + movY);
+                }
+
+            }
+        }
+
+        if (enemigo.colisiona(jugador)) {
+            jugador.takeDamage(1);
+            enemigo.setX(enemigo.getX() - movX);
+            enemigo.setY(enemigo.getY() - movY);
+        }
+
+        //AÑADIR DISPAROS E INVOCACIONES
+        disparosEnemigo.addAll(enemigo.disparar(jugador));
+        toAdd.addAll(enemigo.summon());
+
+        // --GESTION DE SPRITE
+        if(movX>0 && movY>0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+        else if(movX==0 && movY>0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+        else if(movX<0 && movY>0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ABAJO);
+
+        else if(movX<0 && movY==0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_IZQUIERDA);
+
+        else if(movX<0 && movY<0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+        else if(movX==0 && movY<0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+        else if(movX>0 && movY<0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_ARRIBA);
+
+        else if(movX>0 && movY==0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_DERECHA);
+
+        else if(movX==0 && movY==0)
+            enemigo.setMovimiento(EnemigoBase.MOVIMIENTO_PARADO);
+
+        return toAdd;
     }
 
     protected void reglasDeMovimientoDisparosJugador(){
@@ -736,7 +832,7 @@ public class Sala{
 
             for(EnemigoBase enemigo : enemigos) {
                 if (disparo.colisiona(enemigo) && disparo.estado == DisparoJugador.DISPARANDO) {
-                    enemigo.setHP(enemigo.getHP()-disparo.getDamage());
+                    enemigo.takeDamage(disparo.getDamage(), disparo);
 
                     disparo.estado = DisparoJugador.FINALIZANDO;
                     continue;
@@ -804,6 +900,7 @@ public class Sala{
             int virtualY = (int) (disparo.getY() + disparo.getAceleracionY());
 
             if(disparo.estado == DisparoJugador.FINALIZADO){
+                checkBombShot(disparo);
                 iterator.remove();
                 GestorAudio.getInstancia().reproducirSonido(GestorAudio.DESAPARECER_LAGRIMA);
                 continue;
@@ -835,6 +932,12 @@ public class Sala{
                 disparo.setX(virtualX);
                 disparo.setY(virtualY);
             }
+        }
+    }
+
+    private void checkBombShot(DisparoEnemigo disparoEnemigo){
+        if(disparoEnemigo.TIPO_DISPARO == DisparoEnemigo.DISPARO_EXPLOSIVO){
+            bombas.add( ((DisparoExplosivo)disparoEnemigo).putBomb() );
         }
     }
 

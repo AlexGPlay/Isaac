@@ -128,7 +128,7 @@ public class Jugador extends Modelo{
         tearDelay = 400;
         tearRange = 1000;
         actualDelay = 0;
-        tearDamage = 3.5;
+        tearDamage = 50.5;
         HP = 6;
         actualMaxHP = 6;
         maxHP = 20;
