@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.isaac.GameView;
 import com.isaac.R;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.gestores.GestorXML;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.hud.IconoVida;
@@ -139,6 +140,10 @@ public class Nivel {
     }
 
     public void changeLevel() throws Exception {
+        GestorAudio.getInstancia().pararMusicaAmbiente();
+        GestorAudio.getInstancia().changeSound(R.raw.music_loop);
+        GestorAudio.getInstancia().reproducirMusicaAmbiente();
+
         inicializar();
     }
 

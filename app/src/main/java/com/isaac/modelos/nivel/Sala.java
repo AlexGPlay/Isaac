@@ -40,7 +40,7 @@ import java.util.Random;
 
 public class Sala{
 
-    public static final int NUMBER_OF_ENEMY_POOLS = 1;
+    public static final int NUMBER_OF_ENEMY_POOLS = 2;
 
     public static final String SALA_CUADRADA_1 = "Sala_cuadrada_1";
     public static final String SALA_CUADRADA_2 = "Sala_cuadrada_2";
@@ -129,6 +129,10 @@ public class Sala{
         switch(pool){
             case 0:
                 enemies = GestorXML.getInstance().getEnemyPools(context, R.raw.monsterpool1);
+                break;
+
+            case 1:
+                enemies = GestorXML.getInstance().getEnemyPools(context, R.raw.monsterpool2);
                 break;
 
             default:

@@ -3,6 +3,8 @@ package com.isaac.modelos.nivel;
 import android.content.Context;
 import android.graphics.Canvas;
 
+import com.isaac.R;
+import com.isaac.gestores.GestorAudio;
 import com.isaac.modelos.Jugador;
 import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoEnemigo;

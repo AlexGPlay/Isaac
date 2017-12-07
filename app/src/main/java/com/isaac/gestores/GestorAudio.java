@@ -73,6 +73,9 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     }
 
     public void changeSound(int idMusicaAmbiente){
+        sonidoAmbiente.stop();
+        sonidoAmbiente.release();
+
         sonidoAmbiente = MediaPlayer.create(contexto, idMusicaAmbiente);
         sonidoAmbiente.setLooping(true);
         sonidoAmbiente.setVolume(1, 1);
