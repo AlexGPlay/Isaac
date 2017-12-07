@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.isaac.gestores.GestorAudio;
+import com.isaac.modelos.Jugador;
 
 public class TitleActivity extends AppCompatActivity {
 
@@ -42,6 +43,7 @@ public class TitleActivity extends AppCompatActivity {
     }
 
     public void changeToGame(){
+        Jugador.JUGADOR_ACTUAL = Jugador.DEBUG;
         Intent actividadJuego = new Intent(this, MainActivity.class);
         startActivity(actividadJuego);
     }

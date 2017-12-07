@@ -27,6 +27,7 @@ public class Jugador extends Modelo{
 
     // VARIABLES DE INICIALIZACION
     public static int JUGADOR_ACTUAL = 0;
+    public static final int DEBUG = -1;
     public static final int ISAAC = 0;
     public static final int SAMSON = 1;
 
@@ -114,11 +115,39 @@ public class Jugador extends Modelo{
         shielded = false;
         escudo = CargadorGraficos.cargarDrawable(context, R.drawable.shield);
 
-        if(JUGADOR_ACTUAL==ISAAC)
+        if(JUGADOR_ACTUAL==DEBUG)
+            setDebug();
+
+        else if(JUGADOR_ACTUAL==ISAAC)
             setIsaac();
 
         else if(JUGADOR_ACTUAL==SAMSON)
             setSamson();
+    }
+
+    public void setDebug(){
+        aceleracionX = 0;
+        aceleracionY = 0;
+
+        tearDelay = 400;
+        tearRange = 1000;
+        actualDelay = 0;
+        tearDamage = 100;
+        HP = 20;
+        actualMaxHP = 20;
+        maxHP = 20;
+        speed = 5;
+
+        shotModifiers = new ArrayList<>();
+        shotModifiers.add(new BasicShot());
+
+        damageModifiers = new ArrayList<>();
+
+        numLlaves = 99;
+        numBombas = 99;
+        flying = true;
+
+        inicializarIsaac();
     }
 
     public void setIsaac(){
@@ -128,7 +157,7 @@ public class Jugador extends Modelo{
         tearDelay = 400;
         tearRange = 1000;
         actualDelay = 0;
-        tearDamage = 50.5;
+        tearDamage = 3.5;
         HP = 6;
         actualMaxHP = 6;
         maxHP = 20;
