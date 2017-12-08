@@ -10,6 +10,7 @@ import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
+import com.isaac.modelos.enemigo.bosses.DukeOfFlies;
 import com.isaac.modelos.enemigo.bosses.TheLamb;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Sala_boss extends Sala{
 
     @Override
     protected void addEnemies(){
-        enemigos.add(new TheLamb(context,  anchoMapaTiles()*Tile.ancho/2, altoMapaTiles()*Tile.altura/2));
+        enemigos.add(new DukeOfFlies(context,  anchoMapaTiles()*Tile.ancho/2, altoMapaTiles()*Tile.altura/2));
     }
 
     @Override

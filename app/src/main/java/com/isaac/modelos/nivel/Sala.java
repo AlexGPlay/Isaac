@@ -17,9 +17,11 @@ import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.disparos.DisparoExplosivo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
+import com.isaac.modelos.enemigo.monsters.Bat;
 import com.isaac.modelos.enemigo.monsters.Bony;
 import com.isaac.modelos.enemigo.monsters.FrowningGaper;
 import com.isaac.modelos.enemigo.monsters.MonsterID;
+import com.isaac.modelos.enemigo.monsters.Spider;
 import com.isaac.modelos.item.Item;
 import com.isaac.modelos.item.pickups.Bomba;
 import com.isaac.modelos.item.pickups.Cofre;
@@ -40,7 +42,7 @@ import java.util.Random;
 
 public class Sala{
 
-    public static final int NUMBER_OF_ENEMY_POOLS = 2;
+    public static final int NUMBER_OF_ENEMY_POOLS = 3;
 
     public static final String SALA_CUADRADA_1 = "Sala_cuadrada_1";
     public static final String SALA_CUADRADA_2 = "Sala_cuadrada_2";
@@ -134,6 +136,9 @@ public class Sala{
             case 1:
                 enemies = GestorXML.getInstance().getEnemyPools(context, R.raw.monsterpool2);
                 break;
+            case 2:
+                enemies = GestorXML.getInstance().getEnemyPools(context,R.raw.monsterpool3);
+                break;
 
             default:
                 enemies = new ArrayList<>();
@@ -160,7 +165,12 @@ public class Sala{
             case MonsterID.FROWNING_GAPER:
                 enemigo = new FrowningGaper(context,0,0);
                 break;
-
+            case MonsterID.Bat:
+                enemigo = new Bat(context,0,0);
+                break;
+            case MonsterID.Spider:
+                enemigo = new Spider(context,0,0);
+                break;
             default:
                 enemigo = null;
         }
@@ -359,6 +369,9 @@ public class Sala{
         for( Puerta puerta : puertas.values() )
             puerta.dibujar(canvas);
 
+        for(Roca roca : rocas)
+            roca.dibujar(canvas);
+
         for(EnemigoBase enemigo : enemigos)
             enemigo.dibujar(canvas);
 
@@ -368,8 +381,7 @@ public class Sala{
         for(Item item : items)
             item.dibujar(canvas);
 
-        for(Roca roca : rocas)
-            roca.dibujar(canvas);
+
 
         jugador.dibujar(canvas);
 
@@ -736,12 +748,12 @@ public class Sala{
         // -- COMPROBAR MOVIMIENTO
         int colision = colisiona(enemigo, (int) (enemigo.getX() + movX), (int) (enemigo.getY() + movY));
 
-        if(colision != Modelo.TILE && colision!=Modelo.JUGADOR && enemigo.isFlying()){
+        if(colision != Modelo.TILE && enemigo.isFlying()){
             enemigo.setX(enemigo.getX() + movX);
             enemigo.setY(enemigo.getY() + movY);
         }
 
-        if (colision == Modelo.VOID) {
+        else if (colision == Modelo.VOID) {
             enemigo.setX(enemigo.getX() + movX);
             enemigo.setY(enemigo.getY() + movY);
         }
