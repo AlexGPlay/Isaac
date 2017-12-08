@@ -23,12 +23,10 @@ import java.util.ArrayList;
 public class DukeOfFlies extends EnemigoBase {
     //VARIABLES GRAFICAS
     protected static final String MOVIMIENTO_NORMAL = "movimiento";
-    protected static final String APARICION = "aparicion";
 
     private final static int altura = 64;
     private final static int ancho = 80;
     private int spawn;
-
 
     public DukeOfFlies (Context context, double xInicial, double yInicial) {
         super(context, xInicial, yInicial, altura, ancho, Modelo.SOLIDO);
@@ -55,7 +53,7 @@ public class DukeOfFlies extends EnemigoBase {
     public void inicializar(){
 
         Sprite movimiento = new Sprite(
-                CargadorGraficos.cargarDrawable(context, R.drawable.dukeofflies_movimiento),
+                CargadorGraficos.cargarDrawable(context, R.drawable.duke_of_flies_movimiento),
                 ancho, altura,
                 4, 4, true);
         sprites.put(MOVIMIENTO_NORMAL, movimiento);

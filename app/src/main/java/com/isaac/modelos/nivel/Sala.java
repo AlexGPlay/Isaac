@@ -19,9 +19,11 @@ import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
 import com.isaac.modelos.enemigo.monsters.Bat;
 import com.isaac.modelos.enemigo.monsters.Bony;
+import com.isaac.modelos.enemigo.monsters.Fly;
 import com.isaac.modelos.enemigo.monsters.FrowningGaper;
 import com.isaac.modelos.enemigo.monsters.MonsterID;
 import com.isaac.modelos.enemigo.monsters.Spider;
+import com.isaac.modelos.enemigo.monsters.SpiderBaby;
 import com.isaac.modelos.item.Item;
 import com.isaac.modelos.item.pickups.Bomba;
 import com.isaac.modelos.item.pickups.Cofre;
@@ -165,12 +167,23 @@ public class Sala{
             case MonsterID.FROWNING_GAPER:
                 enemigo = new FrowningGaper(context,0,0);
                 break;
-            case MonsterID.Bat:
+
+            case MonsterID.BOOM_FLY:
                 enemigo = new Bat(context,0,0);
                 break;
-            case MonsterID.Spider:
+
+            case MonsterID.SPIDER_BABY:
+                enemigo = new SpiderBaby(context,0,0);
+                break;
+
+            case MonsterID.FLY:
+                enemigo = new Fly(context,0,0);
+                break;
+
+            case MonsterID.SPIDER:
                 enemigo = new Spider(context,0,0);
                 break;
+
             default:
                 enemigo = null;
         }

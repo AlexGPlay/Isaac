@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bossPool id="1">
+    <boss>
+        <id>1</id>
+    </boss>
+    <boss>
+        <id>2</id>
+    </boss>
+</bossPool>

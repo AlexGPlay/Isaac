@@ -18,7 +18,6 @@ public class Fly extends EnemigoBase {
     private final static int altura = 32;
     private final static int ancho = 32;
 
-
     public final static String MOVIMIENTO = "moviendose";
 
 

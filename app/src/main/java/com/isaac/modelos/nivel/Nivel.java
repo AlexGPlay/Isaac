@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import com.isaac.GameView;
+import com.isaac.MainActivity;
 import com.isaac.R;
 import com.isaac.gestores.GestorAudio;
 import com.isaac.gestores.GestorXML;
@@ -27,6 +28,7 @@ public class Nivel {
     private Sala salaActual;
 
     public List<Integer> itemPool;
+    public List<Integer> bossPool;
 
     public boolean inicializado;
 
@@ -37,6 +39,7 @@ public class Nivel {
         this.numeroNivel = numeroNivel;
         this.gameView = gameView;
         itemPool = GestorXML.getInstance().getItemPool(context);
+        bossPool = GestorXML.getInstance().getBossPool(context);
 
         jugador = new Jugador(context,0, 0);
         inicializar();
@@ -140,11 +143,16 @@ public class Nivel {
     }
 
     public void changeLevel() throws Exception {
-        GestorAudio.getInstancia().pararMusicaAmbiente();
-        GestorAudio.getInstancia().changeSound(R.raw.music_loop);
-        GestorAudio.getInstancia().reproducirMusicaAmbiente();
+        if(bossPool.size()>0) {
+            GestorAudio.getInstancia().pararMusicaAmbiente();
+            GestorAudio.getInstancia().changeSound(R.raw.music_loop);
+            GestorAudio.getInstancia().reproducirMusicaAmbiente();
 
-        inicializar();
+            inicializar();
+        }
+        else{
+            ((MainActivity) context).finish();
+        }
     }
 
     private void generateRooms() throws Exception {

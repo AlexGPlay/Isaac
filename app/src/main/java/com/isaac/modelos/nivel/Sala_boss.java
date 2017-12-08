@@ -10,12 +10,14 @@ import com.isaac.modelos.disparos.BombaActiva;
 import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
+import com.isaac.modelos.enemigo.bosses.BossID;
 import com.isaac.modelos.enemigo.bosses.DukeOfFlies;
 import com.isaac.modelos.enemigo.bosses.TheLamb;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alex on 05/11/2017.
@@ -31,7 +33,24 @@ public class Sala_boss extends Sala{
 
     @Override
     protected void addEnemies(){
-        enemigos.add(new DukeOfFlies(context,  anchoMapaTiles()*Tile.ancho/2, altoMapaTiles()*Tile.altura/2));
+        int pos = new Random().nextInt( nivel.bossPool.size() );
+        generateBossFromID( nivel.bossPool.get(pos) );
+        nivel.bossPool.remove(pos);
+    }
+
+    private void generateBossFromID(int id){
+
+        switch(id){
+            case BossID.THE_LAMB:
+                enemigos.add( new TheLamb(context,  anchoMapaTiles()*Tile.ancho/2, altoMapaTiles()*Tile.altura/2) );
+                break;
+
+            case BossID.DUKE_OF_FLIES:
+                enemigos.add(new DukeOfFlies(context,  anchoMapaTiles()*Tile.ancho/2, altoMapaTiles()*Tile.altura/2));
+                break;
+
+        }
+
     }
 
     @Override
