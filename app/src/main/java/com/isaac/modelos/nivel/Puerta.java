@@ -28,7 +28,7 @@ public class Puerta extends Modelo {
         this.puertaCerrada = puertaCerrada;
 
         imagen = CargadorGraficos.cargarDrawable(context, puertaAbierta);
-        abierta = true;
+        abierta = false;
         forzada = false;
     }
 

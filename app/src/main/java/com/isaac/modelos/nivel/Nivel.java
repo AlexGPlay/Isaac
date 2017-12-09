@@ -209,6 +209,7 @@ public class Nivel {
             temp.puertaAbierta = R.drawable.puerta_sala_dorada_derecha;
             temp.puertaCerrada = R.drawable.puerta_sala_dorada_derecha_cerrada;
 
+            salas[salaAmarillaI][salaAmarillaJ-1].puertas.remove(Sala.PUERTA_DERECHA);
             salas[salaAmarillaI][salaAmarillaJ-1].puertas.put(Sala.PUERTA_DERECHA, temp);
         }
 
@@ -218,6 +219,7 @@ public class Nivel {
             temp.puertaAbierta = R.drawable.puerta_sala_dorada_izquierda;
             temp.puertaCerrada = R.drawable.puerta_sala_dorada_izquierda_cerrada;
 
+            salas[salaAmarillaI][salaAmarillaJ+1].puertas.remove(Sala.PUERTA_IZQUIERDA);
             salas[salaAmarillaI][salaAmarillaJ+1].puertas.put(Sala.PUERTA_IZQUIERDA,temp);
         }
 
@@ -227,6 +229,7 @@ public class Nivel {
             temp.puertaAbierta = R.drawable.puerta_sala_dorada_abajo;
             temp.puertaCerrada = R.drawable.puerta_sala_dorada_abajo_cerrada;
 
+            salas[salaAmarillaI-1][salaAmarillaJ].puertas.remove(Sala.PUERTA_ABAJO);
             salas[salaAmarillaI-1][salaAmarillaJ].puertas.put(Sala.PUERTA_ABAJO,temp);
         }
 
@@ -236,6 +239,7 @@ public class Nivel {
             temp.puertaAbierta = R.drawable.puerta_sala_dorada_arriba;
             temp.puertaCerrada = R.drawable.puerta_sala_dorada_arriba_cerrada;
 
+            salas[salaAmarillaI+1][salaAmarillaJ].puertas.remove(Sala.PUERTA_ARRIBA);
             salas[salaAmarillaI+1][salaAmarillaJ].puertas.put(Sala.PUERTA_ARRIBA,temp);
         }
 
