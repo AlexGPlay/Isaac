@@ -17,7 +17,7 @@ import com.isaac.modelos.disparos.DisparoEnemigo;
 import com.isaac.modelos.disparos.DisparoExplosivo;
 import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.enemigo.EnemigoBase;
-import com.isaac.modelos.enemigo.monsters.Bat;
+import com.isaac.modelos.enemigo.monsters.BoomFly;
 import com.isaac.modelos.enemigo.monsters.Bony;
 import com.isaac.modelos.enemigo.monsters.Fly;
 import com.isaac.modelos.enemigo.monsters.FrowningGaper;
@@ -169,7 +169,7 @@ public class Sala{
                 break;
 
             case MonsterID.BOOM_FLY:
-                enemigo = new Bat(context,0,0);
+                enemigo = new BoomFly(context,0,0);
                 break;
 
             case MonsterID.SPIDER_BABY:
@@ -506,6 +506,18 @@ public class Sala{
         int tileX = (int) (x / Tile.ancho);
         int tileY = (int) (y / Tile.altura);
 
+        if(tileX<0)
+            tileX = 0;
+
+        else if(tileX>=anchoMapaTiles())
+            tileX = anchoMapaTiles()-1;
+
+        if(tileY<0)
+            tileY=0;
+
+        else if(tileY>=altoMapaTiles())
+            tileY = altoMapaTiles()-1;
+
         return colisiona(modelo,x,y,tileX,tileY);
     }
 
@@ -524,6 +536,11 @@ public class Sala{
             if (model.colision != Modelo.PASABLE) {
                 return model.getTipoModelo();
             }
+
+            if (model.getTipoModelo() == Modelo.PUERTA && enemigos.size()>0){
+                return Modelo.TILE;
+            }
+
         }
 
         return Modelo.VOID;
@@ -645,7 +662,44 @@ public class Sala{
 
         }
 
+        procesarEnemigosInvocados(enemigosToAdd);
         enemigos.addAll(enemigosToAdd);
+    }
+
+    protected void procesarEnemigosInvocados(ArrayList<EnemigoBase> invocaciones){
+
+        for(Iterator<EnemigoBase> iterator = invocaciones.iterator(); iterator.hasNext(); ){
+            EnemigoBase enemigo = iterator.next();
+            int colision = colisiona(enemigo, (int)enemigo.getX(), (int)enemigo.getY());
+
+            if(colision != Modelo.VOID){
+
+                for(int i=0;i<100;i++){
+                    for(int j=0;j<100;j++){
+                        int recolision = colisiona(enemigo, (int)enemigo.getX()+i, (int)enemigo.getY()+j);
+
+                        if(recolision == Modelo.VOID){
+                            enemigo.setX( enemigo.getX()+i );
+                            enemigo.setY( enemigo.getY()+j );
+                            continue;
+                        }
+
+                        recolision = colisiona(enemigo, (int)enemigo.getX()-i, (int)enemigo.getY()-j);
+
+                        if(recolision == Modelo.VOID){
+                            enemigo.setX( enemigo.getX()+i );
+                            enemigo.setY( enemigo.getY()+j );
+                            continue;
+                        }
+
+                    }
+                }
+
+                iterator.remove();
+            }
+
+        }
+
     }
 
     protected ArrayList<EnemigoBase> reglasDeMovimientoEnemigosAleatorios(EnemigoBase enemigo){
