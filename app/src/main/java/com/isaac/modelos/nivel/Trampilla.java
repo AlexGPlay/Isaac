@@ -46,6 +46,9 @@ public class Trampilla extends Modelo {
     }
 
     public int getTipoModelo(){
+        if(!activa)
+            return Modelo.VOID;
+
         return Modelo.TRAMPILLA;
     }
 

@@ -534,10 +534,11 @@ public class Sala{
 
         for(Modelo model : modelos) {
             if (model.colision != Modelo.PASABLE) {
-                return model.getTipoModelo();
+                if( !(model.getTipoModelo() == Modelo.ENEMIGO && ((EnemigoBase)model).estado == EnemigoBase.ESTADO_MUERTO))
+                    return model.getTipoModelo();
             }
 
-            if (model.getTipoModelo() == Modelo.PUERTA && enemigos.size()>0){
+            if (modelo.getTipoModelo() == Modelo.ENEMIGO && model.getTipoModelo() == Modelo.PUERTA && enemigos.size()>0){
                 return Modelo.TILE;
             }
 
@@ -671,6 +672,9 @@ public class Sala{
         for(Iterator<EnemigoBase> iterator = invocaciones.iterator(); iterator.hasNext(); ){
             EnemigoBase enemigo = iterator.next();
             int colision = colisiona(enemigo, (int)enemigo.getX(), (int)enemigo.getY());
+
+            if(enemigo.isFlying() && colision != Modelo.TILE)
+                continue;
 
             if(colision != Modelo.VOID){
 
