@@ -74,23 +74,33 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
 
     public void changeSound(int idMusicaAmbiente){
         sonidoAmbiente.stop();
-        sonidoAmbiente.release();
-
         sonidoAmbiente = MediaPlayer.create(contexto, idMusicaAmbiente);
         sonidoAmbiente.setLooping(true);
         sonidoAmbiente.setVolume(1, 1);
+
+        reproducirMusicaAmbiente();
+    }
+
+    private void checkListener(){
+        sonidoAmbiente.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer player) {
+                player.start();
+            }
+        });
     }
 
     public void reproducirMusicaAmbiente() {
         try {
             if (!sonidoAmbiente.isPlaying()) {
                 try {
-                    sonidoAmbiente.setOnPreparedListener(this);
+                    checkListener();
                     sonidoAmbiente.prepareAsync();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         }
         catch (Exception e) {

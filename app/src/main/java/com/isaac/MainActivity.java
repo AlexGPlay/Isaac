@@ -30,6 +30,21 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        if (GestorAudio.getInstancia() != null){
+            GestorAudio.getInstancia().pararMusicaAmbiente();
+        }
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        if (GestorAudio.getInstancia() != null){
+            GestorAudio.getInstancia().reproducirMusicaAmbiente();
+        }
+        super.onResume();
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
         System.gc();
@@ -50,10 +65,8 @@ public class MainActivity extends Activity {
         gameView = null;
 
         GestorAudio.getInstancia().reproducirSonido(GestorAudio.ISAAC_DIES);
-
         GestorAudio.getInstancia().pararMusicaAmbiente();
         GestorAudio.getInstancia().changeSound(R.raw.main_theme);
-        GestorAudio.getInstancia().reproducirMusicaAmbiente();
 
     }
 

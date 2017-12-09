@@ -37,6 +37,21 @@ public class TitleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_title);
     }
 
+    @Override
+    protected void onPause() {
+        if (GestorAudio.getInstancia() != null){
+            GestorAudio.getInstancia().pararMusicaAmbiente();
+        }
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        if (GestorAudio.getInstancia() != null){
+            GestorAudio.getInstancia().reproducirMusicaAmbiente();
+        }
+        super.onResume();
+    }
+
     public void changeToSelect(View v){
         Intent actividadJuego = new Intent(this, CharacterActivity.class);
         startActivity(actividadJuego);

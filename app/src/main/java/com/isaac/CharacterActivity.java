@@ -38,6 +38,22 @@ public class CharacterActivity extends AppCompatActivity {
         setImage();
     }
 
+    @Override
+    protected void onPause() {
+        if (GestorAudio.getInstancia() != null){
+            GestorAudio.getInstancia().pararMusicaAmbiente();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (GestorAudio.getInstancia() != null){
+            GestorAudio.getInstancia().reproducirMusicaAmbiente();
+        }
+        super.onResume();
+    }
+
     public void changeRight(View v){
         actual++;
 
