@@ -2,12 +2,17 @@ package com.isaac.graficos;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 public class Sprite {
     private Bitmap bitmap;
+    private Bitmap tempBitmap;
+    private boolean tempDraw;
+    private boolean alreadyColored;
+
     // Fichero con los frames.
     private Rect rectanguloDibujo;
     // El rectangulo sobre el que se pinta el dibujo
@@ -28,8 +33,6 @@ public class Sprite {
     private int modeloAncho;
     private int modeloAltura;
 
-
-
     private boolean bucle;
 
     public Sprite(Drawable drawable, int modeloAncho, int modeloAltura, int fps, int framesTotales
@@ -46,6 +49,40 @@ public class Sprite {
         rectanguloDibujo = new Rect(0, 0, spriteAncho, spriteAltura);
         interavaloEntreFrames = 1000 / fps;
         tiempoUltimaActualizacion = 0l;
+
+        alreadyColored = false;
+        tempDraw = false;
+    }
+
+    public void colorize(int dstColor) {
+
+        if(!alreadyColored) {
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+
+            float srcHSV[] = new float[3];
+            float dstHSV[] = new float[3];
+
+            Bitmap dstBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    int pixel = bitmap.getPixel(col, row);
+                    int alpha = Color.alpha(pixel);
+                    Color.colorToHSV(pixel, srcHSV);
+                    Color.colorToHSV(dstColor, dstHSV);
+
+                    // If it area to be painted set only value of original image
+                    dstHSV[2] = srcHSV[2];  // value
+                    dstBitmap.setPixel(col, row, Color.HSVToColor(alpha, dstHSV));
+                }
+            }
+            tempBitmap = dstBitmap;
+            alreadyColored = true;
+        }
+
+        tempDraw = true;
+
     }
 
     public boolean actualizar (long tiempo) {
@@ -74,9 +111,17 @@ public class Sprite {
 
 
     public void dibujarSprite (Canvas canvas, int x, int y) {
-        Rect destRect = new Rect(x - modeloAncho/2, y - modeloAltura/2, x
-                + modeloAncho/2, y + modeloAltura/2);
-        canvas.drawBitmap(bitmap, rectanguloDibujo, destRect, null);
+        if(!tempDraw) {
+            Rect destRect = new Rect(x - modeloAncho / 2, y - modeloAltura / 2, x
+                    + modeloAncho / 2, y + modeloAltura / 2);
+            canvas.drawBitmap(bitmap, rectanguloDibujo, destRect, null);
+        }
+        else{
+            Rect destRect = new Rect(x - modeloAncho / 2, y - modeloAltura / 2, x
+                    + modeloAncho / 2, y + modeloAltura / 2);
+            canvas.drawBitmap(tempBitmap, rectanguloDibujo, destRect, null);
+            tempDraw = false;
+        }
     }
 
     public void setFrameActual(int frameActual) {

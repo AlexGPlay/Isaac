@@ -2,6 +2,7 @@ package com.isaac.modelos.enemigo.bosses;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.Log;
 
 import com.isaac.R;
@@ -100,8 +101,15 @@ public class TheLambBody extends EnemigoBase {
 
     @Override
     public void takeDamage(double damage, Modelo source) {
-        if(source.getTipoModelo() != Modelo.BOMBA)
-            this.setHP( this.getHP()-damage );
+        if(source.getTipoModelo() != Modelo.BOMBA) {
+            if(spriteCuerpo!=null)
+                spriteCuerpo.colorize(Color.RED);
+
+            if(spriteCabeza!=null)
+                spriteCabeza.colorize(Color.RED);
+
+            this.setHP(this.getHP() - damage);
+        }
     }
 
 }

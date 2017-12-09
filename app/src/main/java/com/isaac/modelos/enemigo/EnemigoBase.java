@@ -2,6 +2,7 @@ package com.isaac.modelos.enemigo;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 
 import com.isaac.graficos.Sprite;
 import com.isaac.modelos.Jugador;
@@ -154,6 +155,12 @@ public abstract class EnemigoBase extends Modelo {
     }
 
     public void takeDamage(double damage, Modelo source){
+        if(spriteCuerpo!=null)
+            spriteCuerpo.colorize(Color.RED);
+
+        if(spriteCabeza!=null)
+            spriteCabeza.colorize(Color.RED);
+
         this.setHP( this.getHP()-damage );
     }
 

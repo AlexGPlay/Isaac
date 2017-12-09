@@ -91,14 +91,7 @@ public class DukeOfFlies extends EnemigoBase {
 
         }
 
-
-
         return toAdd;
     }
 
-    @Override
-    public void takeDamage(double damage, Modelo source) {
-        if(source.getTipoModelo() != Modelo.BOMBA)
-            this.setHP( this.getHP()-damage );
-    }
 }
