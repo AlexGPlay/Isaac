@@ -13,7 +13,7 @@ import java.util.HashMap;
 /**
  * Created by alexgp1234 on 4/10/17.
  */
-public class GestorAudio implements MediaPlayer.OnPreparedListener {
+public class GestorAudio{
 
     // Pool de sonidos, para efectos de sonido.
     // Suele fallar el utilizar ficheros de sonido demasiado grandes
@@ -25,7 +25,7 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     private AudioManager gestorAudio;
 
     private static GestorAudio instancia = null;
-
+    private boolean stopped;
 
     //------------------------- VARIABLES SONIDOS
     public static final int DISPARAR_LAGRIMA = 1;
@@ -70,6 +70,7 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
         sonidoAmbiente = MediaPlayer.create(contexto, idMusicaAmbiente);
         sonidoAmbiente.setLooping(true);
         sonidoAmbiente.setVolume(1, 1);
+        stopped = false;
     }
 
     public void changeSound(int idMusicaAmbiente){
@@ -77,31 +78,18 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
         sonidoAmbiente = MediaPlayer.create(contexto, idMusicaAmbiente);
         sonidoAmbiente.setLooping(true);
         sonidoAmbiente.setVolume(1, 1);
-
-        reproducirMusicaAmbiente();
-    }
-
-    private void checkListener(){
-        sonidoAmbiente.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer player) {
-                player.start();
-            }
-        });
     }
 
     public void reproducirMusicaAmbiente() {
         try {
             if (!sonidoAmbiente.isPlaying()) {
-                try {
-                    checkListener();
-                    sonidoAmbiente.prepareAsync();
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
+                if(stopped)
+                    sonidoAmbiente.prepare();
 
+                sonidoAmbiente.start();
+                stopped = false;
             }
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -111,12 +99,8 @@ public class GestorAudio implements MediaPlayer.OnPreparedListener {
     public void pararMusicaAmbiente() {
         if (sonidoAmbiente.isPlaying()) {
             sonidoAmbiente.stop();
+            stopped = true;
         }
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        mp.start();
     }
 
     public void registrarSonido(int index, int SoundID) {

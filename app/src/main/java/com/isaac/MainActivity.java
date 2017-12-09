@@ -65,8 +65,8 @@ public class MainActivity extends Activity {
         gameView = null;
 
         GestorAudio.getInstancia().reproducirSonido(GestorAudio.ISAAC_DIES);
-        GestorAudio.getInstancia().pararMusicaAmbiente();
         GestorAudio.getInstancia().changeSound(R.raw.main_theme);
+        GestorAudio.getInstancia().reproducirMusicaAmbiente();
 
     }
 

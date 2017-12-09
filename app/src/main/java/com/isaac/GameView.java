@@ -167,8 +167,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback  {
         bombas = new IconoBomba(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.22);
         llaves = new IconoLlave(context,GameView.pantallaAncho *0.04, GameView.pantallaAlto * 0.29);
 
-        GestorAudio.getInstancia().pararMusicaAmbiente();
+        Log.d("Musica", "Llamando a cambio de musica");
         GestorAudio.getInstancia().changeSound(R.raw.music_loop);
+        Log.d("Musica","Carga completada");
         GestorAudio.getInstancia().reproducirMusicaAmbiente();
     }
 
