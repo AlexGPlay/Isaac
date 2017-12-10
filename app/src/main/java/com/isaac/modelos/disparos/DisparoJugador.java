@@ -34,6 +34,8 @@ public class DisparoJugador extends Modelo {
     private String disparando = "DISPARANDO";
     private String desapareciendo = "DESAPARECIENDO";
 
+    private boolean espectral;
+
     public DisparoJugador(Context context, double xInicial, double yInicial, long tearRange, double damage, int orientacion) {
         super(context, xInicial, yInicial, 12, 12);
 
@@ -69,6 +71,7 @@ public class DisparoJugador extends Modelo {
         }
 
         estado = DISPARANDO;
+        espectral = false;
         inicializar();
     }
 
@@ -127,5 +130,14 @@ public class DisparoJugador extends Modelo {
     public int getTipoModelo(){
         return Modelo.DISPARO;
     }
+
+    public void setEspectral(boolean espectral){
+        this.espectral = espectral;
+    }
+
+    public boolean isEspectral(){
+        return espectral;
+    }
+
 
 }

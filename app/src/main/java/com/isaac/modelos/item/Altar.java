@@ -16,6 +16,7 @@ import com.isaac.modelos.item.collectables.ItemID;
 import com.isaac.modelos.item.collectables.MomsHeels;
 import com.isaac.modelos.item.collectables.NumberOne;
 import com.isaac.modelos.item.collectables.SoyMilk;
+import com.isaac.modelos.item.collectables.SpiritOfTheNight;
 import com.isaac.modelos.item.collectables.TheHalo;
 import com.isaac.modelos.item.collectables.TheSadOnion;
 import com.isaac.modelos.nivel.Nivel;
@@ -78,6 +79,9 @@ public class Altar extends Modelo {
 
             case ItemID.CELTIC_CROSS:
                 return new CelticCross(context,this.x,this.y-20);
+
+            case ItemID.SPIRIT_OF_THE_NIGHT:
+                return new SpiritOfTheNight(context,this.x, this.y-20);
 
         }
 

@@ -13,6 +13,7 @@ import com.isaac.modelos.disparos.DisparoJugador;
 import com.isaac.modelos.item.BasicShot;
 import com.isaac.modelos.item.DamageModifier;
 import com.isaac.modelos.item.ShotModifier;
+import com.isaac.modelos.item.collectables.SpiritOfTheNight;
 import com.isaac.modelos.nivel.Sala;
 
 import java.util.ArrayList;
@@ -140,6 +141,7 @@ public class Jugador extends Modelo{
 
         shotModifiers = new ArrayList<>();
         shotModifiers.add(new BasicShot());
+        shotModifiers.add(new SpiritOfTheNight(context,0,0));
 
         damageModifiers = new ArrayList<>();
 

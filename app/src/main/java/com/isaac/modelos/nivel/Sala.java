@@ -542,6 +542,10 @@ public class Sala{
                 return Modelo.TILE;
             }
 
+            if(modelo.getTipoModelo() == Modelo.DISPARO && model.getTipoModelo() == Modelo.PUERTA) {
+                return Modelo.TILE;
+            }
+
         }
 
         return Modelo.VOID;
@@ -895,9 +899,6 @@ public class Sala{
             int virtualX = (int) (disparo.getX() + disparo.getAceleracionX());
             int virtualY = (int) (disparo.getY() + disparo.getAceleracionY());
 
-            int tileXDisparo = (int) (virtualX / Tile.ancho);
-            int tileYDisparo = (int) (virtualY / Tile.altura);
-
             if(disparo.estado == DisparoJugador.FINALIZADO){
                 iterator.remove();
                 GestorAudio.getInstancia().reproducirSonido(GestorAudio.DESAPARECER_LAGRIMA);
@@ -910,7 +911,12 @@ public class Sala{
             }
 
             int colision = colisiona(disparo,virtualX,virtualY);
-            if(colision != Modelo.VOID && colision != Modelo.ENEMIGO ) {
+            if(colision != Modelo.VOID && colision != Modelo.ENEMIGO && !disparo.isEspectral()) {
+                disparo.estado = DisparoJugador.FINALIZANDO;
+                continue;
+            }
+
+            else if(colision==Modelo.TILE && disparo.isEspectral()){
                 disparo.estado = DisparoJugador.FINALIZANDO;
                 continue;
             }
@@ -920,14 +926,7 @@ public class Sala{
                     enemigo.takeDamage(disparo.getDamage(), disparo);
 
                     disparo.estado = DisparoJugador.FINALIZANDO;
-                    continue;
-                }
-            }
-
-            for(Puerta puerta : puertas.values()) {
-                if (puerta.colisiona(disparo)) {
-                    disparo.estado = DisparoJugador.FINALIZANDO;
-                    continue;
+                    break;
                 }
             }
 
@@ -1004,13 +1003,6 @@ public class Sala{
 
             if(disparo.colisiona(jugador)){
                 jugador.takeDamage((int)disparo.getDamage());
-            }
-
-            for(Puerta puerta : puertas.values()) {
-                if (puerta.colisiona(disparo)) {
-                    disparo.estado = DisparoJugador.FINALIZANDO;
-                    continue;
-                }
             }
 
             if(disparo.estado == DisparoJugador.DISPARANDO) {
